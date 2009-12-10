@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Bookstore.WebApp;
 using CommonServiceLocator.NinjectAdapter;
 using Microsoft.Practices.ServiceLocation;
 using Ninject;
@@ -17,7 +18,7 @@ namespace Bookstore.WebSite
     {
       _container.Load(new INinjectModule[]
       {
-
+        new WebAppServices()
       });
 
       var adapter = new NinjectServiceLocator(_container);

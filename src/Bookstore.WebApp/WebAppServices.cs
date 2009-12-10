@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 using Ninject.Modules;
 
-namespace Bookstore.WebSite
+namespace Bookstore.WebApp
 {
-  public class ServicesInWebSite : NinjectModule
+  public class WebAppServices : NinjectModule
   {
     public override void Load()
     {
+      BindTo<WebAppStartup>();
     }
   }
 }
