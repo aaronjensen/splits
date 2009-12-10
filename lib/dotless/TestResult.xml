@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\TeamCity\buildAgent\work\47fdcbdc917db89f\build\\dotless.Test.dll" total="85" errors="0" failures="0" not-run="4" inconclusive="0" ignored="4" skipped="0" invalid="0" date="2009-12-03" time="02:34:50">
+  <environment nunit-version="2.5.2.9222" clr-version="2.0.50727.3053" os-version="Microsoft Windows NT 5.2.3790 Service Pack 2" platform="Win32NT" cwd="C:\TeamCity\buildAgent\work\47fdcbdc917db89f\build" machine-name="S15360014" user="SYSTEM" user-domain="WORKGROUP" />
+  <culture-info current-culture="en-GB" current-uiculture="en-US" />
+  <test-suite name="C:\TeamCity\buildAgent\work\47fdcbdc917db89f\build\\dotless.Test.dll" executed="True" success="True" time="25.476" asserts="0">
+    <results>
+      <test-suite name="dotless" executed="True" success="True" time="25.461" asserts="0">
+        <results>
+          <test-suite name="Test" executed="True" success="True" time="25.445" asserts="0">
+            <results>
+              <test-suite name="PointInTime" executed="True" success="True" time="3.015" asserts="0">
+                <results>
+                  <test-suite name="PointInTimeFixture" executed="True" success="True" time="2.999" asserts="0">
+                    <results>
+                      <test-case name="dotless.Test.PointInTime.PointInTimeFixture.AltEngine_Parse_Test_Data" executed="True" success="True" time="2.968" asserts="0" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+              <test-suite name="Spec" executed="True" success="True" time="18.197" asserts="0">
+                <results>
+                  <test-suite name="ExtensibleEngine" executed="True" success="True" time="18.197" asserts="0">
+                    <results>
+                      <test-suite name="SpecEngine" executed="True" success="True" time="18.197" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldEvaluateVariablesLazily" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldGroupSelectorsWhenItCan" executed="True" success="True" time="0.031" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldHandleComplexColorOperations" executed="True" success="True" time="3.796" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldHandleSomeFunctions" executed="False">
+                            <reason>
+                              <message><![CDATA[Upcoming functionality]]></message>
+                            </reason>
+                          </test-case>
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldManageNamespacedMixins" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldManageScope" executed="True" success="True" time="0.016" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldManageStrings" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldManageVariables" executed="True" success="True" time="3.858" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldManageWhitespace" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldMergeSameElement" executed="False">
+                            <reason>
+                              <message><![CDATA[Upcoming functionality]]></message>
+                            </reason>
+                          </test-case>
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseABigFile" executed="True" success="True" time="0.531" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseAccessors" executed="True" success="True" time="0.031" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseComments" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseCss" executed="True" success="True" time="0.016" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseCss3" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseMixins" executed="False">
+                            <reason>
+                              <message><![CDATA[Upcoming functionality]]></message>
+                            </reason>
+                          </test-case>
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseMixinsWithArguments" executed="False">
+                            <reason>
+                              <message><![CDATA[Upcoming functionality]]></message>
+                            </reason>
+                          </test-case>
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseNestedRules" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldParseOperations" executed="True" success="True" time="9.169" asserts="1" />
+                          <test-case name="dotless.Test.Spec.ExtensibleEngine.SpecEngine.ShouldWorkWithImport" executed="True" success="True" time="0.734" asserts="1" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+              <test-suite name="Unit" executed="True" success="True" time="4.233" asserts="0">
+                <results>
+                  <test-suite name="configuration" executed="True" success="True" time="0.031" asserts="0">
+                    <results>
+                      <test-suite name="XmlConfigurationFixture" executed="True" success="True" time="0.031" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.configuration.XmlConfigurationFixture.CacheIsEnabledByDefault" executed="True" success="True" time="0.031" asserts="1" />
+                          <test-case name="dotless.Test.Unit.configuration.XmlConfigurationFixture.MinifyCssAttributeCanBeFalseSetsMinifyOutputFalse" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.configuration.XmlConfigurationFixture.MinifyCssAttributeCanBeNull_SetsMinifyOutputFalse" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.configuration.XmlConfigurationFixture.ReadsMinificationFromXmlNodeSetsMinifyOutputTrue" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="engine" executed="True" success="True" time="2.905" asserts="0">
+                    <results>
+                      <test-suite name="AltEngineFixture" executed="True" success="True" time="0.016" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.engine.AltEngineFixture.Can_Retrieve_Css_Dom" executed="True" success="True" time="0.016" asserts="2" />
+                          <test-case name="dotless.Test.Unit.engine.AltEngineFixture.Css_Dom_Should_Contain_Five_Elements_For_Nested_Element_With_Props" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.AltEngineFixture.Css_Dom_Should_Contain_Four_Elements_For_Nested_Element_With_Props" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.AltEngineFixture.Css_Dom_Should_Contain_One_Elements_For_Nested_Element_With_No_Props" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.AltEngineFixture.Css_Dom_Should_Contain_Two_Elements_For_CSV_Props" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.AltEngineFixture.Css_Dom_Should_Contain_Two_Elements_For_Nested_Element_With_Props" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="CssNodes" executed="True" success="True" time="0.016" asserts="0">
+                        <results>
+                          <test-suite name="CssElementFixture" executed="True" success="True" time="0.016" asserts="0">
+                            <results>
+                              <test-case name="dotless.Test.Unit.engine.CssNodes.CssElementFixture.Can_Get_And_Set_Values" executed="True" success="True" time="0.000" asserts="1" />
+                              <test-case name="dotless.Test.Unit.engine.CssNodes.CssElementFixture.Cannot_AddProperties_Twice_Get_And_Set_Values" executed="True" success="True" time="0.016" asserts="1" />
+                            </results>
+                          </test-suite>
+                          <test-suite name="CssPropertyFixture" executed="True" success="True" time="0.000" asserts="0">
+                            <results>
+                              <test-case name="dotless.Test.Unit.engine.CssNodes.CssPropertyFixture.Can_Get_And_Set_Property_Values" executed="True" success="True" time="0.000" asserts="2" />
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                      <test-suite name="ElementFixture" executed="True" success="True" time="0.000" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.engine.ElementFixture.CanAddSubElements" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.ElementFixture.CanInstansiateElement" executed="True" success="True" time="0.000" asserts="3" />
+                          <test-case name="dotless.Test.Unit.engine.ElementFixture.CanRetrieveElementPath" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="Literals" executed="True" success="True" time="0.016" asserts="0">
+                        <results>
+                          <test-suite name="ColorFixture" executed="True" success="True" time="0.016" asserts="0">
+                            <results>
+                              <test-case name="dotless.Test.Unit.engine.Literals.ColorFixture.CanAddToRgbColor" executed="True" success="True" time="0.000" asserts="9" />
+                              <test-case name="dotless.Test.Unit.engine.Literals.ColorFixture.CanDivideRgbColors" executed="True" success="True" time="0.000" asserts="6" />
+                              <test-case name="dotless.Test.Unit.engine.Literals.ColorFixture.CanMinusFromRgbColor" executed="True" success="True" time="0.000" asserts="6" />
+                              <test-case name="dotless.Test.Unit.engine.Literals.ColorFixture.CanMultiplyRgbColors" executed="True" success="True" time="0.000" asserts="6" />
+                              <test-case name="dotless.Test.Unit.engine.Literals.ColorFixture.CanNormailzeRgb" executed="True" success="True" time="0.000" asserts="3" />
+                              <test-case name="dotless.Test.Unit.engine.Literals.ColorFixture.CanRetrieveColorHex" executed="True" success="True" time="0.016" asserts="2" />
+                            </results>
+                          </test-suite>
+                          <test-suite name="FontFamilyFixture" executed="True" success="True" time="0.000" asserts="0">
+                            <results>
+                              <test-case name="dotless.Test.Unit.engine.Literals.FontFamilyFixture.CanGetCss" executed="True" success="True" time="0.000" asserts="0" />
+                            </results>
+                          </test-suite>
+                          <test-suite name="NumberFixture" executed="True" success="True" time="0.000" asserts="0">
+                            <results>
+                              <test-case name="dotless.Test.Unit.engine.Literals.NumberFixture.CanOperateOnNumber" executed="True" success="True" time="0.000" asserts="1" />
+                            </results>
+                          </test-suite>
+                          <test-suite name="StringFixture" executed="True" success="True" time="0.000" asserts="0">
+                            <results>
+                              <test-case name="dotless.Test.Unit.engine.Literals.StringFixture.CanRetrieveStringContent" executed="True" success="True" time="0.000" asserts="1" />
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                      <test-suite name="PropertyFixture" executed="True" success="True" time="2.858" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.engine.PropertyFixture.CanEvaluateColorProperties" executed="True" success="True" time="1.453" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.PropertyFixture.CanEvaluateExpressionNumberProperties" executed="True" success="True" time="1.390" asserts="1" />
+                          <test-case name="dotless.Test.Unit.engine.PropertyFixture.CanEvaluateSeveralPropertiesWithoutOperators" executed="True" success="True" time="0.000" asserts="0" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="Handler" executed="True" success="True" time="0.469" asserts="0">
+                    <results>
+                      <test-suite name="HandlerFixture" executed="True" success="True" time="0.469" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.Handler.HandlerFixture.CallsEngineWithFilePath" executed="True" success="True" time="0.453" asserts="0" />
+                          <test-case name="dotless.Test.Unit.Handler.HandlerFixture.RetrievesPathFromRequest" executed="True" success="True" time="0.000" asserts="0" />
+                          <test-case name="dotless.Test.Unit.Handler.HandlerFixture.RetrievesPhysicalPathFromPathProvider" executed="True" success="True" time="0.016" asserts="0" />
+                          <test-case name="dotless.Test.Unit.Handler.HandlerFixture.WritesEngineOutputToResponse" executed="True" success="True" time="0.000" asserts="0" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="minifier" executed="True" success="True" time="0.109" asserts="0">
+                    <results>
+                      <test-suite name="CleanerFixture" executed="True" success="True" time="0.094" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanHandleDescriptorAndOpeningBraceInDifferentLines" executed="True" success="True" time="0.047" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanRemoveExtendedComment" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanRemoveMultipleWhitespaces" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanRemoveNewlines" executed="True" success="True" time="0.016" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanTrimEndOfLineComment" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanTrimLeadingWhiteSpaces" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CanTrimTrailingWhiteSpaces" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.CommentRemoverCanHandleUrls" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.ExtendedTest" executed="True" success="True" time="0.016" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.ProcessorCanHandleUrls" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.CleanerFixture.RemoveExtendedCommentIgnoresEscapedComment" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="DescriptorBuilderFixture" executed="True" success="True" time="0.000" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.minifier.DescriptorBuilderFixture.DescriptorBuilderTrimsWhiteSpaces" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="ExpressionBuilderFixture" executed="True" success="True" time="0.000" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.CanHandleAbsoluteUrls" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.CanHandleExpressionWithoutTrailingSemicolon" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.CanHandleSingleQuotationMarkString" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.CanHandleValuesWithSpaces" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.ContinuesWhiteSpaceRemovalAfterString" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.CorrectlyIdentifiesFirstColonAsSplitter" executed="True" success="True" time="0.000" asserts="2" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.LeavesStringsIntact" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.ExpressionBuilderFixture.RemovesUnnecessaryWhitespacesInValue" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="TokenizerFixture" executed="True" success="True" time="0.016" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.AppendsExpressionToCurrentLevel" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.AppendsSubNodesToCurrentLevel" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleBracesInStrings" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleComplexStrings" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleMinusComposedValues" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleMissingTralingSemicolon" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleMultipleChildrenOnOneLevel" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleMultipleExpressionsOnOneLevel" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleNestedChildExpressions" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleNestedChildren" executed="True" success="True" time="0.000" asserts="2" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanHandleSingleQuoteStrings" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.CanTokenizeAbsoluteUrls" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.NestedChildNodeDescriptorMatchesCSSDescriptor" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="dotless.Test.Unit.minifier.TokenizerFixture.RootNodeIsCalledROOT" executed="True" success="True" time="0.000" asserts="1" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="utils" executed="True" success="True" time="0.687" asserts="0">
+                    <results>
+                      <test-suite name="CsCodeDomFixture" executed="True" success="True" time="0.687" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.utils.CsCodeDomFixture.CanEvaluateSingleProperty" executed="True" success="True" time="0.687" asserts="0" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="RegexExtentionsFixtures" executed="True" success="True" time="0.000" asserts="0">
+                        <results>
+                          <test-case name="dotless.Test.Unit.utils.RegexExtentionsFixtures.CanRetrieveIdents" executed="True" success="True" time="0.000" asserts="3" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

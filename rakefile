@@ -1,0 +1,285 @@
+require 'rake'
+require 'rake/testtask'
+require 'pathname'
+require 'rubygems'
+require 'fileutils'
+require 'env/config.rb'
+require 'env/setup.rb'
+require 'rake/clean'
+
+CLEAN.include('db/*.migrate')
+CLEAN.include('specs/*')
+CLEAN.exclude('**/core')
+
+include FileUtils
+
+class String
+  def slash(path)
+    if self =~ /\/$/
+      return self + path
+    end
+
+    return self + '/' + path
+  end
+end
+
+version = 'v3.5'
+compileTarget = ENV.include?('target') ? ENV['target'] : 'debug'
+frameworkDir = File.join(ENV['windir'].dup, 'Microsoft.NET', 'Framework', version)
+msbuild = File.join(frameworkDir, 'msbuild.exe')
+mspec_options = []
+sln = "src/#{$project}.sln"
+migrate_dev_dbs = true
+url = "localhost"
+
+desc "Build and run specs"
+task :default => [ "build", "specs:run" ]
+
+desc "Build"
+task :build => [ ".setup-done", :writegitlog ] do
+  sh "#{msbuild} #{sln} /property:Configuration=#{compileTarget}"
+end
+
+task :writegitlog do
+  system "git log -1 > src\\GitRevision.txt"
+end
+
+namespace :specs do
+  directory 'specs'
+
+  specs = ["src/#{$project}.Specs/bin/#{compileTarget}/#{$project}.Specs.dll"]
+
+  file "specs/#{$project}.Specs.html" => FileList['specs', specs] do
+    Rake::Task["db:truncate"].invoke
+    puts 'Running Specs...'
+    sh "lib/Machine/Specifications/mspec.exe", "--html", "specs/#{$project}.Specs.html", *(mspec_options + specs)
+    puts "Wrote specs to specs/#{$project}.Specs.html, run 'rake specs:view' to see them"
+  end
+
+  task :view => :run do
+    system "start specs/#{$project}.Specs.html"
+  end
+
+  task :run => [ :migrate, "specs/#{$project}.Specs.html"]
+end
+
+desc "Open solution in VS"
+task :sln do
+  Thread.new do
+    system "devenv #{sln}"
+  end
+end
+
+desc "Rebuild"
+task :rebuild => [ ".setup-done" ] do
+  sh "#{msbuild} #{sln} /t:Rebuild /property:Configuration=#{compileTarget}"
+end
+
+desc "Clean"
+task :clean do
+  sh "#{msbuild} #{sln} /t:Clean /property:Configuration=#{compileTarget}"
+end
+
+desc "Teamcity build"
+task :teamcity => [ :teamcity_environment, :clobber, :build, "specs:run", "site:test", :artifacts ]
+
+desc "Sets up the Teamcity environment"
+task :teamcity_environment do
+  ENV["USE_TEST_DATABASE"] = "True"
+  migrate_dev_dbs = false
+  mspec_options.push "--teamcity"
+end
+
+namespace :new do
+  task :migration do
+    raise "usage: rake new:migration name=\"Your migration name\" [db=\"db name\"]" unless ENV.include?('name')
+
+    name = ENV['name']
+    db = ENV.include?('db') ? ENV['db'] : $project.to_underscore
+
+    raise "#{db} doesn't exist" unless File.exists?("db/#{db}")
+
+    filepath = "db/#{db}/#{Time.now.strftime('%Y%m%d%H%M%S')}_#{name.gsub(/ /,'_')}.cs"
+
+    text = File.read("db/template.cs")
+    File.open(filepath, 'w') { |file|
+      file.puts text.gsub(/\$MigrationName\$/,"#{name.gsub(/ /,'_')}")
+    }
+  end
+end
+
+task :migrate => "migrate:all"
+
+namespace :migrate do
+  def migrate_file(file)
+    succeeded = true
+    begin
+      File.open(file) do |file|
+        file.each do |line|
+          db,connection_string = line.split '|'
+
+          connection_string.chomp!
+          succeeded &= migrate(connection_string, db)
+        end
+      end
+    ensure
+      if !succeeded then
+        rm_f file.path
+        raise "Migration failed: #{file.path}"
+      end
+    end
+  end
+
+  def migrate(connection_string, migration_dir)
+    puts(system("lib/machine/migrations/migrate.exe -c \"#{connection_string}\" -d \"db\\#{migration_dir}\""))
+    return $? == 0
+  end
+
+  task :all => ["db/#{$project.to_underscore}.migrate", "db/#{$project.to_underscore}_reports.migrate", "db/users.migrate"]
+
+  file "db/#{$project.to_underscore}.migrate" => FileList["env/config.rb", "db/#{$project.to_underscore}/*.cs"] do
+    File.open("db/#{$project.to_underscore}.migrate", "w") do |file|
+      if migrate_dev_dbs
+        file.puts "#{$project.to_underscore}|Server=localhost;Trusted_Connection=True;Database=#{$database_name}"
+      end
+      file.puts "#{$project.to_underscore}|Server=localhost;Trusted_Connection=True;Database=#{$test_database_name}"
+    end
+
+    migrate_file("db\\#{$project.to_underscore}.migrate")
+  end
+
+  file "db/#{$project.to_underscore}_reports.migrate" => FileList["env/config.rb", "db/#{$project.to_underscore}_reports/*.cs"] do
+    File.open("db/#{$project.to_underscore}_reports.migrate", "w") do |file|
+      if migrate_dev_dbs
+        file.puts "#{$project.to_underscore}_reports|Server=localhost;Trusted_Connection=True;Database=#{$report_database_name}"
+      end
+      file.puts "#{$project.to_underscore}_reports|Server=localhost;Trusted_Connection=True;Database=#{$test_report_database_name}"
+    end
+
+    migrate_file("db\\#{$project.to_underscore}_reports.migrate")
+  end
+
+  file "db/users.migrate" => FileList["env/config.rb", "db/users/*.cs"] do
+    puts "enter"
+    File.open("db/users.migrate", "w") do |file|
+      if migrate_dev_dbs
+        file.puts "users|Server=localhost;Trusted_Connection=True;Database=#{$database_name}"
+      end
+      file.puts "users|Server=localhost;Trusted_Connection=True;Database=#{$test_database_name}"
+    end
+    puts "migrate file"
+
+    migrate_file("db\\users.migrate")
+    puts "done migrate file"
+  end
+
+  task :specific do
+    raise "usage 'rake migrate:specific file=<filepath>" unless ENV.include?('file')
+    raise "Connection string file: #{ENV['file']} doesn't exist" unless File.exists? ENV['file']
+
+    migrate_file(ENV['file'])
+  end
+end
+
+desc "Create Artifacts"
+task :artifacts => ["artifacts:zip"]
+
+namespace :artifacts do
+  desc "Copy Artifacts"
+  task :copy do
+    rm_rf 'pkg'
+    mkdir_p 'pkg/Site/bin'
+    cp_r FileList["src/#{$project}.WebSite/bin/**/*.dll"], "pkg/Site/bin"
+    cp_r "src/#{$project}.WebSite/Views", "pkg/Site"
+
+    if File.exists? "src/#{$project}.WebSite/Static"
+      cp_r "src/#{$project}.WebSite/Static", "pkg/Site" 
+    end
+
+    cp_r FileList["src/#{$project}.WebSite/*.aspx"], "pkg/Site"
+    cp_r FileList["src/#{$project}.WebSite/*.asax"], "pkg/Site"
+    cp_r FileList["src/#{$project}.WebSite/*.config"], "pkg/Site"
+  end
+
+  desc "Zip Artifacts"
+  task :zip => :copy do
+    cd 'pkg/Site'
+    sh "../../tools/zip -r ../#{$project}.WebSite.zip ."
+  end
+end
+
+desc "Check javascript with jslint"
+task :jslint do
+  FileList["src/SessionRecordings.WebSite/Static/**/*.js"].each do |file|
+    sh "cscript tools/jslint.wsf #{file}"
+  end
+end
+
+namespace :db do
+  task :truncate do
+    puts 'Truncating test dbs...'
+    truncate_database("#{$project}_test")
+    truncate_database("#{$project}_reports_test")
+  end
+end
+
+task :nhprof => ["nhprof:run", "nhprof:on"] 
+
+namespace :nhprof do
+  task :on do
+    system "start http://#{localhost}/nhprof/on"
+  end
+
+  task :off do
+    system "start http://#{localhost}/nhprof/off"
+  end
+
+  task :run do
+    cd "tools/NHProf" do
+      system "start NHProf.exe"
+    end
+  end
+end
+
+task :clobber_ignored do
+  File.open(".gitignore") { |ignore|
+    ignore.each { |line| 
+      line.chomp!
+      if line =~ /^\//
+        CLOBBER.include("#{line}")
+      else
+        CLOBBER.include("**/#{line}")
+      end
+    }
+  }
+end
+
+task :clobber => [:clobber_ignored, :clean]
+
+namespace :site do
+  task :start => :stop do
+    cp 'tools/Cassini/Cassini.dll', "src/#{$project}.WebSite/bin/"
+    sh "cmd", "/c", "start", "tools/Cassini/CassiniRunner.exe", File.expand_path("src/#{$project}.WebSite").gsub(/\//, '\\'), "888", "/"
+  end
+
+  task :stop do
+    sh "tools/Cassini/CassiniRunner.exe", "stop", "888"
+  end
+
+  task :test => :start do
+    result = `tools/unix/curl.exe http://localhost:888/diagnostics/ok`
+    tries = 0
+
+    while $? == 1792
+      ++tries
+      raise "Couldn't connect in 10 tries" if tries > 10
+      result = `tools/unix/curl.exe http://localhost:888/diagnostics/ok`
+    end
+
+    Rake::Task["site:stop"].execute nil
+
+    if result != "OK"
+      raise "Site's broken: " + result
+    end
+  end
+end
