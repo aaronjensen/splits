@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.UrlStrong, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Machine\UrlStrong\Machine.UrlStrong.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.UrlStrong.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Machine\UrlStrong\Machine.UrlStrong.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Ninject\Ninject.dll</HintPath>
@@ -63,10 +71,26 @@
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing.cs" />
+    <Compile Include="Urls.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Urls.urls</DependentUpon>
+    </Compile>
     <Compile Include="WebAppServices.cs" />
     <Compile Include="WebAppStartup.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Urls Include="Urls.urls">
+      <Generator>Machine.UrlStrong.VisualStudioCodeGenerator.UrlCodeGenerator</Generator>
+      <LastGenOutput>Urls.generated.cs</LastGenOutput>
+    </Urls>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <UsingTask TaskName="Machine.UrlStrong.MSBuild.GenerateUrlsTask" AssemblyFile="..\..\lib\Machine\UrlStrong\Machine.UrlStrong.MSBuild.dll" />
+  <Target Name="BeforeBuild" Inputs="@(Urls)" Outputs="Urls.generated.cs">
+    <GenerateUrlsTask InputFiles="@(Urls)" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -10,9 +10,17 @@ namespace Bookstore.WebApp
 {
   public class WebAppStartup
   {
-    public void Start()
+    readonly Routing _routing;
+
+    public WebAppStartup(Routing routing)
+    {
+      _routing = routing;
+    }
+
+    public void Start(RouteCollection routes)
     {
       ViewEngines.Engines.Add(new SparkViewFactory());
+      _routing.RegisterRoutes(routes);
     }
   }
 }

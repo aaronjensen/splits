@@ -16,21 +16,9 @@ namespace Bookstore.WebSite
     protected override void OnApplicationStarted()
     {
       RegisterAllControllersIn(typeof(WebAppServices).Assembly);
-      RegisterRoutes(RouteTable.Routes);
       AreaRegistration.RegisterAllAreas();
 
-      ServiceLocator.Current.GetInstance<WebAppStartup>().Start();
-    }
-
-    public static void RegisterRoutes(RouteCollection routes)
-    {
-      routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-      routes.MapRoute(
-        "Default",                                              // Route name
-        "{controller}/{action}/{id}",                           // URL with parameters
-        new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
-        );
+      ServiceLocator.Current.GetInstance<WebAppStartup>().Start(RouteTable.Routes);
     }
 
     protected override IKernel CreateKernel()
