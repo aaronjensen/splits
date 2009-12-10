@@ -4,11 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Bookstore.WebApp;
+using Ninject;
+using Ninject.Web.Mvc;
 
 namespace Bookstore.WebSite
 {
-  public class MvcApplication : System.Web.HttpApplication
+  public class MvcApplication : NinjectHttpApplication
   {
+    protected override void OnApplicationStarted()
+    {
+      RegisterAllControllersIn(typeof(ServicesInWebApp).Assembly);
+      RegisterRoutes(RouteTable.Routes);
+      AreaRegistration.RegisterAllAreas();
+    }
+
     public static void RegisterRoutes(RouteCollection routes)
     {
       routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -18,14 +28,13 @@ namespace Bookstore.WebSite
         "{controller}/{action}/{id}",                           // URL with parameters
         new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
         );
-
     }
 
-    protected void Application_Start()
+    protected override IKernel CreateKernel()
     {
-      AreaRegistration.RegisterAllAreas();
+      var kernel = Container.Start();
 
-      RegisterRoutes(RouteTable.Routes);
+      return kernel;
     }
   }
 }
