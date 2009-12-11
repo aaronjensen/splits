@@ -68,6 +68,7 @@
     <Compile Include="Framework\Impl\QueryHandlerLocator.cs" />
     <Compile Include="Framework\Impl\Querier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryHandlers\ThisBookStoreQueryHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bookstore.Application\Bookstore.Application.csproj">
@@ -78,7 +79,6 @@
   <ItemGroup>
     <Folder Include="CommandHandlers\" />
     <Folder Include="Domain\Events\" />
-    <Folder Include="QueryHandlers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

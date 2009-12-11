@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace Bookstore.WebApp.Controllers
 {
-  public class HomeController : BookstoreController
+  public class BookStoreSetupController : Controller
   {
-    public ActionResult Index()
+    public ActionResult BookStoreSetup()
     {
       return View();
     }

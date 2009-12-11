@@ -17,6 +17,7 @@ namespace Bookstore.WebApp.ActionFilters
     public RequireBookstoreFilter()
     {
       _cache = ServiceLocator.Current.GetInstance<ICache>();
+      _querier = ServiceLocator.Current.GetInstance<IQuerier>();
     }
 
     public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -32,9 +33,7 @@ namespace Bookstore.WebApp.ActionFilters
         return;
       }
 
-      filterContext.Result = new RedirectResult(Urls.root)
-
-        
+      filterContext.Result = new RedirectResult(Urls.root.bookstore_setup.ToString());
     }
   }
 }

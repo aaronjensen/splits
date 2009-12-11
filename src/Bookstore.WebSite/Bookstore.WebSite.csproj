@@ -129,6 +129,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Views\BookStoreSetup\BookStoreSetup.spark" />
     <None Include="Views\Home\Index.spark" />
   </ItemGroup>
   <ItemGroup>

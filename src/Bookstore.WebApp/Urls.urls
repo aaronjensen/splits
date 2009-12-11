@@ -1,4 +1,4 @@
 ﻿namespace Bookstore.WebApp
 
 GET /
-GET|POST /begin-bookstore
+GET|POST /bookstore-setup
