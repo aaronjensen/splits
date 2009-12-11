@@ -11,6 +11,8 @@ namespace Bookstore.WebApp
     public override void Load()
     {
       BindTo<WebAppStartup>();
+      BindTo<Cache>();
+      BindTo<HttpCacheProvider>();
     }
   }
 }

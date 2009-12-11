@@ -119,6 +119,10 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bookstore.Application.Impl\Bookstore.Application.Impl.csproj">
+      <Project>{2BB29A7F-D345-4396-9C71-A3DB3EA5CBB9}</Project>
+      <Name>Bookstore.Application.Impl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bookstore.WebApp\Bookstore.WebApp.csproj">
       <Project>{454E39FA-F704-4AF0-B588-BA3F59A88EE3}</Project>
       <Name>Bookstore.WebApp</Name>

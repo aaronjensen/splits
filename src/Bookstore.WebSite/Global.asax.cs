@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Bookstore.Application.Impl;
 using Bookstore.WebApp;
 using Microsoft.Practices.ServiceLocation;
 using Ninject;
@@ -18,6 +19,7 @@ namespace Bookstore.WebSite
       RegisterAllControllersIn(typeof(WebAppServices).Assembly);
       AreaRegistration.RegisterAllAreas();
 
+      ServiceLocator.Current.GetInstance<ApplicationStartup>().Start();
       ServiceLocator.Current.GetInstance<WebAppStartup>().Start(RouteTable.Routes);
     }
 
