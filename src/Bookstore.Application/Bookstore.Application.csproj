@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BookStoreSetupCommand.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Framework\ICommand.cs" />
     <Compile Include="ICommander.cs" />
     <Compile Include="Framework\ICommandResult.cs" />
@@ -53,9 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\ThisBookStoreQuery.cs" />
     <Compile Include="Model\BookStore.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

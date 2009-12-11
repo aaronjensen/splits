@@ -10,9 +10,10 @@ namespace Bookstore.Application.Impl.QueryHandlers
 {
   public class ThisBookStoreQueryHandler : IQueryHandler<ThisBookStoreQuery, BookStore>
   {
+    public static BookStore BookStore { private get; set; }
     public BookStore Handle(ThisBookStoreQuery query)
     {
-      return null;
+      return BookStore;
     }
   }
 }

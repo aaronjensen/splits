@@ -55,6 +55,11 @@
   <ItemGroup>
     <Compile Include="ApplicationServices.cs" />
     <Compile Include="ApplicationStartup.cs" />
+    <Compile Include="CommandHandlers\BookStoreSetupCommandHandler.cs" />
+    <Compile Include="Domain\BookStore.cs" />
+    <Compile Include="Domain\Events\BookStoreSetupEvent.cs" />
+    <Compile Include="EventHandlers\BookStoreSetupEventHandler.cs" />
+    <Compile Include="Framework\IEntity.cs" />
     <Compile Include="Framework\Impl\DomainEventSink.cs" />
     <Compile Include="Framework\IDomainEvent.cs" />
     <Compile Include="Framework\IDomainEventHandler.cs" />
@@ -63,10 +68,12 @@
     <Compile Include="Framework\Impl\CommandHandlerLocator.cs" />
     <Compile Include="Framework\ICommandHandler.cs" />
     <Compile Include="Framework\ICommandHandlerLocator.cs" />
+    <Compile Include="Framework\Impl\InMemoryRepository.cs" />
     <Compile Include="Framework\IQueryHandler.cs" />
     <Compile Include="Framework\IQueryHandlerLocator.cs" />
     <Compile Include="Framework\Impl\QueryHandlerLocator.cs" />
     <Compile Include="Framework\Impl\Querier.cs" />
+    <Compile Include="Framework\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryHandlers\ThisBookStoreQueryHandler.cs" />
   </ItemGroup>
@@ -75,10 +82,6 @@
       <Project>{EEF106F6-38C9-4EEC-81B7-441002530CC8}</Project>
       <Name>Bookstore.Application</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandHandlers\" />
-    <Folder Include="Domain\Events\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
