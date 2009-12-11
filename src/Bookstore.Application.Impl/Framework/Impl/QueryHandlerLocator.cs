@@ -22,15 +22,15 @@ namespace Bookstore.Application.Impl.Framework.Impl
       }
     }
 
-    public IQueryHandler<IQuery<TReport>, TReport> LocateHandler<TReport>(IQuery<TReport> query)
+    public IQueryHandler<IQuery<TResult>, TResult> LocateHandler<TResult>(IQuery<TResult> query)
     {
       if (query == null) throw new ArgumentNullException("query");
 
-      var handlerType = typeof (IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TReport));
+      var handlerType = typeof (IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
       var handler = ServiceLocator.Current.GetInstance(handlerType);
 
-      var wrapperType = typeof(Wrapper<,>).MakeGenericType(query.GetType(), typeof(TReport));
-      return (IQueryHandler<IQuery<TReport>, TReport>)Activator.CreateInstance(wrapperType, handler);
+      var wrapperType = typeof(Wrapper<,>).MakeGenericType(query.GetType(), typeof(TResult));
+      return (IQueryHandler<IQuery<TResult>, TResult>)Activator.CreateInstance(wrapperType, handler);
     }
   }
 }

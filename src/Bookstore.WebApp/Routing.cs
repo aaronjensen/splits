@@ -16,6 +16,7 @@ namespace Bookstore.WebApp
       routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
       routes.MapRouteTo<HomeController>(Urls.root, x => x.Index());
+      routes.MapRouteTo<BookStoreSetupController>(Urls.root.bookstore_setup, x => x.BookStoreSetup());
     }
   }
 }
