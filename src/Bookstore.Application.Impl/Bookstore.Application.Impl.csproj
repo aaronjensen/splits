@@ -75,7 +75,7 @@
     <Compile Include="Framework\Impl\Querier.cs" />
     <Compile Include="Framework\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryHandlers\ThisBookStoreQueryHandler.cs" />
+    <Compile Include="QueryHandlers\GetBookStoreQueryHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bookstore.Application\Bookstore.Application.csproj">

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Bookstore.WebApp.Controllers;
 using Machine.UrlStrong.Mvc;
+using Bookstore.WebApp.Framework.Routing;
 
 namespace Bookstore.WebApp
 {
@@ -15,8 +16,8 @@ namespace Bookstore.WebApp
     {
       routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-      routes.MapRouteTo<HomeController>(Urls.root, x => x.Index());
-      routes.MapRouteTo<BookStoreSetupController>(Urls.root.bookstore_setup, x => x.BookStoreSetup());
+      routes.MapRoute<Urls.Root>();
+      routes.MapRoute<Urls.Root.Bookstore_setup>();
     }
   }
 }

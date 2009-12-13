@@ -60,6 +60,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -78,7 +81,24 @@
     <Compile Include="Cache.cs" />
     <Compile Include="Controllers\BookstoreController.cs" />
     <Compile Include="Controllers\BookStoreSetupController.cs" />
+    <Compile Include="Framework\FrameworkStartup.cs" />
+    <Compile Include="Framework\Routing\WiftRouteHandler.cs" />
+    <Compile Include="Framework\Steps\AppendCommandStep.cs" />
+    <Compile Include="Framework\Steps\ConditionalStep.cs" />
+    <Compile Include="Rules\BookstoreSetupRules.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Framework\Continuation.cs" />
+    <Compile Include="Framework\Steps\InvokeCommandStep.cs" />
+    <Compile Include="Framework\IStep.cs" />
+    <Compile Include="Framework\Steps\NegatedConditionalStep.cs" />
+    <Compile Include="Framework\Steps\RedirectStep.cs" />
+    <Compile Include="Rules\RequireSetupRule.cs" />
+    <Compile Include="Framework\GlobalRule.cs" />
+    <Compile Include="Framework\RuleFor.cs" />
+    <Compile Include="Framework\Steps\SeeOtherStep.cs" />
+    <Compile Include="Framework\StepBuilder.cs" />
+    <Compile Include="Framework\StepContext.cs" />
+    <Compile Include="Framework\Steps\UnconditionalStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing.cs" />
     <Compile Include="Urls.generated.cs">

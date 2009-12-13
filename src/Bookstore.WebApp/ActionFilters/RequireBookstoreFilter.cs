@@ -25,7 +25,7 @@ namespace Bookstore.WebApp.ActionFilters
       var bookStore = _cache.BookStore;
       if (bookStore != null) return;
 
-      bookStore = _querier.Get(new ThisBookStoreQuery());
+      bookStore = _querier.Get(new GetThisBookStore());
 
       if (bookStore != null)
       {

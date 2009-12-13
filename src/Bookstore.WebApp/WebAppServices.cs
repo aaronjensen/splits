@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Bookstore.WebApp.Framework;
 using Ninject.Modules;
 
 namespace Bookstore.WebApp
@@ -14,6 +15,20 @@ namespace Bookstore.WebApp
       BindTo<WebAppStartup>().InSingletonScope();
       BindTo<Cache>().InSingletonScope();
       BindTo<HttpCacheProvider>().InSingletonScope();
+
+      BindTo<FrameworkStartup>().InSingletonScope();
+      BindAllInAssembly(GetType().Assembly, typeof(IRule));
+    }
+
+    public void BindAllInAssembly(Assembly assembly, Type type)
+    {
+      foreach (var pair in assembly.GetExportedTypes()
+        .Where(service => service.IsClass)
+        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(service, @interface)))
+        .Where(pair => pair.Value.IsGenericType && pair.Value.GetGenericTypeDefinition() == type))
+      {
+        Bind(pair.Value).To(pair.Key).InTransientScope();
+      }
     }
   }
 

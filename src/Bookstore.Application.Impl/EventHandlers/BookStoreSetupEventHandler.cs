@@ -13,7 +13,7 @@ namespace Bookstore.Application.Impl.EventHandlers
   {
     public void Handle(BookStoreSetupEvent @event)
     {
-      ThisBookStoreQueryHandler.BookStore = new BookStore();
+      GetBookStoreQueryHandler.BookStore = new BookStore();
     }
   }
 }
