@@ -1,5 +1,7 @@
 using System;
+using Bookstore.Application;
 using Bookstore.Application.Framework;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Bookstore.WebApp.Framework.Steps
 {
@@ -19,7 +21,10 @@ namespace Bookstore.WebApp.Framework.Steps
     public ConditionalStep True(Func<StepContext, IQuery<bool>> queryFunc)
     {
       _isValid = true;
-      _condition = c => _condition(c) && c.Query(queryFunc(c));
+      var oldCondition = _condition;
+      var querier = ServiceLocator.Current.GetInstance<IQuerier>();
+
+      _condition = c => oldCondition(c) && querier.Get(queryFunc(c));
 
       return this;
     }

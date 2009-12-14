@@ -1,25 +1,32 @@
 using System;
 using System.Web;
+using System.Web.Routing;
 using Bookstore.Application.Framework;
 
 namespace Bookstore.WebApp.Framework
 {
   public class StepContext
   {
+    readonly RequestContext _requestContext;
+
+    public RequestContext RequestContext
+    {
+      get { return _requestContext; }
+    }
+
+    public StepContext(RequestContext requestContext)
+    {
+      _requestContext = requestContext;
+    }
+
     public HttpResponseBase Response
     {
-      get;
-      set;
+      get { return RequestContext.HttpContext.Response; }
     }
 
-    public T Query<T>(IQuery<T> query)
+    public HttpRequestBase Request
     {
-      throw new NotImplementedException();
-    }
-
-    public T Invoke<T>(ICommand<T> command) where T : ICommandResult
-    {
-      throw new NotImplementedException();
+      get { return RequestContext.HttpContext.Request; }
     }
   }
 }

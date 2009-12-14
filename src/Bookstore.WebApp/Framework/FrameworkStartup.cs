@@ -5,11 +5,17 @@ using System.Text;
 
 namespace Bookstore.WebApp.Framework
 {
-  public class StepData
+  public interface IStepProvider
+  {
+    IEnumerable<IStep> GetStepsForGet(Type urlType);
+    IEnumerable<IStep> GetStepsForPost(Type urlType);
+  }
+
+  public class StepProvider : IStepProvider
   {
     readonly IEnumerable<IRule> _rules;
 
-    public StepData(IEnumerable<IRule> rules)
+    public StepProvider(IEnumerable<IRule> rules)
     {
       _rules = rules;
     }

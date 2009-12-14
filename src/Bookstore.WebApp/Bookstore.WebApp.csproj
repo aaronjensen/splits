@@ -85,6 +85,7 @@
     <Compile Include="Framework\Routing\WiftRouteHandler.cs" />
     <Compile Include="Framework\Steps\AppendCommandStep.cs" />
     <Compile Include="Framework\Steps\ConditionalStep.cs" />
+    <Compile Include="Framework\WiftControllerFactory.cs" />
     <Compile Include="Rules\BookstoreSetupRules.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Framework\Continuation.cs" />

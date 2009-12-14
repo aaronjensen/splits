@@ -17,15 +17,17 @@ namespace Bookstore.WebApp
       BindTo<HttpCacheProvider>().InSingletonScope();
 
       BindTo<FrameworkStartup>().InSingletonScope();
-      BindAllInAssembly(GetType().Assembly, typeof(IRule));
+      BindTo<WiftController>().InTransientScope();
+      BindTo<StepProvider>().InSingletonScope();
+      BindAllInAssembly(GetType().Assembly, typeof(IRule), "Bookstore.WebApp.Rules");
     }
 
-    public void BindAllInAssembly(Assembly assembly, Type type)
+    public void BindAllInAssembly(Assembly assembly, Type type, string @namespace)
     {
       foreach (var pair in assembly.GetExportedTypes()
         .Where(service => service.IsClass)
         .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(service, @interface)))
-        .Where(pair => pair.Value.IsGenericType && pair.Value.GetGenericTypeDefinition() == type))
+        .Where(pair => pair.Key.Namespace.StartsWith(@namespace)))
       {
         Bind(pair.Value).To(pair.Key).InTransientScope();
       }

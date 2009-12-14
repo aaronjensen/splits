@@ -9,6 +9,7 @@ namespace Bookstore.WebApp.Framework.Steps
 
     public override void Apply(StepContext stepContext)
     {
+      stepContext.Response.Write(typeof(T));
     }
 
     public override Continuation Continuation
