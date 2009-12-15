@@ -6,11 +6,11 @@ using Bookstore.Application.Framework;
 
 namespace Bookstore.Application.Impl.Framework.Impl
 {
-  public class Commander : ICommander
+  public class CommandInvoker : ICommandInvoker
   {
     readonly ICommandHandlerLocator _locator;
 
-    public Commander(ICommandHandlerLocator locator)
+    public CommandInvoker(ICommandHandlerLocator locator)
     {
       _locator = locator;
     }

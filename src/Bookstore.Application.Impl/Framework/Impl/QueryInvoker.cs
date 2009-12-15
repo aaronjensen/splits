@@ -3,11 +3,11 @@ using Bookstore.Application.Framework;
 
 namespace Bookstore.Application.Impl.Framework.Impl
 {
-  public class Querier : IQuerier
+  public class QueryInvoker : IQueryInvoker
   {
     readonly IQueryHandlerLocator _locator;
 
-    public Querier(IQueryHandlerLocator locator)
+    public QueryInvoker(IQueryHandlerLocator locator)
     {
       _locator = locator;
     }

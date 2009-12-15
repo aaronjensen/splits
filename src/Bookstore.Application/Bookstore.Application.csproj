@@ -48,10 +48,10 @@
     <Compile Include="Commands\BookStoreSetupCommand.cs" />
     <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Framework\ICommand.cs" />
-    <Compile Include="ICommander.cs" />
+    <Compile Include="ICommandInvoker.cs" />
     <Compile Include="Framework\ICommandResult.cs" />
     <Compile Include="Framework\IQuery.cs" />
-    <Compile Include="IQuerier.cs" />
+    <Compile Include="IQueryInvoker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\IsBookStoreSetup.cs" />
     <Compile Include="Queries\GetThisBookStore.cs" />

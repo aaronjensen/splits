@@ -64,7 +64,7 @@
     <Compile Include="Framework\IDomainEvent.cs" />
     <Compile Include="Framework\IDomainEventHandler.cs" />
     <Compile Include="Framework\IDomainEventSink.cs" />
-    <Compile Include="Framework\Impl\Commander.cs" />
+    <Compile Include="Framework\Impl\CommandInvoker.cs" />
     <Compile Include="Framework\Impl\CommandHandlerLocator.cs" />
     <Compile Include="Framework\ICommandHandler.cs" />
     <Compile Include="Framework\ICommandHandlerLocator.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="Framework\IQueryHandler.cs" />
     <Compile Include="Framework\IQueryHandlerLocator.cs" />
     <Compile Include="Framework\Impl\QueryHandlerLocator.cs" />
-    <Compile Include="Framework\Impl\Querier.cs" />
+    <Compile Include="Framework\Impl\QueryInvoker.cs" />
     <Compile Include="Framework\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryHandlers\GetBookStoreQueryHandler.cs" />

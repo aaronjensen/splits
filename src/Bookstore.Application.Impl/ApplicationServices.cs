@@ -15,8 +15,8 @@ namespace Bookstore.Application.Impl
     {
       BindTo<ApplicationStartup>().InSingletonScope();
 
-      BindTo<Querier>().InSingletonScope();
-      BindTo<Commander>().InSingletonScope();
+      BindTo<QueryInvoker>().InSingletonScope();
+      BindTo<CommandInvoker>().InSingletonScope();
       BindTo<CommandHandlerLocator>().InSingletonScope();
       BindTo<QueryHandlerLocator>().InSingletonScope();
 

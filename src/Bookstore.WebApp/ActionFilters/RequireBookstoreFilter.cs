@@ -12,12 +12,12 @@ namespace Bookstore.WebApp.ActionFilters
   public class RequireBookstoreFilter : ActionFilterAttribute
   {
     readonly ICache _cache;
-    readonly IQuerier _querier;
+    readonly IQueryInvoker _queryInvoker;
 
     public RequireBookstoreFilter()
     {
       _cache = ServiceLocator.Current.GetInstance<ICache>();
-      _querier = ServiceLocator.Current.GetInstance<IQuerier>();
+      _queryInvoker = ServiceLocator.Current.GetInstance<IQueryInvoker>();
     }
 
     public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -25,7 +25,7 @@ namespace Bookstore.WebApp.ActionFilters
       var bookStore = _cache.BookStore;
       if (bookStore != null) return;
 
-      bookStore = _querier.Get(new GetThisBookStore());
+      bookStore = _queryInvoker.Get(new GetThisBookStore());
 
       if (bookStore != null)
       {
