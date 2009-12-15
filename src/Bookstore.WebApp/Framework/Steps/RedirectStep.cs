@@ -3,23 +3,18 @@ using Machine.UrlStrong;
 
 namespace Bookstore.WebApp.Framework.Steps
 {
-  public class RedirectStep : UnconditionalStep
+  public class RedirectStep : Step
   {
     readonly Func<StepContext, ISupportGet> _getUrl;
+
+    public ISupportGet GetUrl(StepContext stepContext)
+    {
+      return _getUrl(stepContext);
+    }
 
     public RedirectStep(Func<StepContext, ISupportGet> getUrl)
     {
       _getUrl = getUrl;
-    }
-
-    public override void Apply(StepContext stepContext)
-    {
-      stepContext.Response.Redirect(_getUrl(stepContext).ToString());
-    }
-
-    public override Continuation Continuation
-    {
-      get { return Continuation.RenderNow; }
     }
   }
 }

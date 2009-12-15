@@ -16,19 +16,19 @@ namespace Bookstore.WebApp.Framework
       return new RedirectStep(getUrl);
     }
 
-    public static LinkToCommandStep<T> LinkToCommand<T>(this StepBuilder steps) 
+    public static LinkToCommandStep LinkToCommand<T>(this StepBuilder steps) 
     {
-      return new LinkToCommandStep<T>();
+      return new LinkToCommandStep(typeof(T));
     }
 
-    public static LinkToQueryStep<T> LinkToQuery<T>(this StepBuilder steps)
+    public static LinkToQueryStep LinkToQuery<T>(this StepBuilder steps)
     {
-      return new LinkToQueryStep<T>();
+      return new LinkToQueryStep(typeof(T));
     }
 
-    public static InvokeCommandStep<T> InvokeCommand<T>(this StepBuilder steps)
+    public static InvokeCommandStep InvokeCommand<T>(this StepBuilder steps)
     {
-      return new InvokeCommandStep<T>();
+      return new InvokeCommandStep(typeof(T));
     }
 
     public static InvokeQueryStep<T> InvokeQuery<T>(this StepBuilder steps)

@@ -6,9 +6,9 @@ namespace Bookstore.WebApp.Framework.Steps
     {
     }
 
-    public override bool ShouldApply(StepContext stepContext)
+    public override bool ConditionIsSatisfied(StepContext stepContext)
     {
-      return !base.ShouldApply(stepContext);
+      return !base.ConditionIsSatisfied(stepContext);
     }
   }
 }

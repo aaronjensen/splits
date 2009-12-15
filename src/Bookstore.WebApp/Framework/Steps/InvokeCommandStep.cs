@@ -1,27 +1,32 @@
+using System;
+
 namespace Bookstore.WebApp.Framework.Steps
 {
-  public class InvokeCommandStep<T> : UnconditionalStep
+  public class InvokeCommandStep : Step
   {
-    public override void Apply(StepContext stepContext)
+    readonly Type _commandType;
+
+    public Type CommandType
     {
+      get { return _commandType; }
     }
 
-    public override Continuation Continuation
+    public InvokeCommandStep(Type commandType)
     {
-      get { return Continuation.Continue; }
+      _commandType = commandType;
     }
 
-    public InvokeCommandStep<T> OnSuccess(IStep step)
-    {
-      return this;
-    }
-
-    public InvokeCommandStep<T> OnFailure(IStep step)
+    public InvokeCommandStep OnSuccess(IStep step)
     {
       return this;
     }
 
-    public InvokeCommandStep<T> OnValidationError(IStep step)
+    public InvokeCommandStep OnFailure(IStep step)
+    {
+      return this;
+    }
+
+    public InvokeCommandStep OnValidationError(IStep step)
     {
       return this;
     }

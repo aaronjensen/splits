@@ -40,10 +40,12 @@ namespace Bookstore.WebApp.Framework
   public class WiftController : IController
   {
     readonly IStepProvider _stepProvider;
+    readonly IStepInvoker _stepInvoker;
 
-    public WiftController(IStepProvider stepProvider)
+    public WiftController(IStepProvider stepProvider, IStepInvoker stepInvoker)
     {
       _stepProvider = stepProvider;
+      _stepInvoker = stepInvoker;
     }
 
     public void Execute(RequestContext requestContext)
@@ -69,12 +71,10 @@ namespace Bookstore.WebApp.Framework
       var stepContext = new StepContext(requestContext);
       foreach (var step in steps)
       {
-        if (step.ShouldApply(stepContext))
-        {
-          step.Apply(stepContext);
-          if (step.Continuation != Continuation.Continue)
-            break;
-        }
+        var continuation = _stepInvoker.Invoke(step, stepContext);
+
+        if (continuation != Continuation.Continue)
+          break;
       }
     }
   }

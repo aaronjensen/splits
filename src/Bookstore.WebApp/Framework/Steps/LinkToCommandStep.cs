@@ -3,21 +3,27 @@ using Bookstore.Application.Commands;
 
 namespace Bookstore.WebApp.Framework.Steps
 {
-  public class LinkToCommandStep<T> : UnconditionalStep
+  public class LinkToCommandStep : Step
   {
-    Func<StepContext, T> _createDefault;
+    readonly Type _commandType;
+    Func<StepContext, object> _createDefault;
 
-    public override void Apply(StepContext stepContext)
+    public Type CommandType
     {
-      stepContext.Response.Write(typeof(T));
+      get { return _commandType; }
     }
 
-    public override Continuation Continuation
+    public LinkToCommandStep(Type commandType)
     {
-      get { return Continuation.Continue; }
+      _commandType = commandType;
     }
 
-    public LinkToCommandStep<T> DefaultTo(Func<StepContext, T> createDefault)
+    public object CreateDefault(StepContext stepContext)
+    {
+      return _createDefault(stepContext);
+    }
+
+    public LinkToCommandStep DefaultTo(Func<StepContext, object> createDefault)
     {
       _createDefault = createDefault;
 
