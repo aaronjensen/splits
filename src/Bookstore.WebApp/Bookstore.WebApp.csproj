@@ -83,6 +83,7 @@
     <Compile Include="Controllers\BookStoreSetupController.cs" />
     <Compile Include="Framework\FrameworkStartup.cs" />
     <Compile Include="Framework\Routing\WiftRouteHandler.cs" />
+    <Compile Include="Framework\Steps\InvokeQueryStep.cs" />
     <Compile Include="Framework\Steps\LinkToCommandStep.cs" />
     <Compile Include="Framework\Steps\ConditionalStep.cs" />
     <Compile Include="Framework\Steps\LinkToQueryStep.cs" />

@@ -31,6 +31,11 @@ namespace Bookstore.WebApp.Framework
       return new InvokeCommandStep<T>();
     }
 
+    public static InvokeQueryStep<T> InvokeQuery<T>(this StepBuilder steps)
+    {
+      return new InvokeQueryStep<T>();
+    }
+
     public static SeeOtherStep SeeOther(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)
     {
       return new SeeOtherStep(getUrl);
