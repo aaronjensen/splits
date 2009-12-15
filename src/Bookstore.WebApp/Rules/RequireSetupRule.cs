@@ -8,10 +8,13 @@ namespace Bookstore.WebApp.Rules
   public class RequireSetupRule
     : GlobalRule
   {
-    public override IEnumerable<IStep> OnAny(Type url)
+    public override bool ShouldApply(Type urlType)
     {
-      if (url == typeof(Urls.Root.Bookstore_setup)) yield break;
+      return urlType != typeof(Urls.Root.Bookstore_setup);
+    }
 
+    public override IEnumerable<IStep> OnAny(Type urlType)
+    {
       yield return Steps.Redirect(c => Urls.root.bookstore_setup).Unless.True(c => new IsBookStoreSetup());
     }
   }

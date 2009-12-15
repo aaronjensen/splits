@@ -2,14 +2,15 @@ namespace Bookstore.WebApp.Framework.Steps
 {
   public abstract class UnconditionalStep : IStep
   {
-    public ConditionalStep Unless 
+    public IConditionalStep Unless 
     { 
       get
       {
         return new NegatedConditionalStep(this);
       }
     }
-    public ConditionalStep If 
+
+    public IConditionalStep If 
     { 
       get
       {
