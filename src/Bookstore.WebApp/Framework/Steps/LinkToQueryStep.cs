@@ -3,9 +3,9 @@ using Bookstore.Application.Commands;
 
 namespace Bookstore.WebApp.Framework.Steps
 {
-  public class AppendCommandStep<T> : UnconditionalStep
+  public class LinkToQueryStep<T> : UnconditionalStep
   {
-    Func<StepContext, BookStoreSetupCommand> _createDefault;
+    Func<StepContext, T> _createDefault;
 
     public override void Apply(StepContext stepContext)
     {
@@ -17,7 +17,7 @@ namespace Bookstore.WebApp.Framework.Steps
       get { return Continuation.Continue; }
     }
 
-    public AppendCommandStep<T> DefaultTo(Func<StepContext, BookStoreSetupCommand> createDefault)
+    public LinkToQueryStep<T> DefaultTo(Func<StepContext, T> createDefault)
     {
       _createDefault = createDefault;
 

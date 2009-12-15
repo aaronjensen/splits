@@ -16,7 +16,7 @@ namespace Bookstore.WebApp.Rules
     public override IEnumerable<IStep> OnGet(Type url)
     {
       yield return Steps.Redirect(c => Urls.root).If.True(c => new IsBookStoreSetup());
-      yield return Steps.AppendCommand<BookStoreSetupCommand>().DefaultTo(c => new BookStoreSetupCommand {Name = "My Bookstore"});
+      yield return Steps.LinkToCommand<BookStoreSetupCommand>().DefaultTo(c => new BookStoreSetupCommand {Name = "My Bookstore"});
     }
 
     public override IEnumerable<IStep> OnPost(Type url)

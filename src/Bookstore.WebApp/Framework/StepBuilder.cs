@@ -1,4 +1,5 @@
 using System;
+using Bookstore.Application.Framework;
 using Bookstore.WebApp.Framework.Steps;
 using Machine.UrlStrong;
 
@@ -15,9 +16,14 @@ namespace Bookstore.WebApp.Framework
       return new RedirectStep(getUrl);
     }
 
-    public static AppendCommandStep<T> AppendCommand<T>(this StepBuilder steps)
+    public static LinkToCommandStep<T> LinkToCommand<T>(this StepBuilder steps) 
     {
-      return new AppendCommandStep<T>();
+      return new LinkToCommandStep<T>();
+    }
+
+    public static LinkToQueryStep<T> LinkToQuery<T>(this StepBuilder steps)
+    {
+      return new LinkToQueryStep<T>();
     }
 
     public static InvokeCommandStep<T> InvokeCommand<T>(this StepBuilder steps)
