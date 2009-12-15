@@ -4,7 +4,6 @@ namespace Bookstore.WebApp.Framework
   {
     Abort,
     Continue,
-    Finished,
     RenderNow
   }
 }
