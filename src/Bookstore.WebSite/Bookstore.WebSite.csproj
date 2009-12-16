@@ -127,6 +127,10 @@
       <Project>{454E39FA-F704-4AF0-B588-BA3F59A88EE3}</Project>
       <Name>Bookstore.WebApp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Splits\Splits.csproj">
+      <Project>{EF5EB9AF-2C93-46E6-9FCF-78B2B0068A56}</Project>
+      <Name>Splits</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\BookStoreSetup\BookStoreSetup.spark" />

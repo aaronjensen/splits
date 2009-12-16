@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Bookstore.Application.Queries;
-using Bookstore.WebApp.Framework;
+using Splits.Web;
 
-namespace Bookstore.WebApp.Rules
+namespace BookStore.WebApp.Rules
 {
   public class RequireSetupRule
     : GlobalRule

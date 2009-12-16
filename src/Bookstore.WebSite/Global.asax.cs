@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bookstore.Application.Impl;
-using Bookstore.WebApp;
+using BookStore.WebApp;
 using Microsoft.Practices.ServiceLocation;
 using Ninject;
 using Ninject.Web.Mvc;
+using Splits;
 
 namespace Bookstore.WebSite
 {
@@ -17,6 +18,7 @@ namespace Bookstore.WebSite
     protected override void OnApplicationStarted()
     {
       RegisterAllControllersIn(typeof(WebAppServices).Assembly);
+      RegisterAllControllersIn(typeof(SplitsServices).Assembly);
       AreaRegistration.RegisterAllAreas();
 
       ServiceLocator.Current.GetInstance<ApplicationStartup>().Start();

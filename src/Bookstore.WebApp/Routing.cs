@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bookstore.WebApp.Controllers;
+using BookStore.WebApp.Controllers;
 using Machine.UrlStrong.Mvc;
-using Bookstore.WebApp.Framework.Routing;
+using Splits.Web.Routing;
 
-namespace Bookstore.WebApp
+namespace BookStore.WebApp
 {
   public class Routing
   {

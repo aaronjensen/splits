@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EF5EB9AF-2C93-46E6-9FCF-78B2B0068A56}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Splits</RootNamespace>
+    <AssemblyName>Splits</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Machine.UrlStrong, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Machine\UrlStrong\Machine.UrlStrong.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Ninject\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Mvc\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Mvc\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\CommandResult.cs" />
+    <Compile Include="Application\ICommand.cs" />
+    <Compile Include="Application\ICommandHandler.cs" />
+    <Compile Include="Application\ICommandHandlerLocator.cs" />
+    <Compile Include="Application\ICommandInvoker.cs" />
+    <Compile Include="Application\ICommandResult.cs" />
+    <Compile Include="Application\IDomainEvent.cs" />
+    <Compile Include="Application\IDomainEventHandler.cs" />
+    <Compile Include="Application\IDomainEventSink.cs" />
+    <Compile Include="Application\IEntity.cs" />
+    <Compile Include="Application\Impl\CommandHandlerLocator.cs" />
+    <Compile Include="Application\Impl\CommandInvoker.cs" />
+    <Compile Include="Application\Impl\DomainEventSink.cs" />
+    <Compile Include="Application\Impl\InMemoryRepository.cs" />
+    <Compile Include="Application\Impl\QueryHandlerLocator.cs" />
+    <Compile Include="Application\Impl\QueryInvoker.cs" />
+    <Compile Include="Application\IQuery.cs" />
+    <Compile Include="Application\IQueryHandler.cs" />
+    <Compile Include="Application\IQueryHandlerLocator.cs" />
+    <Compile Include="Application\IQueryInvoker.cs" />
+    <Compile Include="Application\IRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplitsServices.cs" />
+    <Compile Include="Web\BasicExtensions.cs" />
+    <Compile Include="Web\BindResult.cs" />
+    <Compile Include="Web\Cache.cs" />
+    <Compile Include="Web\Continuation.cs" />
+    <Compile Include="Web\ConvertProblem.cs" />
+    <Compile Include="Web\FrameworkStartup.cs" />
+    <Compile Include="Web\GlobalRule.cs" />
+    <Compile Include="Web\IIndexer.cs" />
+    <Compile Include="Web\IModelBinder.cs" />
+    <Compile Include="Web\IStep.cs" />
+    <Compile Include="Web\IStepHandlerLocator.cs" />
+    <Compile Include="Web\IStepInvoker.cs" />
+    <Compile Include="Web\ITypeDescriptorRegistry.cs" />
+    <Compile Include="Web\Routing\RouteCollectionExtensions.cs" />
+    <Compile Include="Web\RuleFor.cs" />
+    <Compile Include="Web\StandardModelBinder.cs" />
+    <Compile Include="Web\StepBuilder.cs" />
+    <Compile Include="Web\StepContext.cs" />
+    <Compile Include="Web\StepHandlers\ConditionalStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\InvokeCommandStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\IStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\SeeOtherStepHandler.cs" />
+    <Compile Include="Web\Steps\ConditionalStep.cs" />
+    <Compile Include="Web\Steps\InvokeCommandStep.cs" />
+    <Compile Include="Web\Steps\InvokeQueryStep.cs" />
+    <Compile Include="Web\Steps\LinkToCommandStep.cs" />
+    <Compile Include="Web\Steps\LinkToQueryStep.cs" />
+    <Compile Include="Web\Steps\NegatedConditionalStep.cs" />
+    <Compile Include="Web\Steps\RedirectStep.cs" />
+    <Compile Include="Web\Steps\SeeOtherStep.cs" />
+    <Compile Include="Web\Steps\Step.cs" />
+    <Compile Include="Web\TypeDescriptorRegistry.cs" />
+    <Compile Include="Web\SplitsController.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

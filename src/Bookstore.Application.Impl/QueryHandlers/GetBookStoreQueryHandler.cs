@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bookstore.Application.Impl.Framework;
 using Bookstore.Application.Model;
 using Bookstore.Application.Queries;
+using Splits.Application;
 
 namespace Bookstore.Application.Impl.QueryHandlers
 {

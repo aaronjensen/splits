@@ -6,9 +6,9 @@ using System.Text;
 using System.Web.Mvc;
 using Bookstore.Application.Commands;
 using Bookstore.Application.Queries;
-using Bookstore.WebApp.Framework;
+using Splits.Web;
 
-namespace Bookstore.WebApp.Rules
+namespace BookStore.WebApp.Rules
 {
   public class BookstoreSetupRules : 
     RuleFor<Urls.Root.Bookstore_setup>

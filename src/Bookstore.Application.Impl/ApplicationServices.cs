@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Bookstore.Application.Impl.Framework;
-using Bookstore.Application.Impl.Framework.Impl;
+using Splits.Application;
+using Splits.Application.Impl;
 using Ninject.Modules;
 
 namespace Bookstore.Application.Impl

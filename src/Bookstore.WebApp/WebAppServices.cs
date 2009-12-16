@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Bookstore.WebApp.Framework;
-using Bookstore.WebApp.Framework.StepHandlers;
+using Splits;
+using Splits.Web;
+using Splits.Web.StepHandlers;
 using Ninject.Modules;
 
-namespace Bookstore.WebApp
+namespace BookStore.WebApp
 {
   public class WebAppServices : NinjectModule
   {
@@ -17,15 +18,17 @@ namespace Bookstore.WebApp
       BindTo<Cache>().InSingletonScope();
       BindTo<HttpCacheProvider>().InSingletonScope();
 
-      BindTo<FrameworkStartup>().InSingletonScope();
-      BindTo<WiftController>().InTransientScope();
-      BindTo<StepProvider>().InSingletonScope();
-      BindTo<TypeDescriptorRegistry>().InSingletonScope();
-      BindTo<StepInvoker>().InSingletonScope();
-      BindTo<StepHandlerLocator>().InSingletonScope();
+      foreach (var pair in SplitsServices.Singletons)
+      {
+        Bind(pair.Key).To(pair.Value).InSingletonScope();
+      }
 
-      BindAllInAssemblyGeneric(GetType().Assembly, typeof(IStepHandler<>));
-      BindAllInAssembly(GetType().Assembly, typeof(IRule), "Bookstore.WebApp.Rules");
+      foreach (var pair in SplitsServices.Transients)
+      {
+        Bind(pair.Key).To(pair.Value).InTransientScope();
+      }
+
+      BindAllInAssembly(GetType().Assembly, typeof(IRule), "BookStore.WebApp.Rules");
     }
 
     public void BindAllInAssemblyGeneric(Assembly assembly, Type type)

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bookstore.Application.Framework;
 using Bookstore.Application.Model;
+using Splits.Application;
 
 namespace Bookstore.Application.Queries
 {

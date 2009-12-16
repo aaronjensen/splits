@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bookstore.WebApp.Framework;
+using Splits.Web;
 using Spark.Web.Mvc;
 
-namespace Bookstore.WebApp
+namespace BookStore.WebApp
 {
   public class WebAppStartup
   {
