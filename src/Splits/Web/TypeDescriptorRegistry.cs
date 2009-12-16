@@ -8,7 +8,7 @@ namespace Splits.Web
   {
     private readonly Cache<Type, IDictionary<string, PropertyInfo>> _cache;
 
-    TypeDescriptorRegistry()
+    public TypeDescriptorRegistry()
     {
       _cache = new Cache<Type, IDictionary<string, PropertyInfo>>(type =>
       {

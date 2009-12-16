@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Splits.Web
+namespace Splits.Web.ModelBinding
 {
   public interface IModelBinder
   {

@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
 using Splits.Web;
+using Splits.Web.ModelBinding;
+using Splits.Web.ModelBinding.DefaultConverterFamilies;
 using Splits.Web.StepHandlers;
 
 namespace Splits
@@ -21,6 +23,13 @@ namespace Splits
         yield return Self(typeof(TypeDescriptorRegistry));
         yield return Self(typeof(StepInvoker));
         yield return Self(typeof(StepHandlerLocator));
+        yield return Self(typeof(StandardModelBinder));
+        yield return Self(typeof(ValueConverterRegistry));
+
+        foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
+        {
+          yield return pair;
+        }
       }
     }
 
@@ -52,7 +61,7 @@ namespace Splits
     private static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type, string @namespace)
     {
       return assembly.GetExportedTypes()
-        .Where(service => service.IsClass)
+        .Where(service => service.IsClass && type.IsAssignableFrom(service))
         .SelectMany(
         service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
         .Where(pair => pair.Value.Namespace.StartsWith(@namespace));
