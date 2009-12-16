@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Splits.Web
+namespace Splits
 {
-  public static class BasicExtensions
+  public static class SplitsExtensionMethods
   {
     public static void TryGet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
                                             Action<TValue> action)
@@ -77,7 +77,7 @@ namespace Splits.Web
         }
       }
       throw new ArgumentException(
-          "The modelBooleanValue parameter should be a single property, validation logic is not allowed, only 'x => x.BooleanValue' usage is allowed, if more is needed do that in the Controller");
+        "The modelBooleanValue parameter should be a single property, validation logic is not allowed, only 'x => x.BooleanValue' usage is allowed, if more is needed do that in the Controller");
     }
 
     public static VALUE Get<KEY, VALUE>(this IDictionary<KEY, VALUE> dictionary, KEY key)
@@ -130,7 +130,7 @@ namespace Splits.Web
     }
 
     public static bool HasCustomAttribute<ATTRIBUTE>(this MemberInfo member)
-        where ATTRIBUTE : Attribute
+      where ATTRIBUTE : Attribute
     {
       return member.GetCustomAttributes(typeof(ATTRIBUTE), false).Any();
     }
@@ -170,12 +170,12 @@ namespace Splits.Web
 
     [DebuggerStepThrough]
     public static IEnumerable<U> WhereMatching<U>(this IEnumerable enumerable, Func<U, bool> predicate)
-        where U : class
+      where U : class
     {
       return enumerable.OfType<object>()
-          .Where(x => x is U)
-          .Select(x => x as U)
-          .Where(predicate);
+        .Where(x => x is U)
+        .Select(x => x as U)
+        .Where(predicate);
     }
 
     public static IEnumerable<T> SelectTo<T>(this IEnumerable enumerable)
@@ -187,6 +187,16 @@ namespace Splits.Web
           yield return (T)o;
         }
       }
+    }
+
+    public static bool CanBeCastTo(this Type type, Type otherType)
+    {
+      return otherType.IsAssignableFrom(type);
+    }
+
+    public static bool CanBeCastTo<T>(this Type type)
+    {
+      return typeof(T).IsAssignableFrom(type);
     }
   }
 }

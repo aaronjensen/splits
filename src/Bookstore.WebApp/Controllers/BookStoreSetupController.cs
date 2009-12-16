@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace BookStore.WebApp.Controllers
+namespace Bookstore.WebApp.Controllers
 {
   public class BookStoreSetupController : Controller
   {

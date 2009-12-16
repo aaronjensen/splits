@@ -8,6 +8,7 @@ using Splits.Web;
 using Splits.Web.ModelBinding;
 using Splits.Web.ModelBinding.DefaultConverterFamilies;
 using Splits.Web.StepHandlers;
+using Splits.Web.Validation;
 
 namespace Splits
 {
@@ -25,6 +26,7 @@ namespace Splits
         yield return Self(typeof(StepHandlerLocator));
         yield return Self(typeof(StandardModelBinder));
         yield return Self(typeof(ValueConverterRegistry));
+        yield return Self(typeof(PollyannaValidator));
 
         foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
         {

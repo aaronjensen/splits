@@ -91,7 +91,8 @@
     <Compile Include="Application\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplitsServices.cs" />
-    <Compile Include="Web\BasicExtensions.cs" />
+    <Compile Include="SplitsExtensionMethods.cs" />
+    <Compile Include="Web\AggregateDictionary.cs" />
     <Compile Include="Web\BindResult.cs" />
     <Compile Include="Web\ModelBinding\ConverterExpression.cs" />
     <Compile Include="Web\ModelBinding\ConverterFamily.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Web\StepHandlers\IStepHandler.cs" />
     <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\RenderStepHandler.cs" />
     <Compile Include="Web\StepHandlers\SeeOtherStepHandler.cs" />
     <Compile Include="Web\Steps\ConditionalStep.cs" />
     <Compile Include="Web\Steps\InvokeCommandStep.cs" />
@@ -131,10 +133,12 @@
     <Compile Include="Web\Steps\LinkToQueryStep.cs" />
     <Compile Include="Web\Steps\NegatedConditionalStep.cs" />
     <Compile Include="Web\Steps\RedirectStep.cs" />
+    <Compile Include="Web\Steps\RenderStep.cs" />
     <Compile Include="Web\Steps\SeeOtherStep.cs" />
     <Compile Include="Web\Steps\Step.cs" />
     <Compile Include="Web\TypeDescriptorRegistry.cs" />
     <Compile Include="Web\SplitsController.cs" />
+    <Compile Include="Web\Validation\IModelValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

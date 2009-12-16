@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Bookstore.WebApp.Rules;
 using Splits;
 using Splits.Web;
 using Splits.Web.StepHandlers;
 using Ninject.Modules;
 
-namespace BookStore.WebApp
+namespace Bookstore.WebApp
 {
   public class WebAppServices : NinjectModule
   {
@@ -28,7 +29,7 @@ namespace BookStore.WebApp
         Bind(pair.Key).To(pair.Value).InTransientScope();
       }
 
-      BindAllInAssembly(GetType().Assembly, typeof(IRule), "BookStore.WebApp.Rules");
+      BindAllInAssembly(GetType().Assembly, typeof(IRule), typeof(BookstoreSetupRules).Namespace);
     }
 
     public void BindAllInAssemblyGeneric(Assembly assembly, Type type)

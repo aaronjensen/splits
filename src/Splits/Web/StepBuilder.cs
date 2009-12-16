@@ -39,5 +39,10 @@ namespace Splits.Web
     {
       return new SeeOtherStep(getUrl);
     }
+
+    public static RenderStep Render(this StepBuilder steps, string text)
+    {
+      return new RenderStep(text);
+    }
   }
 }

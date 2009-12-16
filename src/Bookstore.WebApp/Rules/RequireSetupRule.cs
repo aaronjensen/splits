@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Bookstore.Application.Queries;
+using Bookstore.WebApp;
 using Splits.Web;
 
-namespace BookStore.WebApp.Rules
+namespace Bookstore.WebApp.Rules
 {
   public class RequireSetupRule
     : GlobalRule
   {
     public override bool ShouldApply(Type urlType)
     {
+      return false;
       return urlType != typeof(Urls.Root.Bookstore_setup);
     }
 

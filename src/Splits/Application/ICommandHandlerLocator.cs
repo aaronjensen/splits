@@ -2,7 +2,7 @@ namespace Splits.Application
 {
   public interface ICommandHandlerLocator
   {
-    ICommandHandler<ICommand<TResult>, TResult> LocateHandler<TResult>(ICommand<TResult> command)
-      where TResult : ICommandResult;
+    ICommand<ICommandResult> WrapCommand(object command);
+    ICommandHandler<ICommand<ICommandResult>, ICommandResult> LocateHandler(object command);
   }
 }

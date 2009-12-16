@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Bookstore.Application.Impl;
-using BookStore.WebApp;
+using Bookstore.WebApp;
 using CommonServiceLocator.NinjectAdapter;
 using Microsoft.Practices.ServiceLocation;
 using Ninject;

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bookstore.Application.Impl;
-using BookStore.WebApp;
+using Bookstore.WebApp;
 using Microsoft.Practices.ServiceLocation;
 using Ninject;
 using Ninject.Web.Mvc;

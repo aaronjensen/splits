@@ -7,7 +7,7 @@ using System.Web.Routing;
 using Splits.Web;
 using Spark.Web.Mvc;
 
-namespace BookStore.WebApp
+namespace Bookstore.WebApp
 {
   public class WebAppStartup
   {

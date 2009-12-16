@@ -6,11 +6,11 @@ using System.Web;
 using Bookstore.Application.Model;
 using Spark.Web.Mvc.Wrappers;
 
-namespace BookStore.WebApp
+namespace Bookstore.WebApp
 {
   public interface ICache
   {
-    Bookstore.Application.Model.BookStore BookStore { get; set; }
+    BookStore BookStore { get; set; }
   }
 
   public class Cache : ICache
@@ -24,11 +24,11 @@ namespace BookStore.WebApp
       _cacheProvider = cacheProvider;
     }
 
-    public Bookstore.Application.Model.BookStore BookStore 
+    public BookStore BookStore 
     { 
       get
       {
-        return _cacheProvider.Get<Bookstore.Application.Model.BookStore>(BookStoreKey);
+        return _cacheProvider.Get<BookStore>(BookStoreKey);
       }
 
       set

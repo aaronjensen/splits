@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Bookstore.Application.Queries;
+using Bookstore.WebApp;
 using Microsoft.Practices.ServiceLocation;
 using Splits.Application;
 
-namespace BookStore.WebApp.ActionFilters
+namespace Bookstore.WebApp.ActionFilters
 {
   public class RequireBookstoreFilter : ActionFilterAttribute
   {

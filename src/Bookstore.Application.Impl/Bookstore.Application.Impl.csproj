@@ -56,6 +56,7 @@
     <Compile Include="ApplicationServices.cs" />
     <Compile Include="ApplicationStartup.cs" />
     <Compile Include="CommandHandlers\BookStoreSetupCommandHandler.cs" />
+    <Compile Include="CommandHandlers\TestCommandHandler.cs" />
     <Compile Include="Domain\BookStore.cs" />
     <Compile Include="Domain\Events\BookStoreSetupEvent.cs" />
     <Compile Include="EventHandlers\BookStoreSetupEventHandler.cs" />

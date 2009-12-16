@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
-using BookStore.WebApp.Controllers;
+using Bookstore.WebApp;
+using Bookstore.WebApp.Controllers;
 using Machine.UrlStrong.Mvc;
 using Splits.Web.Routing;
 
-namespace BookStore.WebApp
+namespace Bookstore.WebApp
 {
   public class Routing
   {
@@ -18,6 +19,7 @@ namespace BookStore.WebApp
 
       routes.MapRoute<Urls.Root>();
       routes.MapRoute<Urls.Root.Bookstore_setup>();
+      routes.MapRoute<Urls.Root.Test>();
     }
   }
 }
