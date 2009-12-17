@@ -32,7 +32,7 @@ namespace Splits.Web
       }
       else if (String.Compare(requestContext.HttpContext.Request.HttpMethod, "POST", true) == 0)
       {
-        steps = _stepProvider.GetStepsForGet(urlType);
+        steps = _stepProvider.GetStepsForPost(urlType);
       }
       else
       {
