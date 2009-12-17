@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Splits;
 
@@ -6,7 +7,7 @@ namespace Splits.Application.Impl
 {
   public class QueryHandlerLocator : IQueryHandlerLocator
   {
-    class Wrapper<TQuery, TResult> : IQueryHandler<IQuery<TResult>, TResult> 
+    class Wrapper<TQuery, TResult> : IQueryHandler<IQuery<object>, object> 
       where TQuery: IQuery<TResult>
     {
       readonly IQueryHandler<TQuery, TResult> _handler;
@@ -16,21 +17,42 @@ namespace Splits.Application.Impl
         _handler = handler;
       }
 
-      public TResult Handle(IQuery<TResult> command)
+      public object Handle(IQuery<object> query)
       {
-        return _handler.Handle((TQuery)command);
+        return _handler.Handle(((QueryWrapper<TQuery>)query).InnerQuery);
       }
     }
 
-    public IQueryHandler<IQuery<TResult>, TResult> LocateHandler<TResult>(IQuery<TResult> query)
+    class QueryWrapper<TQuery> : IQuery<object>
+    {
+      public TQuery InnerQuery { get; private set; }
+
+      public QueryWrapper(object query)
+      {
+        InnerQuery = (TQuery)query;
+      }
+    }
+
+    public Func<object, object> LocateHandler(object query)
     {
       if (query == null) throw new ArgumentNullException("query");
 
-      var handlerType = typeof (IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+      var resultType = query.GetType().GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IQuery<>)).First().GetGenericArguments().First();
+      var handlerType = typeof (IQueryHandler<,>).MakeGenericType(query.GetType(), resultType);
       var handler = ServiceLocator.Current.GetInstance(handlerType);
 
-      var wrapperType = typeof(Wrapper<,>).MakeGenericType(query.GetType(), typeof(TResult));
-      return (IQueryHandler<IQuery<TResult>, TResult>)Activator.CreateInstance(wrapperType, handler);
+      var wrapperType = typeof(Wrapper<,>).MakeGenericType(query.GetType(), resultType);
+      var queryWrapperType = typeof(QueryWrapper<>).MakeGenericType(query.GetType());
+
+      return x =>
+      {
+        var wrappedHandler = ((IQueryHandler<IQuery<object>, object>)
+          Activator.CreateInstance(wrapperType, handler));
+        var wrappedQuery = (IQuery<object>)Activator.CreateInstance(queryWrapperType, x);
+
+        return wrappedHandler.Handle(wrappedQuery);
+      };
+
     }
   }
 }

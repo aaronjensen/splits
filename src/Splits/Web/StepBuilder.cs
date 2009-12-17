@@ -30,9 +30,9 @@ namespace Splits.Web
       return new InvokeCommandStep(typeof(T));
     }
 
-    public static InvokeQueryStep<T> InvokeQuery<T>(this StepBuilder steps)
+    public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps)
     {
-      return new InvokeQueryStep<T>();
+      return new InvokeQueryStep(typeof(T));
     }
 
     public static SeeOtherStep SeeOther(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)

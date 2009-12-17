@@ -34,9 +34,9 @@ namespace Splits.Web.Steps
     public ConditionalStep True(Func<StepContext, IQuery<bool>> queryFunc)
     {
       var oldCondition = _condition;
-      var querier = ServiceLocator.Current.GetInstance<IQueryInvoker>();
+      var queryInvoker = ServiceLocator.Current.GetInstance<IQueryInvoker>();
 
-      _condition = c => oldCondition(c) && querier.Get(queryFunc(c));
+      _condition = c => oldCondition(c) && (bool)queryInvoker.Invoke(queryFunc(c));
 
       return this;
     }

@@ -1,9 +1,10 @@
+using System;
 using Splits;
 
 namespace Splits.Application
 {
   public interface IQueryHandlerLocator
   {
-    IQueryHandler<IQuery<TReport>, TReport> LocateHandler<TReport>(IQuery<TReport> query);
+    Func<object, object> LocateHandler(object query);
   }
 }

@@ -123,6 +123,7 @@
     <Compile Include="Web\StepContext.cs" />
     <Compile Include="Web\StepHandlers\ConditionalStepHandler.cs" />
     <Compile Include="Web\StepHandlers\InvokeCommandStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\InvokeQueryStepHandler.cs" />
     <Compile Include="Web\StepHandlers\IStepHandler.cs" />
     <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />

@@ -24,7 +24,7 @@ namespace Splits.Web.StepHandlers
     public Continuation Handle(InvokeCommandStep step, StepContext stepContext)
     {
       var bindResult = _modelBinder.Bind(step.CommandType,
-                                         new AggregateDictionary(stepContext.RequestContext));
+        new AggregateDictionary(stepContext.RequestContext));
 
       if (!bindResult.WasSuccessful)
       {

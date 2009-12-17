@@ -7,6 +7,6 @@ namespace Splits.Application
 {
   public interface IQueryInvoker
   {
-    TResult Get<TResult>(IQuery<TResult> query);
+    object Invoke(object query);
   }
 }

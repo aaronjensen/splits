@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bookstore.Application.Commands;
+using Bookstore.Application.Queries;
 using Splits.Web;
 
 namespace Bookstore.WebApp.Rules
@@ -11,6 +12,7 @@ namespace Bookstore.WebApp.Rules
   {
     public override IEnumerable<IStep> OnGet(Type urlType)
     {
+      yield return Steps.InvokeQuery<TestQuery>();
       yield return Steps.InvokeCommand<TestCommand>()
         .OnSuccess(Steps.Render("success"))
         .OnFailure(Steps.Render("failure"))

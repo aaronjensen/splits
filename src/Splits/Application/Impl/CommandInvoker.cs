@@ -19,10 +19,9 @@ namespace Splits.Application.Impl
       if (command == null) throw new ArgumentNullException("command");
       
       var handler = _locator.LocateHandler(command);
-      var wrappedCommand = _locator.WrapCommand(command);
       if (handler == null) throw new InvalidOperationException("No ICommandHandler for " + command.GetType());
 
-      return handler.Handle(wrappedCommand);
+      return handler(command);
     }
   }
 }
