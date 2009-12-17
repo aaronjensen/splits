@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace Splits.Web
 {
-  public abstract class GlobalRule : IRule
+  public abstract class Rule : IRule
   {
-    public bool ShouldApply(Type urlType)
-    {
-      return true;
-    }
+    public abstract bool ShouldApply(Type urlType);
 
     public virtual IEnumerable<IStep> OnAny(Type urlType)
     {

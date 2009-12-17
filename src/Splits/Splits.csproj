@@ -94,6 +94,7 @@
     <Compile Include="SplitsExtensionMethods.cs" />
     <Compile Include="Web\AggregateDictionary.cs" />
     <Compile Include="Web\BindResult.cs" />
+    <Compile Include="Web\IRule.cs" />
     <Compile Include="Web\ModelBinding\ConverterExpression.cs" />
     <Compile Include="Web\ModelBinding\ConverterFamily.cs" />
     <Compile Include="Web\ModelBinding\DefaultConverterFamilies\BooleanFamily.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Web\ModelBinding\ValueConverter.cs" />
     <Compile Include="Web\ModelBinding\ValueConverterRegistry.cs" />
     <Compile Include="Web\Routing\RouteCollectionExtensions.cs" />
+    <Compile Include="Web\Rule.cs" />
     <Compile Include="Web\RuleFor.cs" />
     <Compile Include="Web\ModelBinding\StandardModelBinder.cs" />
     <Compile Include="Web\StepBuilder.cs" />

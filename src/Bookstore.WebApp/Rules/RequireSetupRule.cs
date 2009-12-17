@@ -7,7 +7,7 @@ using Splits.Web;
 namespace Bookstore.WebApp.Rules
 {
   public class RequireSetupRule
-    : GlobalRule
+    : Rule
   {
     public override bool ShouldApply(Type urlType)
     {

@@ -1,20 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using Machine.UrlStrong;
 
 namespace Splits.Web
 {
-  public interface IRule
-  {
-    bool ShouldApply(Type urlType);
-    IEnumerable<IStep> OnAny(Type urlType);
-    IEnumerable<IStep> OnGet(Type urlType);
-    IEnumerable<IStep> OnPost(Type urlType);
-    IEnumerable<IStep> OnPut(Type urlType);
-    IEnumerable<IStep> OnDelete(Type urlType);
-  }
-
-  public class RuleFor<TUrl> : IRule where TUrl : IUrl
+  public abstract class RuleFor<TUrl> : IRule where TUrl : IUrl
   {
     public bool ShouldApply(Type urlType)
     {
@@ -42,6 +33,11 @@ namespace Splits.Web
     }
 
     public virtual IEnumerable<IStep> OnDelete(Type urlType)
+    {
+      yield break;
+    }
+
+    public IEnumerable<IStep> OnHead(Type urlType)
     {
       yield break;
     }
