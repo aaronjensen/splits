@@ -16,7 +16,7 @@ namespace Splits.Application.Impl
     {
       if (query == null) throw new ArgumentNullException("query");
 
-      var handler = _locator.LocateHandler(query);
+      var handler = _locator.LocateHandler(query.GetType());
       if (handler == null) throw new InvalidOperationException("No IQueryHandler for " + query.GetType());
 
       return handler(query);

@@ -33,16 +33,16 @@ namespace Splits.Application.Impl
       }
     }
 
-    public Func<object, object> LocateHandler(object query)
+    public Func<object, object> LocateHandler(Type queryType)
     {
-      if (query == null) throw new ArgumentNullException("query");
+      if (queryType == null) throw new ArgumentNullException("queryType");
 
-      var resultType = query.GetType().GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IQuery<>)).First().GetGenericArguments().First();
-      var handlerType = typeof (IQueryHandler<,>).MakeGenericType(query.GetType(), resultType);
+      var resultType = queryType.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IQuery<>)).First().GetGenericArguments().First();
+      var handlerType = typeof (IQueryHandler<,>).MakeGenericType(queryType, resultType);
       var handler = ServiceLocator.Current.GetInstance(handlerType);
 
-      var wrapperType = typeof(Wrapper<,>).MakeGenericType(query.GetType(), resultType);
-      var queryWrapperType = typeof(QueryWrapper<>).MakeGenericType(query.GetType());
+      var wrapperType = typeof(Wrapper<,>).MakeGenericType(queryType, resultType);
+      var queryWrapperType = typeof(QueryWrapper<>).MakeGenericType(queryType);
 
       return x =>
       {
@@ -52,7 +52,6 @@ namespace Splits.Application.Impl
 
         return wrappedHandler.Handle(wrappedQuery);
       };
-
     }
   }
 }

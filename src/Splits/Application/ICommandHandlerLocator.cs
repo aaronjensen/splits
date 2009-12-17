@@ -4,6 +4,6 @@ namespace Splits.Application
 {
   public interface ICommandHandlerLocator
   {
-    Func<object, ICommandResult> LocateHandler(object command);
+    Func<object, ICommandResult> LocateHandler(Type commandType);
   }
 }

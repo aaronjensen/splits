@@ -5,6 +5,6 @@ namespace Splits.Application
 {
   public interface IQueryHandlerLocator
   {
-    Func<object, object> LocateHandler(object query);
+    Func<object, object> LocateHandler(Type queryType);
   }
 }

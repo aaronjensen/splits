@@ -35,16 +35,16 @@ namespace Splits.Application.Impl
       }
     }
 
-    public Func<object, ICommandResult> LocateHandler(object command)
+    public Func<object, ICommandResult> LocateHandler(Type commandType)
     {
-      if (command == null) throw new ArgumentNullException("command");
+      if (commandType == null) throw new ArgumentNullException("commandType");
 
-      var resultType = command.GetType().GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICommand<>)).First().GetGenericArguments().First();
-      var handlerType = typeof (ICommandHandler<,>).MakeGenericType(command.GetType(), resultType);
+      var resultType = commandType.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICommand<>)).First().GetGenericArguments().First();
+      var handlerType = typeof (ICommandHandler<,>).MakeGenericType(commandType, resultType);
       var handler = ServiceLocator.Current.GetInstance(handlerType);
 
-      var wrapperType = typeof(Wrapper<,>).MakeGenericType(command.GetType(), resultType);
-      var commandWrapperType = typeof(CommandWrapper<>).MakeGenericType(command.GetType());
+      var wrapperType = typeof(Wrapper<,>).MakeGenericType(commandType, resultType);
+      var commandWrapperType = typeof(CommandWrapper<>).MakeGenericType(commandType);
 
       return x =>
       {
