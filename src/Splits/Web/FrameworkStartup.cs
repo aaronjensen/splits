@@ -10,14 +10,13 @@ namespace Splits.Web
     IEnumerable<IStep> GetStepsForGet(Type urlType);
     IEnumerable<IStep> GetStepsForPost(Type urlType);
   }
-
   public class StepProvider : IStepProvider
   {
     readonly IEnumerable<IRule> _rules;
 
-    public StepProvider(IEnumerable<IRule> rules)
+    public StepProvider(/*IEnumerable<IRule> rules*/)
     {
-      _rules = rules;
+      _rules = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetAllInstances<IRule>();
     }
 
     public IEnumerable<IStep> GetStepsForGet(Type urlType)
