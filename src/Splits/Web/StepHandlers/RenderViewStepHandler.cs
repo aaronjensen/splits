@@ -9,40 +9,38 @@ namespace Splits.Web.StepHandlers
 {
   public class RenderViewStepHandler : IStepHandler<RenderViewStep>
   {
-    readonly static SparkViewFactory _factory = new SparkViewFactory();
-    TempDataDictionary _tempData;
-    ViewDataDictionary _viewData;
+    readonly IViewRenderer _viewRenderer;
 
-    public TempDataDictionary TempData
+    public RenderViewStepHandler(IViewRenderer viewRenderer)
     {
-      get
-      {
-        if (_tempData == null)
-          _tempData = new TempDataDictionary();
-        return _tempData;
-      }
-      set { _tempData = value; }
-    }
-
-    public ViewDataDictionary ViewData
-    {
-      get
-      {
-        if (_viewData == null)
-          _viewData = new ViewDataDictionary();
-        return _viewData;
-      }
-      set { _viewData = value; }
+      _viewRenderer = viewRenderer;
     }
 
     public Continuation Handle(RenderViewStep step, StepContext stepContext)
     {
+      var viewData = new ViewDataDictionary();
       if (step.ModelFactory != null)
       {
-        ViewData.Model = step.ModelFactory();
+        viewData.Model = step.ModelFactory();
       }
+      _viewRenderer.RenderViewData(stepContext, viewData, step.ViewName);
+      return Continuation.Continue;
+    }
+  }
 
-      var view = _factory.FindView(stepContext.RequestContext, stepContext.UrlStrongPath, step.ViewName, String.Empty, true, true);
+  public interface IViewRenderer
+  {
+    void RenderModel(StepContext stepContext, object model, string viewName);
+    void RenderViewData(StepContext stepContext, ViewDataDictionary view, string viewName);
+  }
+
+  public class ViewRenderer : IViewRenderer
+  {
+    readonly static SparkViewFactory _factory = new SparkViewFactory();
+
+    public void RenderViewData(StepContext stepContext, ViewDataDictionary viewData, string viewName)
+    {
+      var view = _factory.FindView(stepContext.RequestContext, stepContext.UrlStrongPath, viewName, String.Empty, true, true);
       if (view.View == null)
       {
         var locations = new StringBuilder();
@@ -55,10 +53,15 @@ namespace Splits.Web.StepHandlers
       }
 
       var controllerContext = new ControllerContext(stepContext.RequestContext, FakeController);
-      var viewContext = new ViewContext(controllerContext, view.View, ViewData, TempData);
+      var viewContext = new ViewContext(controllerContext, view.View, viewData, new TempDataDictionary());
       view.View.Render(viewContext, stepContext.Response.Output);
+    }
 
-      return Continuation.Continue;
+    public void RenderModel(StepContext stepContext, object model, string viewName)
+    {
+      var viewData = new ViewDataDictionary();
+      viewData.Model = model;
+      RenderViewData(stepContext, viewData, viewName);
     }
 
     static readonly FakeControllerForControllerContext FakeController = new FakeControllerForControllerContext();

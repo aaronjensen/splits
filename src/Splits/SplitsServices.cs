@@ -29,6 +29,7 @@ namespace Splits
         yield return Self(typeof(PollyannaValidator));
         yield return Self(typeof(CommandInvoker));
         yield return Self(typeof(CommandHandlerLocator));
+        yield return Self(typeof(ViewRenderer));
 
         foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
         {
