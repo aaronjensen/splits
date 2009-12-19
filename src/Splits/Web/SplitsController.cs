@@ -39,7 +39,7 @@ namespace Splits.Web
         steps = new IStep[0];
       }
 
-      var stepContext = new StepContext(requestContext);
+      var stepContext = new StepContext(requestContext, urlType);
       foreach (var step in steps)
       {
         var continuation = _stepInvoker.Invoke(step, stepContext);
