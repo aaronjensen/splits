@@ -119,10 +119,16 @@ namespace Splits.Web.Spark
     public SplitsViewEngineResult FindView(RequestContext requestContext, IEnumerable<string> locations, string viewName, string masterName, bool findDefaultMaster)
     {
       var descriptor = new SparkViewDescriptor();
-      var searched = locations.Select(location => Path.Combine(location, viewName + ".spark")).Select(path => path.Replace(@"/", @"\"));
+      var viewLocations = locations.Select(location => Path.Combine(location, viewName + ".spark")).Select(path => path.Replace(@"/", @"\"));
+      var searchLocations = viewLocations;
+      if (findDefaultMaster)
+      {
+        var masterLocations = new[] { @"Layouts\Application.spark", @"Shared\Application.spark"  };
+        searchLocations = searchLocations.Union(masterLocations);
+      }
       descriptor.TargetNamespace = "Split";
 
-      foreach (var template in searched)
+      foreach (var template in searchLocations)
       {
         if (Engine.ViewFolder.HasView(template))
         {
@@ -132,11 +138,11 @@ namespace Splits.Web.Spark
 
       if (!descriptor.Templates.Any())
       {
-        return new SplitsViewEngineResult(searched);
+        return new SplitsViewEngineResult(viewLocations);
       }
 
       var entry = Engine.CreateEntry(descriptor);
-      return new SplitsViewEngineResult(CreateViewInstance(requestContext, entry), searched);
+      return new SplitsViewEngineResult(CreateViewInstance(requestContext, entry), viewLocations);
     }
 
     IView CreateViewInstance(RequestContext requestContext, ISparkViewEntry entry)
