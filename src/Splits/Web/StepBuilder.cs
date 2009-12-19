@@ -47,7 +47,7 @@ namespace Splits.Web
 
     public static RenderViewStep Render(this StepBuilder steps, string view)
     {
-      return new RenderViewStep();
+      return new RenderViewStep(view);
     }
   }
 }

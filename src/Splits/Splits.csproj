@@ -131,6 +131,7 @@
     <Compile Include="Web\StepHandlers\IStepHandler.cs" />
     <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\RenderViewStepHandler.cs" />
     <Compile Include="Web\StepHandlers\SeeOtherStepHandler.cs" />
     <Compile Include="Web\Steps\ConditionalStep.cs" />
     <Compile Include="Web\Steps\ContentStep.cs" />
