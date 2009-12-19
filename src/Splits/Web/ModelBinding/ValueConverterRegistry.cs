@@ -9,12 +9,12 @@ namespace Splits.Web.ModelBinding
     private readonly Cache<Type, ValueConverter> _converters;
     private readonly List<IConverterFamily> _families = new List<IConverterFamily>();
 
-    public ValueConverterRegistry(IEnumerable<IConverterFamily> families)
+    public ValueConverterRegistry(/*IEnumerable<IConverterFamily> families*/)
     {
+      var families = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetAllInstances<IConverterFamily>();
       _families.AddRange(families);
 
-      _converters =
-        new Cache<Type, ValueConverter>(t => { return _families.Find(x => x.Matches(t)).Build(this, t); });
+      _converters = new Cache<Type, ValueConverter>(t => { return _families.Find(x => x.Matches(t)).Build(this, t); });
 
       AddPolicies();
     }
