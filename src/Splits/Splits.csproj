@@ -124,6 +124,7 @@
     <Compile Include="Web\RuleFor.cs" />
     <Compile Include="Web\ModelBinding\StandardModelBinder.cs" />
     <Compile Include="Web\Spark\SparkViewFactory.cs" />
+    <Compile Include="Web\Spark\SplitsSparkView.cs" />
     <Compile Include="Web\StepBuilder.cs" />
     <Compile Include="Web\StepContext.cs" />
     <Compile Include="Web\StepHandlers\ConditionalStepHandler.cs" />

@@ -40,6 +40,7 @@ namespace Splits.Web.Spark
     public SparkViewFactory(ISparkSettings settings)
     {
       Settings = settings ?? (((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings());
+      Settings.PageBaseType = typeof(SplitsSparkView).FullName;
     }
 
     public virtual void Initialize(ISparkServiceContainer container)
