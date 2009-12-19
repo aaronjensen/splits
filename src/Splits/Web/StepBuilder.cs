@@ -40,9 +40,14 @@ namespace Splits.Web
       return new SeeOtherStep(getUrl);
     }
 
-    public static RenderStep Render(this StepBuilder steps, string text)
+    public static ContentStep Content(this StepBuilder steps, string text)
     {
-      return new RenderStep(text);
+      return new ContentStep(text);
+    }
+
+    public static RenderViewStep Render(this StepBuilder steps, string view)
+    {
+      return new RenderViewStep();
     }
   }
 }

@@ -58,12 +58,6 @@
     <Reference Include="System.Web.Routing">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -122,21 +116,22 @@
     <Compile Include="Web\StepBuilder.cs" />
     <Compile Include="Web\StepContext.cs" />
     <Compile Include="Web\StepHandlers\ConditionalStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\ContentStepHandler.cs" />
     <Compile Include="Web\StepHandlers\InvokeCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\InvokeQueryStepHandler.cs" />
     <Compile Include="Web\StepHandlers\IStepHandler.cs" />
     <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
-    <Compile Include="Web\StepHandlers\RenderStepHandler.cs" />
     <Compile Include="Web\StepHandlers\SeeOtherStepHandler.cs" />
     <Compile Include="Web\Steps\ConditionalStep.cs" />
+    <Compile Include="Web\Steps\ContentStep.cs" />
     <Compile Include="Web\Steps\InvokeCommandStep.cs" />
     <Compile Include="Web\Steps\InvokeQueryStep.cs" />
     <Compile Include="Web\Steps\LinkToCommandStep.cs" />
     <Compile Include="Web\Steps\LinkToQueryStep.cs" />
     <Compile Include="Web\Steps\NegatedConditionalStep.cs" />
     <Compile Include="Web\Steps\RedirectStep.cs" />
-    <Compile Include="Web\Steps\RenderStep.cs" />
+    <Compile Include="Web\Steps\RenderViewStep.cs" />
     <Compile Include="Web\Steps\SeeOtherStep.cs" />
     <Compile Include="Web\Steps\Step.cs" />
     <Compile Include="Web\TypeDescriptorRegistry.cs" />
