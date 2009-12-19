@@ -14,7 +14,7 @@ namespace Splits.Application
       WasSuccessful = successful;
     }
 
-    public static ICommandResult Success = new CommandResult(true);
-    public static ICommandResult Failure = new CommandResult(false);
+    public static CommandResult Success = new CommandResult(true);
+    public static CommandResult Failure = new CommandResult(false);
   }
 }

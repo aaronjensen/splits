@@ -5,11 +5,16 @@ namespace Splits.Web.Steps
 {
   public class ContentStep : IStep
   {
-    public string Output { get; set; }
+    public Func<string> OutputFactory { get; set; }
 
     public ContentStep(string output)
+      : this(() => output)
     {
-      Output = output;
+    }
+
+    public ContentStep(Func<string> outputFactory)
+    {
+      OutputFactory = outputFactory;
     }
   }
 }

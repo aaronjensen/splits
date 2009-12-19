@@ -14,6 +14,7 @@ namespace Splits.Web.Steps
     public IStep SuccessStep { get; private set; }
     public IStep FailureStep { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
+    public IStep UsingQueryStep { get; private set; }
 
     public InvokeCommandStep(Type commandType)
     {
@@ -35,6 +36,18 @@ namespace Splits.Web.Steps
     public InvokeCommandStep OnValidationError(IStep step)
     {
       ValidationErrorStep = step;
+      return this;
+    }
+
+    public InvokeCommandStep From(InvokeQueryStep step)
+    {
+      UsingQueryStep = step;
+      return this;
+    }
+
+    public InvokeCommandStep FromRequest()
+    {
+      UsingQueryStep = null;
       return this;
     }
   }

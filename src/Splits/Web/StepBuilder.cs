@@ -40,9 +40,14 @@ namespace Splits.Web
       return new SeeOtherStep(getUrl);
     }
 
+    public static ContentStep Content(this StepBuilder steps, Func<string> textFactory)
+    {
+      return new ContentStep(textFactory);
+    }
+
     public static ContentStep Content(this StepBuilder steps, string text)
     {
-      return new ContentStep(text);
+      return new ContentStep(() => text);
     }
 
     public static RenderViewStep Render(this StepBuilder steps, string view)

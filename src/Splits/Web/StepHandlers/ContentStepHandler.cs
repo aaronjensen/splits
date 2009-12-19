@@ -8,7 +8,7 @@ namespace Splits.Web.StepHandlers
   {
     public Continuation Handle(ContentStep step, StepContext stepContext)
     {
-      stepContext.Response.Write(step.Output);
+      stepContext.Response.Write(step.OutputFactory());
 
       return Continuation.Continue;
     }

@@ -1,5 +1,4 @@
 using Splits.Application;
-using Splits.Application.Impl;
 using Splits.Web.ModelBinding;
 using Splits.Web.Steps;
 using Splits.Web.Validation;
@@ -23,9 +22,7 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(InvokeCommandStep step, StepContext stepContext)
     {
-      var bindResult = _modelBinder.Bind(step.CommandType,
-        new AggregateDictionary(stepContext.RequestContext));
-
+      var bindResult = _modelBinder.Bind(step.CommandType, new AggregateDictionary(stepContext.RequestContext));
       if (!bindResult.WasSuccessful)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
