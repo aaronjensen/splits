@@ -14,6 +14,7 @@
 // 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Web.Mvc;
@@ -38,7 +39,7 @@ namespace Splits.Web.Spark
 
     public SparkViewFactory(ISparkSettings settings)
     {
-      Settings = settings ?? new SparkSettings();
+      Settings = settings ?? (((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings());
     }
 
     public virtual void Initialize(ISparkServiceContainer container)
