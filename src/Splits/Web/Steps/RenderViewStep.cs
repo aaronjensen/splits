@@ -5,7 +5,7 @@ namespace Splits.Web.Steps
 {
   public class RenderViewStep : IStep
   {
-    public object Model { get; set; }
+    public Func<object> ModelFactory { get; set; }
     public string ViewName { get; set; }
 
     public RenderViewStep(string viewName)
@@ -13,10 +13,15 @@ namespace Splits.Web.Steps
       ViewName = viewName;
     }
 
-    public RenderViewStep(string viewName, object model)
+    public RenderViewStep(string viewName, Func<object> modelFactory)
     {
       ViewName = viewName;
-      Model = model;
+      ModelFactory = modelFactory;
+    }
+
+    public RenderViewStep(string viewName, object model)
+      : this(viewName, () => model)
+    {
     }
   }
 }

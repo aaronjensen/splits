@@ -37,6 +37,11 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(RenderViewStep step, StepContext stepContext)
     {
+      if (step.ModelFactory != null)
+      {
+        ViewData.Model = step.ModelFactory();
+      }
+
       var view = _factory.FindView(stepContext.RequestContext, stepContext.UrlStrongPath, step.ViewName, String.Empty, true, true);
       if (view.View == null)
       {
@@ -47,11 +52,6 @@ namespace Splits.Web.StepHandlers
           locations.Append(location);
         }
         throw new InvalidOperationException("No view could be found in: " + locations);
-      }
-
-      if (step.Model != null)
-      {
-        ViewData.Model = step.Model;
       }
 
       var controllerContext = new ControllerContext(stepContext.RequestContext, FakeController);
