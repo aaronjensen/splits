@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Transactions;
 
 namespace Splits.Application.Impl
 {
@@ -21,7 +20,12 @@ namespace Splits.Application.Impl
       var handler = _locator.LocateHandler(command.GetType());
       if (handler == null) throw new InvalidOperationException("No ICommandHandler for " + command.GetType());
 
-      return handler(command);
+      using (var scope = new TransactionScope())
+      {
+        var result = handler(command);
+        scope.Complete();
+        return result;
+      }
     }
   }
 }
