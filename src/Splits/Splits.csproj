@@ -93,6 +93,7 @@
     <Compile Include="Application\IQueryHandlerLocator.cs" />
     <Compile Include="Application\IQueryInvoker.cs" />
     <Compile Include="Application\IRepository.cs" />
+    <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplitsServices.cs" />
     <Compile Include="SplitsExtensionMethods.cs" />

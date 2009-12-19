@@ -4,21 +4,17 @@ namespace Splits.Web.Steps
 {
   public class InvokeCommandStep : Step
   {
-    readonly Type _commandType;
-
-    public Type CommandType
-    {
-      get { return _commandType; }
-    }
-
+    public Type CommandType { get; private set; }
+    public Type ReplyType { get; private set; }
     public IStep SuccessStep { get; private set; }
     public IStep FailureStep { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
     public IStep UsingQueryStep { get; private set; }
 
-    public InvokeCommandStep(Type commandType)
+    public InvokeCommandStep(Type commandType, Type replyType)
     {
-      _commandType = commandType;
+      CommandType = commandType;
+      ReplyType = replyType;
     }
 
     public InvokeCommandStep OnSuccess(IStep step)
@@ -42,12 +38,6 @@ namespace Splits.Web.Steps
     public InvokeCommandStep From(InvokeQueryStep step)
     {
       UsingQueryStep = step;
-      return this;
-    }
-
-    public InvokeCommandStep FromRequest()
-    {
-      UsingQueryStep = null;
       return this;
     }
   }

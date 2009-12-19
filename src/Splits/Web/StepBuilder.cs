@@ -1,6 +1,8 @@
 using System;
 using Machine.UrlStrong;
+using Splits.Application;
 using Splits.Web.Steps;
+using Splits.Internal;
 
 namespace Splits.Web
 {
@@ -27,12 +29,16 @@ namespace Splits.Web
 
     public static InvokeCommandStep InvokeCommand<T>(this StepBuilder steps)
     {
-      return new InvokeCommandStep(typeof(T));
+      var replyType = typeof(T).GetGenericArgumentInImplementationOf(typeof(ICommand<>));
+      if (replyType == null) throw new ArgumentException("T should be an ICommand<>");
+      return new InvokeCommandStep(typeof(T), replyType);
     }
 
     public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps)
     {
-      return new InvokeQueryStep(typeof(T));
+      var replyType = typeof(T).GetGenericArgumentInImplementationOf(typeof(IQuery<>));
+      if (replyType == null) throw new ArgumentException("T should be an IQuery<>");
+      return new InvokeQueryStep(typeof(T), replyType);
     }
 
     public static SeeOtherStep SeeOther(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)

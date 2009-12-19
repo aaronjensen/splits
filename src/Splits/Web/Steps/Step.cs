@@ -4,18 +4,12 @@ namespace Splits.Web.Steps
   {
     public IConditionalStep Unless 
     { 
-      get
-      {
-        return new NegatedConditionalStep(this);
-      }
+      get { return new NegatedConditionalStep(this); }
     }
 
     public IConditionalStep If 
     { 
-      get
-      {
-        return new ConditionalStep(this);
-      }
+      get { return new ConditionalStep(this); }
     }
   }
 }

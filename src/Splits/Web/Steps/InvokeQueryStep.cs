@@ -4,16 +4,20 @@ namespace Splits.Web.Steps
 {
   public class InvokeQueryStep : Step
   {
-    readonly Type _queryType;
+    public Type QueryType { get; private set; }
+    public Type ReplyType { get; private set; }
+    public IStep ValidationErrorStep { get; private set; }
 
-    public Type QueryType
+    public InvokeQueryStep(Type queryType, Type replyType)
     {
-      get { return _queryType; }
+      QueryType = queryType;
+      ReplyType = replyType;
     }
 
-    public InvokeQueryStep(Type queryType)
+    public InvokeQueryStep OnValidationError(IStep step)
     {
-      _queryType = queryType;
+      ValidationErrorStep = step;
+      return this;
     }
   }
 }
