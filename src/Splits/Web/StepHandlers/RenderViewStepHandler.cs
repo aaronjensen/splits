@@ -35,10 +35,6 @@ namespace Splits.Web.StepHandlers
       set { _viewData = value; }
     }
 
-    public bool SkipLayout { get; set; }
-    public string[] ViewNames { get; set; }
-    public string MasterName { get; set; }
-
     public Continuation Handle(RenderViewStep step, StepContext stepContext)
     {
       var view = _factory.FindView(stepContext.RequestContext, stepContext.UrlStrongPath, step.ViewName, String.Empty, true, true);
@@ -53,14 +49,19 @@ namespace Splits.Web.StepHandlers
         throw new InvalidOperationException("No view could be found in: " + locations);
       }
 
-      var viewContext = new ViewContext(new ControllerContext(stepContext.RequestContext, new FakeControllerForControllerContext()), view.View, ViewData, TempData);
+      if (step.Model != null)
+      {
+        ViewData.Model = step.Model;
+      }
+
+      var controllerContext = new ControllerContext(stepContext.RequestContext, FakeController);
+      var viewContext = new ViewContext(controllerContext, view.View, ViewData, TempData);
       view.View.Render(viewContext, stepContext.Response.Output);
 
       return Continuation.Continue;
     }
 
-    class FakeControllerForControllerContext : Controller
-    {
-    }
+    static readonly FakeControllerForControllerContext FakeController = new FakeControllerForControllerContext();
+    class FakeControllerForControllerContext : Controller { }
   }
 }

@@ -49,5 +49,15 @@ namespace Splits.Web
     {
       return new RenderViewStep(view);
     }
+
+    public static RenderViewStep Render<T>(this StepBuilder steps, T model, string view)
+    {
+      return new RenderViewStep(view, model);
+    }
+
+    public static RenderViewStep Render<T>(this StepBuilder steps, T model)
+    {
+      return steps.Render(model, typeof(T).Name);
+    }
   }
 }

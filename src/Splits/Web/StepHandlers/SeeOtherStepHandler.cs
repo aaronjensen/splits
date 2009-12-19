@@ -8,7 +8,6 @@ namespace Splits.Web.StepHandlers
     public Continuation Handle(SeeOtherStep step, StepContext stepContext)
     {
       throw new NotImplementedException();
-      return Continuation.RenderNow;
     }
   }
 }
