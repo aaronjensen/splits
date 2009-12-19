@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Web.Mvc;
+
+using Splits.Application.Impl;
 using Splits.Web;
 using Splits.Web.ModelBinding;
 using Splits.Web.ModelBinding.DefaultConverterFamilies;
@@ -27,6 +27,8 @@ namespace Splits
         yield return Self(typeof(StandardModelBinder));
         yield return Self(typeof(ValueConverterRegistry));
         yield return Self(typeof(PollyannaValidator));
+        yield return Self(typeof(CommandInvoker));
+        yield return Self(typeof(CommandHandlerLocator));
 
         foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
         {
