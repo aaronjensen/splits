@@ -21,16 +21,23 @@ namespace Splits.Web.Validation
       IsValid = true;
     }
 
-    public void AddError(string error)
+    public void AddError(string error, IEnumerable<string> memberNames)
     {
       IsValid = false;
-      _errors.Add(new ValidationError {ErrorMessage = error});
+      _errors.Add(new ValidationError(error, memberNames));
     }
   }
 
   public class ValidationError
   {
-    public string ErrorMessage { get; set; }
+    public string ErrorMessage { get; private set; }
+    public IEnumerable<string> MemberNames { get; private set; }
+
+    public ValidationError(string errorMessage, IEnumerable<string> memberNames)
+    {
+      ErrorMessage = errorMessage;
+      MemberNames = memberNames;
+    }
   }
 
   public interface IModelValidator
@@ -55,9 +62,9 @@ namespace Splits.Web.Validation
 
       Validator.TryValidateObject(model, context, results, true);
 
-      foreach (var error in results.Select(x => x.ErrorMessage))
+      foreach (var error in results)
       {
-        result.AddError(error);
+        result.AddError(error.ErrorMessage, error.MemberNames);
       }
 
       return result;
@@ -90,7 +97,10 @@ namespace Splits.Web.Validation
       var results = new List<ValidationResult>();
       Validator.TryValidateObject(value, newContext, results, true);
       if (results.Any())
-        return results.First();
+      {
+        string errors = String.Join(Environment.NewLine, results.Select(x => x.ErrorMessage).ToArray());
+        return new ValidationResult(errors, results.SelectMany(x => x.MemberNames).Select(x => validationContext.MemberName + "." + x));
+      }
 
       return ValidationResult.Success;
     }

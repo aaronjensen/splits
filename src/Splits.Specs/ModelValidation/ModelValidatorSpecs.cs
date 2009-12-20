@@ -57,6 +57,9 @@ namespace Splits.Specs.ModelValidation
 
     It should_not_be_valid = () =>
       result.IsValid.ShouldBeFalse();
+
+    It should_have_the_full_nested_property_name = () =>
+      result.Errors.First().MemberNames.First().ShouldEqual("Child.Id");
   }
 
   [Subject(typeof(ModelValidator))]
@@ -67,6 +70,19 @@ namespace Splits.Specs.ModelValidation
 
     It should_not_be_valid = () =>
       result.IsValid.ShouldBeFalse();
+  }
+
+  [Subject(typeof(ModelValidator))]
+  public class when_validating_nested_classes_with_invalid_grand_child : ModelValidatorSpecs
+  {
+    Because of = () => 
+      result = validator.Validate(new Parent() { Child = new Child() { Id = 3, GrandChild = new GrandChild { Foo = 10 }} });
+
+    It should_not_be_valid = () =>
+      result.IsValid.ShouldBeFalse();
+
+    It should_have_the_full_nested_property_name = () =>
+      result.Errors.First().MemberNames.First().ShouldEqual("Child.GrandChild.Foo");
   }
 
   public class ModelValidatorSpecs
@@ -91,6 +107,14 @@ namespace Splits.Specs.ModelValidation
   {
     [Required]
     public int? Id { get; set; }
+    [Validate]
+    public GrandChild GrandChild { get; set;}
+  }
+
+  public class GrandChild
+  {
+    [Range(0, 3)]
+    public int Foo { get; set; }
   }
 
   public class RequiredInt
