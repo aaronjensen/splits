@@ -49,14 +49,14 @@ namespace Splits.Web.ModelBinding
 
     private void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix) {
       _typeDescriptorRegistry.ForEachProperty(type,
-                                              prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result));
+                                              prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result, data, prefix));
     }
 
-    private void SetPropertyValue(PropertyInfo property, object rawValue, BindResult result)
+    private void SetPropertyValue(PropertyInfo property, object rawValue, BindResult result, IDictionary<string, object> data, string prefix)
     {
       try
       {
-        object value = ConvertValue(property, rawValue);
+        object value = ConvertValue(property, rawValue, data, prefix);
         property.SetValue(result.Value, value, null);
       }
       catch (Exception e)
@@ -73,9 +73,16 @@ namespace Splits.Web.ModelBinding
       }
     }
 
-    public object ConvertValue(PropertyInfo property, object rawValue)
+    public object ConvertValue(PropertyInfo property, object rawValue, IDictionary<string, object> data, string prefix)
     {
-      return _converters[property.PropertyType](new RawValue
+      var converter = _converters[property.PropertyType];
+
+      if (converter == null)
+      {
+        return Bind(property.PropertyType, data, AddPrefix(prefix, property.Name)).Value;
+      }
+
+      return converter(new RawValue
       {
         Property = property,
         Value = rawValue

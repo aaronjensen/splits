@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Splits.Web.ModelBinding
 {
@@ -14,7 +15,13 @@ namespace Splits.Web.ModelBinding
       var families = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetAllInstances<IConverterFamily>();
       _families.AddRange(families);
 
-      _converters = new Cache<Type, ValueConverter>(t => _families.Find(x => x.Matches(t)).Build(this, t));
+      _converters = new Cache<Type, ValueConverter>(t =>
+      {
+        var family = _families.Find(x => x.Matches(t));
+        if (family == null) return null;
+
+        return family.Build(this, t);
+      });
 
       AddPolicies();
     }
@@ -23,7 +30,7 @@ namespace Splits.Web.ModelBinding
 
     private void AddPolicies()
     {
-      If(t => true).Use((r, type) => x => BasicConvert(type, x.Value));
+      If(t => TypeDescriptor.GetConverter(t).CanConvertTo(t)).Use((r, type) => x => BasicConvert(type, x.Value));
     }
 
     public void AddFamily(IConverterFamily family)
@@ -45,7 +52,9 @@ namespace Splits.Web.ModelBinding
     {
       if (type.IsAssignableFrom(original.GetType())) return original;
 
-      return TypeDescriptor.GetConverter(type).ConvertFrom(original);
+      var converter = TypeDescriptor.GetConverter(type);
+
+      return converter.ConvertFrom(original);
     }
   }
 }
