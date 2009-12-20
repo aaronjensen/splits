@@ -26,7 +26,7 @@ namespace Splits
         yield return Self(typeof(StepHandlerLocator));
         yield return Self(typeof(StandardModelBinder));
         yield return Self(typeof(ValueConverterRegistry));
-        yield return Self(typeof(PollyannaValidator));
+        yield return Self(typeof(ModelValidator));
         yield return Self(typeof(CommandInvoker));
         yield return Self(typeof(CommandHandlerLocator));
         yield return Self(typeof(ViewRenderer));

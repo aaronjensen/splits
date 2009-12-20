@@ -39,7 +39,7 @@ namespace Splits.Web.StepHandlers
       }
 
       var query = _queryInvoker.Invoke(bindResult.Value);
-      _viewRenderer.RenderModel(stepContext, query, step.QueryType.Name);
+      //_viewRenderer.RenderModel(stepContext, query, step.QueryType.Name);
       return Continuation.Continue;
     }
   }

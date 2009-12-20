@@ -10,7 +10,7 @@ using Splits.Web;
 using Splits.Web.ModelBinding;
 using Splits.Web.ModelBinding.DefaultConverterFamilies;
 
-namespace Splits.Specs
+namespace Splits.Specs.ModelBinding
 {
   [Subject("Model Binder")]
   public class when_binding_a_simple_query : ModelBinderSpecs
@@ -89,5 +89,4 @@ namespace Splits.Specs
   {
     public int Id { get; set; }
   }
-
 }
