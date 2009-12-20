@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -40,6 +41,12 @@ namespace Splits.Web
       }
 
       var stepContext = new StepContext(requestContext, urlType);
+
+      if (!steps.Any())
+      {
+        HandleNoSteps(stepContext);
+      }
+
       foreach (var step in steps)
       {
         var continuation = _stepInvoker.Invoke(step, stepContext);
@@ -47,6 +54,12 @@ namespace Splits.Web
         if (continuation != Continuation.Continue)
           break;
       }
+    }
+
+    static void HandleNoSteps(StepContext context)
+    {
+      context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+      context.Response.StatusDescription = "Method Not Allowed";
     }
   }
 }
