@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Splits.Web.Validation
 {
-  public class ValidationResult
+  public class ValidatorResult
   {
     readonly List<ValidationError> _errors;
     public bool IsValid { get; private set; }
     public IEnumerable<ValidationError> Errors { get { return _errors; } }
 
-    public ValidationResult()
+    public ValidatorResult()
     {
       _errors = new List<ValidationError>();
       IsValid = true;
@@ -32,24 +35,29 @@ namespace Splits.Web.Validation
 
   public interface IModelValidator
   {
-    ValidationResult Validate(object model);
+    ValidatorResult Validate(object model);
   }
 
   public class ModelValidator : IModelValidator
   {
-    public ValidationResult Validate(object model)
+    readonly IServiceProvider _serviceProvider;
+
+    public ModelValidator(IServiceProvider serviceProvider)
     {
-      var result = new ValidationResult();
-      foreach (var property in model.GetType().GetProperties())
+      _serviceProvider = serviceProvider;
+    }
+
+    public ValidatorResult Validate(object model)
+    {
+      var result = new ValidatorResult();
+      var results = new List<ValidationResult>();
+      var context = new ValidationContext(model, _serviceProvider, null);
+
+      Validator.TryValidateObject(model, context, results, true);
+
+      foreach (var error in results.Select(x => x.ErrorMessage))
       {
-        foreach (var attribute in property.GetCustomAttributes(typeof(ValidationAttribute), true).Cast<ValidationAttribute>())
-        {
-          var value = property.GetValue(model, null);
-          if (!attribute.IsValid(value))
-          {
-            result.AddError(attribute.FormatErrorMessage(property.Name));
-          }
-        }
+        result.AddError(error);
       }
 
       return result;
@@ -58,9 +66,33 @@ namespace Splits.Web.Validation
 
   public class PollyannaValidator : IModelValidator
   {
-    public ValidationResult Validate(object model)
+    public ValidatorResult Validate(object model)
     {
-      return new ValidationResult();
+      return new ValidatorResult();
+    }
+  }
+
+  public class ValidateAttribute : ValidationAttribute
+  {
+    public override bool IsValid(object value)
+    {
+      var context = new ValidationContext(value, null, null);
+
+      return Validator.TryValidateObject(value, context, null, true);
+    }
+
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+      if (value == null) return ValidationResult.Success;
+
+      var newContext = new ValidationContext(value, validationContext, validationContext.Items);
+
+      var results = new List<ValidationResult>();
+      Validator.TryValidateObject(value, newContext, results, true);
+      if (results.Any())
+        return results.First();
+
+      return ValidationResult.Success;
     }
   }
 }

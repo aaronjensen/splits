@@ -39,15 +39,58 @@ namespace Splits.Specs.ModelValidation
       result.IsValid.ShouldBeTrue();
   }
 
+  [Subject(typeof(ModelValidator))]
+  public class when_validating_valid_nested_classes : ModelValidatorSpecs
+  {
+    Because of = () => 
+      result = validator.Validate(new Parent() { Child = new Child { Id = 3} });
+
+    It should_be_valid = () =>
+      result.IsValid.ShouldBeTrue();
+  }
+
+  [Subject(typeof(ModelValidator))]
+  public class when_validating_invalid_nested_classes : ModelValidatorSpecs
+  {
+    Because of = () => 
+      result = validator.Validate(new Parent() { Child = new Child { Id = null} });
+
+    It should_not_be_valid = () =>
+      result.IsValid.ShouldBeFalse();
+  }
+
+  [Subject(typeof(ModelValidator))]
+  public class when_validating_nested_classes_with_missing_required_child : ModelValidatorSpecs
+  {
+    Because of = () => 
+      result = validator.Validate(new Parent() { Child = null });
+
+    It should_not_be_valid = () =>
+      result.IsValid.ShouldBeFalse();
+  }
+
   public class ModelValidatorSpecs
   {
     Establish context = () =>
     {
-      validator = new ModelValidator();
+      validator = new ModelValidator(null);
     };
 
     protected static ModelValidator validator;
-    protected static ValidationResult result;
+    protected static ValidatorResult result;
+  }
+
+  public class Parent 
+  {
+    [Validate]
+    [Required]
+    public Child Child { get; set; }
+  }
+
+  public class Child 
+  {
+    [Required]
+    public int? Id { get; set; }
   }
 
   public class RequiredInt
