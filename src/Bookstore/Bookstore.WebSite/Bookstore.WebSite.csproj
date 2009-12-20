@@ -33,31 +33,31 @@
   <ItemGroup>
     <Reference Include="CommonServiceLocator.NinjectAdapter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Ninject\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+      <HintPath>..\..\..\lib\Ninject\CommonServiceLocator.NinjectAdapter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Ninject\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\..\lib\Ninject\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Mvc\Microsoft.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\..\lib\Mvc\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Ninject\Ninject.dll</HintPath>
+      <HintPath>..\..\..\lib\Ninject\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Ninject\Ninject.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\..\lib\Ninject\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Spark, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7f8549eed921a12c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Spark\Spark.dll</HintPath>
+      <HintPath>..\..\..\lib\Spark\Spark.dll</HintPath>
     </Reference>
     <Reference Include="Spark.Web.Mvc2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Spark\Spark.Web.Mvc2.dll</HintPath>
+      <HintPath>..\..\..\lib\Spark\Spark.Web.Mvc2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -72,7 +72,7 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Mvc\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\..\lib\Mvc\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing">
@@ -127,7 +127,7 @@
       <Project>{454E39FA-F704-4AF0-B588-BA3F59A88EE3}</Project>
       <Name>Bookstore.WebApp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Splits\Splits.csproj">
+    <ProjectReference Include="..\..\Splits\Splits.csproj">
       <Project>{EF5EB9AF-2C93-46E6-9FCF-78B2B0068A56}</Project>
       <Name>Splits</Name>
     </ProjectReference>

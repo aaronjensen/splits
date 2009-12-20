@@ -1,19 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.WebSite", "BookStore.WebSite\Bookstore.WebSite.csproj", "{E4D52804-F8E7-4EB9-A2F7-4195C7A14CE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.WebSite", "Bookstore\BookStore.WebSite\Bookstore.WebSite.csproj", "{E4D52804-F8E7-4EB9-A2F7-4195C7A14CE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.WebApp", "Bookstore.WebApp\Bookstore.WebApp.csproj", "{454E39FA-F704-4AF0-B588-BA3F59A88EE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.WebApp", "Bookstore\Bookstore.WebApp\Bookstore.WebApp.csproj", "{454E39FA-F704-4AF0-B588-BA3F59A88EE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Specs", "Bookstore.Specs\Bookstore.Specs.csproj", "{DFA1019E-9AEC-4187-AE2A-24005142EAA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Specs", "Bookstore\Bookstore.Specs\Bookstore.Specs.csproj", "{DFA1019E-9AEC-4187-AE2A-24005142EAA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Application", "Bookstore.Application\Bookstore.Application.csproj", "{EEF106F6-38C9-4EEC-81B7-441002530CC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Application", "Bookstore\Bookstore.Application\Bookstore.Application.csproj", "{EEF106F6-38C9-4EEC-81B7-441002530CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Application.Impl", "Bookstore.Application.Impl\Bookstore.Application.Impl.csproj", "{2BB29A7F-D345-4396-9C71-A3DB3EA5CBB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookstore.Application.Impl", "Bookstore\Bookstore.Application.Impl\Bookstore.Application.Impl.csproj", "{2BB29A7F-D345-4396-9C71-A3DB3EA5CBB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Splits", "Splits\Splits.csproj", "{EF5EB9AF-2C93-46E6-9FCF-78B2B0068A56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Splits.Specs", "Splits.Specs\Splits.Specs.csproj", "{B7D0E7AE-F5A9-4DBF-8DA5-CD8715ABB331}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bookstore", "Bookstore", "{5CA55711-F749-4F14-AC2B-B08965952C3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,5 +54,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EEF106F6-38C9-4EEC-81B7-441002530CC8} = {5CA55711-F749-4F14-AC2B-B08965952C3E}
+		{454E39FA-F704-4AF0-B588-BA3F59A88EE3} = {5CA55711-F749-4F14-AC2B-B08965952C3E}
+		{2BB29A7F-D345-4396-9C71-A3DB3EA5CBB9} = {5CA55711-F749-4F14-AC2B-B08965952C3E}
+		{DFA1019E-9AEC-4187-AE2A-24005142EAA6} = {5CA55711-F749-4F14-AC2B-B08965952C3E}
+		{E4D52804-F8E7-4EB9-A2F7-4195C7A14CE8} = {5CA55711-F749-4F14-AC2B-B08965952C3E}
 	EndGlobalSection
 EndGlobal

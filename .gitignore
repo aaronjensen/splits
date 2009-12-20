@@ -12,7 +12,7 @@ _ReSharper.*
 Generated
 obj
 src/*/bin
-src/*/Bin
+src/*/*/bin
 .setup-done
 specs/*
 db/*/WorkingTemp

@@ -54,7 +54,7 @@
     <Compile Include="Model\BookStore.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Splits\Splits.csproj">
+    <ProjectReference Include="..\..\Splits\Splits.csproj">
       <Project>{EF5EB9AF-2C93-46E6-9FCF-78B2B0068A56}</Project>
       <Name>Splits</Name>
     </ProjectReference>
