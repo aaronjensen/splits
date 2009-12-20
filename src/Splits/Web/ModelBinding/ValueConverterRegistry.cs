@@ -14,7 +14,7 @@ namespace Splits.Web.ModelBinding
       var families = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetAllInstances<IConverterFamily>();
       _families.AddRange(families);
 
-      _converters = new Cache<Type, ValueConverter>(t => { return _families.Find(x => x.Matches(t)).Build(this, t); });
+      _converters = new Cache<Type, ValueConverter>(t => _families.Find(x => x.Matches(t)).Build(this, t));
 
       AddPolicies();
     }
