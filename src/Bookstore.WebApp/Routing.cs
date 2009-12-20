@@ -19,6 +19,8 @@ namespace Bookstore.WebApp
       routes.MapRoute<Urls.Root>();
       routes.MapRoute<Urls.Root.Bookstore_setup>();
       routes.MapRoute<Urls.Root.Test>();
+      routes.MapRoute<Urls.Root.See_other>();
+      routes.MapRoute<Urls.Root.Other>();
     }
   }
 }

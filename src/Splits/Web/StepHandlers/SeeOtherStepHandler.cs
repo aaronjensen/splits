@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Splits.Web.Steps;
 
 namespace Splits.Web.StepHandlers
@@ -7,7 +8,11 @@ namespace Splits.Web.StepHandlers
   {
     public Continuation Handle(SeeOtherStep step, StepContext stepContext)
     {
-      throw new NotImplementedException();
+      stepContext.Response.Redirect(step.GetUrl(stepContext).ToString(), false);
+      stepContext.Response.StatusCode = (int)HttpStatusCode.SeeOther;
+      stepContext.Response.StatusDescription = "See Other";
+
+      return Continuation.RenderNow;
     }
   }
 }

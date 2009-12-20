@@ -3,3 +3,5 @@
 GET /
 GET|POST /bookstore-setup
 GET      /test
+GET      /see-other
+GET      /other

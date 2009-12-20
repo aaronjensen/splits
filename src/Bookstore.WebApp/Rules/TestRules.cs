@@ -8,6 +8,22 @@ using Splits.Web;
 
 namespace Bookstore.WebApp.Rules
 {
+  public class SeeOtherRules : RuleFor<Urls.Root.See_other>
+  {
+    public override IEnumerable<IStep>  OnGet(Type urlType)
+    {
+      yield return Steps.SeeOther(c => Urls.root.other);
+    }
+  }
+
+  public class OtherRules : RuleFor<Urls.Root.Other>
+  {
+    public override IEnumerable<IStep>  OnGet(Type urlType)
+    {
+      yield return Steps.Content("Other!");
+    }
+  }
+
   public class TestRules : RuleFor<Urls.Root.Test>
   {
     public override IEnumerable<IStep> OnGet(Type urlType)
