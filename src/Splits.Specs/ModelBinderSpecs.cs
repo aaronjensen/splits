@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web.Routing;
 using Machine.Specifications;
+using Microsoft.Practices.ServiceLocation;
+using Rhino.Mocks;
 using Splits.Web;
 using Splits.Web.ModelBinding;
 
@@ -14,7 +16,10 @@ namespace Splits.Specs
   {
     Establish context = () =>
     {
-      binder = new StandardModelBinder(new TypeDescriptorRegistry(), new ValueConverterRegistry(new IConverterFamily[0]));
+      var container = MockRepository.GenerateStub<IServiceLocator>();
+      ServiceLocator.SetLocatorProvider(() => container);
+      container.Stub(x=>x.GetAllInstances<IConverterFamily>()).Return(new IConverterFamily[0]);
+      binder = new StandardModelBinder(new TypeDescriptorRegistry(), new ValueConverterRegistry());
       dictionary = new RouteValueDictionary();
       dictionary["id"] = "3";
     };
@@ -34,7 +39,10 @@ namespace Splits.Specs
   {
     Establish context = () =>
     {
-      binder = new StandardModelBinder(new TypeDescriptorRegistry(), new ValueConverterRegistry(new IConverterFamily[0]));
+      var container = MockRepository.GenerateStub<IServiceLocator>();
+      ServiceLocator.SetLocatorProvider(() => container);
+      container.Stub(x=>x.GetAllInstances<IConverterFamily>()).Return(new IConverterFamily[0]);
+      binder = new StandardModelBinder(new TypeDescriptorRegistry(), new ValueConverterRegistry());
       dictionary = new RouteValueDictionary();
       dictionary["prefixId"] = "3";
     };
@@ -52,9 +60,5 @@ namespace Splits.Specs
   public class SimpleQuery
   {
     public int Id { get; set; }
-  }
-
-  class ModelBinderSpecs
-  {
   }
 }
