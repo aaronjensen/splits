@@ -9,8 +9,8 @@ end
 
 namespace :setup do
   task :all => [ 
-    :create_db, 
-    :create_queues,
+#:create_db, 
+#:create_queues,
     :setup_urlstrong ] do
     touch ".setup-done"
   end

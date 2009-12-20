@@ -4,7 +4,7 @@ class String
   end
 end
 
-$project = "Bookstore"
+$project = "Splits"
 
 $database_name = $project.to_underscore
 $database_user = $project.to_underscore

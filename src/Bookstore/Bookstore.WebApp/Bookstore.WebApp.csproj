@@ -108,7 +108,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <UsingTask TaskName="Machine.UrlStrong.MSBuild.GenerateUrlsTask" AssemblyFile="..\..\lib\Machine\UrlStrong\Machine.UrlStrong.MSBuild.dll" />
+  <UsingTask TaskName="Machine.UrlStrong.MSBuild.GenerateUrlsTask" AssemblyFile="..\..\..\lib\Machine\UrlStrong\Machine.UrlStrong.MSBuild.dll" />
   <Target Name="BeforeBuild" Inputs="@(Urls)" Outputs="Urls.generated.cs">
     <GenerateUrlsTask InputFiles="@(Urls)" />
   </Target>
