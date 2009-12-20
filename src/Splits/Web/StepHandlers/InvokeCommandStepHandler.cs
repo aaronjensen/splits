@@ -28,6 +28,12 @@ namespace Splits.Web.StepHandlers
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
+      var validationResult = _modelValidator.Validate(bindResult.Value);
+      if (!validationResult.IsValid)
+      {
+        return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
+      }
+
       var result = _commandInvoker.Invoke(bindResult.Value);
       if (result.WasSuccessful)
       {

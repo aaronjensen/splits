@@ -32,8 +32,14 @@ namespace Splits.Web.StepHandlers
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
+      var validationResult = _modelValidator.Validate(bindResult.Value);
+      if (!validationResult.IsValid)
+      {
+        return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
+      }
+
       var query = _queryInvoker.Invoke(bindResult.Value);
-      _viewRenderer.RenderModel(stepContext, query, step.QueryType.Name);
+      //_viewRenderer.RenderModel(stepContext, query, step.QueryType.Name);
       return Continuation.Continue;
     }
   }

@@ -28,11 +28,12 @@ namespace Bookstore.WebApp.Rules
   {
     public override IEnumerable<IStep> OnGet(Type urlType)
     {
-      yield return Steps.InvokeQuery<TestQuery>();
+      yield return Steps.InvokeQuery<TestQuery>()
+        .OnValidationError(Steps.Content("validation error"));
       yield return Steps.InvokeCommand<TestCommand>()
-        .OnSuccess(Steps.Render("success"))
-        .OnFailure(Steps.Render("failure"))
-        .OnValidationError(Steps.Render("validation error"));
+        .OnSuccess(Steps.Content("success"))
+        .OnFailure(Steps.Content("failure"))
+        .OnValidationError(Steps.Content("validation error"));
     }
   }
 }
