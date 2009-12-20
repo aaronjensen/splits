@@ -9,7 +9,7 @@ namespace Splits.Web
   [Serializable]
   public class Cache<TKey, TValue> : IIndexer<TKey, TValue> where TValue : class
   {
-    readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+    readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
     readonly IDictionary<TKey, TValue> _values;
     Func<TValue, TKey> _getKey = delegate { throw new NotImplementedException(); };
 
