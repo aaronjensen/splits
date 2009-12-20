@@ -1,20 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Linq;
 
 namespace Splits.Web
 {
   [Serializable]
-  public class Cache<TKey, TValue> : IEnumerable<TValue>, IIndexer<TKey, TValue> where TValue : class
+  public class Cache<TKey, TValue> : IIndexer<TKey, TValue> where TValue : class
   {
-    private readonly object _locker = new object();
-    private readonly IDictionary<TKey, TValue> _values;
+    readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+    readonly IDictionary<TKey, TValue> _values;
+    Func<TValue, TKey> _getKey = delegate { throw new NotImplementedException(); };
 
-    private Func<TValue, TKey> _getKey = delegate { throw new NotImplementedException(); };
+    Action<TValue> _onAddition = x => { };
 
-    private Action<TValue> _onAddition = x => { };
-
-    private Func<TKey, TValue> _onMissing = delegate(TKey key)
+    Func<TKey, TValue> _onMissing = delegate(TKey key)
     {
       string message = string.Format("Key '{0}' could not be found", key);
       throw new KeyNotFoundException(message);
@@ -47,12 +48,20 @@ namespace Splits.Web
 
     public Func<TValue, TKey> GetKey { get { return _getKey; } set { _getKey = value; } }
 
-    public int Count { get { return _values.Count; } }
+    public int Count
+    {
+      get
+      {
+        using (ReadLock())
+        return _values.Count;
+      }
+    }
 
     public TValue First
     {
       get
       {
+        using (ReadLock())
         foreach (var pair in _values)
         {
           return pair.Value;
@@ -62,85 +71,82 @@ namespace Splits.Web
       }
     }
 
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return ((IEnumerable<TValue>) this).GetEnumerator();
-    }
-
-    public IEnumerator<TValue> GetEnumerator()
-    {
-      return _values.Values.GetEnumerator();
-    }
-
     public TValue this[TKey key]
     {
       get
       {
-        if (!_values.ContainsKey(key))
+        using (var @lock = ReadLock())
         {
-          lock (_locker)
+          if (!_values.ContainsKey(key))
           {
+            @lock.Upgrade();
             if (!_values.ContainsKey(key))
             {
               TValue value = _onMissing(key);
               _values.Add(key, value);
             }
           }
-        }
 
-        return _values[key];
+          return _values[key];
+        }
       }
       set
       {
         _onAddition(value);
 
-        if (_values.ContainsKey(key))
+        using (var @lock = WriteLock())
         {
-          _values[key] = value;
-        }
-        else
-        {
-          _values.Add(key, value);
+          if (_values.ContainsKey(key))
+          {
+            _values[key] = value;
+          }
+          else
+          {
+            _values.Add(key, value);
+          }
         }
       }
-    }
-
-
-    public IEnumerable<TKey> Keys()
-    {
-      return _values.Keys;
     }
 
     public void Fill(TKey key, TValue value)
     {
-      if (_values.ContainsKey(key))
+      using (WriteLock())
       {
-        return;
-      }
+        if (_values.ContainsKey(key))
+        {
+          return;
+        }
 
-      _values.Add(key, value);
+        _values.Add(key, value);
+      }
     }
 
     public void Each(Action<TValue> action)
     {
-      foreach (var pair in _values)
+      using (ReadLock())
       {
-        action(pair.Value);
+        foreach (var pair in _values)
+        {
+          action(pair.Value);
+        }
       }
     }
 
     public void Each(Action<TKey, TValue> action)
     {
-      foreach (var pair in _values)
+      using (ReadLock())
       {
-        action(pair.Key, pair.Value);
+        foreach (var pair in _values)
+        {
+          action(pair.Key, pair.Value);
+        }
       }
     }
 
     public bool Has(TKey key)
     {
-      return _values.ContainsKey(key);
+      using (ReadLock())
+        return _values.ContainsKey(key);
     }
 
     public bool Exists(Predicate<TValue> predicate)
@@ -154,6 +160,7 @@ namespace Splits.Web
 
     public TValue Find(Predicate<TValue> predicate)
     {
+      using (ReadLock())
       foreach (var pair in _values)
       {
         if (predicate(pair.Value))
@@ -167,6 +174,7 @@ namespace Splits.Web
 
     public TKey Find(TValue value)
     {
+      using (ReadLock())
       foreach (KeyValuePair<TKey, TValue> pair in _values)
       {
         if (pair.Value == value)
@@ -181,6 +189,7 @@ namespace Splits.Web
     public TValue[] GetAll()
     {
       var returnValue = new TValue[Count];
+      using (ReadLock())
       _values.Values.CopyTo(returnValue, 0);
 
       return returnValue;
@@ -188,6 +197,7 @@ namespace Splits.Web
 
     public void Remove(TKey key)
     {
+      using (ReadLock())
       if (_values.ContainsKey(key))
       {
         _values.Remove(key);
@@ -196,12 +206,67 @@ namespace Splits.Web
 
     public void ClearAll()
     {
+      using (WriteLock())
       _values.Clear();
     }
 
     public void WithValue(TKey key, Action<TValue> callback)
     {
+      using (ReadLock())
       _values.TryGet(key, callback);
     }
+
+    ReadLockToken ReadLock()
+    {
+      return new ReadLockToken(_lock);
+    }
+
+    WriteLockToken WriteLock()
+    {
+      return new WriteLockToken(_lock);
+    }
+
+    class ReadLockToken : IDisposable
+    {
+      readonly ReaderWriterLockSlim _lock;
+      bool upgraded;
+
+      public ReadLockToken(ReaderWriterLockSlim @lock)
+      {
+        _lock = @lock;
+        _lock.EnterReadLock();
+      }
+
+      public void Upgrade()
+      {
+        _lock.ExitReadLock();
+        _lock.EnterWriteLock();
+        upgraded = true;
+      }
+
+      public void Dispose()
+      {
+        if (upgraded)
+          _lock.ExitWriteLock();
+        else
+          _lock.ExitReadLock();
+      }
+    }
+
+    class WriteLockToken : IDisposable
+    {
+      readonly ReaderWriterLockSlim _lock;
+      public WriteLockToken(ReaderWriterLockSlim @lock)
+      {
+        _lock = @lock;
+        _lock.EnterWriteLock();
+      }
+
+      public void Dispose()
+      {
+        _lock.EnterWriteLock();
+      }
+    }
+
   }
 }
