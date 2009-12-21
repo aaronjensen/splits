@@ -24,12 +24,18 @@ namespace Splits.Application.Impl
     }
 
     class QueryWrapper<TQuery> : IQuery<object>
+      where TQuery : IQuery
     {
       public TQuery InnerQuery { get; private set; }
 
       public QueryWrapper(object query)
       {
         InnerQuery = (TQuery)query;
+      }
+
+      public Guid QueryId
+      {
+        get { return InnerQuery.QueryId; }
       }
     }
 

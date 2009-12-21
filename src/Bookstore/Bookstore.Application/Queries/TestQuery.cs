@@ -4,7 +4,7 @@ using Splits.Application;
 
 namespace Bookstore.Application.Queries
 {
-  public class TestQuery : IQuery<string>
+  public class TestQuery : Query<string>
   {
     [Range(1, Int32.MaxValue)]
     [Required]

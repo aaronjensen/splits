@@ -7,7 +7,7 @@ using Splits.Application;
 
 namespace Bookstore.Application.Queries
 {
-  public class GetThisBookStore : IQuery<BookStore>
+  public class GetThisBookStore : Query<BookStore>
   {
   }
 }
