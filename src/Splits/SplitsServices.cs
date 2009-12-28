@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using Splits.Application.Impl;
+using Splits.Queries;
 using Splits.Web;
 using Splits.Web.ModelBinding;
 using Splits.Web.ModelBinding.DefaultConverterFamilies;
@@ -19,6 +20,7 @@ namespace Splits
       throw new NotImplementedException();
     }
   }
+  
   public static class SplitsServices
   {
     public static IEnumerable<KeyValuePair<Type, Type>> Singletons
@@ -40,6 +42,7 @@ namespace Splits
         yield return Self(typeof(QueryHandlerLocator));
         yield return Self(typeof(ViewRenderer));
         yield return Self(typeof(BadServiceProvider));
+        yield return Self(typeof(IsAuthenticatedQueryHandler));
 
         foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
         {

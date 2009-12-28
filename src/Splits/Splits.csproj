@@ -100,6 +100,7 @@
     <Compile Include="Application\IRepository.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\IsAuthenticatedQuery.cs" />
     <Compile Include="SplitsServices.cs" />
     <Compile Include="SplitsExtensionMethods.cs" />
     <Compile Include="Web\AggregateDictionary.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RenderViewStepHandler.cs" />
     <Compile Include="Web\StepHandlers\SeeOtherStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\StatusStepHandler.cs" />
     <Compile Include="Web\Steps\ConditionalStep.cs" />
     <Compile Include="Web\Steps\ContentStep.cs" />
     <Compile Include="Web\Steps\InvokeCommandStep.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="Web\Steps\RedirectStep.cs" />
     <Compile Include="Web\Steps\RenderViewStep.cs" />
     <Compile Include="Web\Steps\SeeOtherStep.cs" />
+    <Compile Include="Web\Steps\StatusStep.cs" />
     <Compile Include="Web\Steps\Step.cs" />
     <Compile Include="Web\TypeDescriptorRegistry.cs" />
     <Compile Include="Web\SplitsController.cs" />

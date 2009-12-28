@@ -1,6 +1,10 @@
 using System;
+using System.Web;
+
 using Machine.UrlStrong;
+
 using Splits.Application;
+using Splits.Queries;
 using Splits.Web.Steps;
 using Splits.Internal;
 
@@ -8,10 +12,16 @@ namespace Splits.Web
 {
   public struct StepBuilder
   {
+    public StepBuilder Require { get { return this; } }
   }
 
   public static class StepBuilderExtensions
   {
+    public static IStep Authentication(this StepBuilder steps)
+    {
+      return new StatusStep(0x191).Unless.True(sc => new IsAuthenticatedQuerySpec());
+    }
+
     public static RedirectStep Redirect(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)
     {
       return new RedirectStep(getUrl);
