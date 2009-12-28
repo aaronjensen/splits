@@ -61,6 +61,7 @@ namespace Splits.Web.StepHandlers
     {
       var viewData = new ViewDataDictionary();
       viewData.Model = model;
+      stepContext.Fill(viewData);
       RenderViewData(stepContext, viewData, viewName);
     }
 

@@ -1,7 +1,10 @@
 namespace Splits.Application
 {
-  public interface ICommand<TResult>
+  public interface ICommand
   {
-    
+  }
+
+  public interface ICommand<TResult> : ICommand
+  {
   }
 }

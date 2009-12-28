@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using System.Linq;
 using Splits.Application;
@@ -12,10 +13,10 @@ namespace Splits.Web
     readonly RequestContext _requestContext;
     readonly string _urlStrongPath;
 
-    readonly Dictionary<Identifier, object> _queryMap = new Dictionary<Identifier,object>();
-    readonly Dictionary<Guid, object> _queryResultMap = new Dictionary<Guid,object>();
-    readonly Dictionary<Identifier, object> _commandMap = new Dictionary<Identifier,object>();
-    readonly Dictionary<Guid, object> _commandResultMap = new Dictionary<Guid,object>();
+    readonly Dictionary<Identifier, IQuery> _queryMap = new Dictionary<Identifier, IQuery>();
+    readonly Dictionary<Guid, object> _queryResultMap = new Dictionary<Guid, object>();
+    readonly Dictionary<Identifier, ICommand> _commandMap = new Dictionary<Identifier, ICommand>();
+    readonly Dictionary<Guid, object> _commandResultMap = new Dictionary<Guid, object>();
 
     public RequestContext RequestContext
     {
@@ -49,7 +50,7 @@ namespace Splits.Web
       return String.Join("/", parts);
     }
 
-    public void AddQuery<TResult>(IQuery<TResult> query, TResult result, string name)
+    public void AddQuery(IQuery query, object result, string name)
     {
       var identifier = new Identifier(name, query.GetType());
 
@@ -59,6 +60,11 @@ namespace Splits.Web
 
       _queryMap[identifier] = query;
       _queryResultMap[query.QueryId] = result;
+    }
+
+    public void AddQuery<TResult>(IQuery<TResult> query, TResult result, string name)
+    {
+      AddQuery((IQuery)query, (object)result, name);
     }
 
     public TQuery GetQuery<TQuery>() where TQuery : class
@@ -74,6 +80,15 @@ namespace Splits.Web
     public TResult GetResult<TResult>(IQuery<TResult> query) where TResult : class
     {
       return _queryResultMap[query.QueryId] as TResult;
+    }
+
+    public void Fill(ViewDataDictionary viewData)
+    {
+      foreach (var query in _queryMap)
+      {
+        var result = _queryResultMap[query.Value.QueryId];
+        viewData[query.Key.Name] = result;
+      }
     }
   }
 }
