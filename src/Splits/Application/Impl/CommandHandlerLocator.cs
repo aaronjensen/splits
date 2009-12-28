@@ -1,6 +1,6 @@
 using System;
-using Microsoft.Practices.ServiceLocation;
 using System.Linq;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Splits.Application.Impl
 {

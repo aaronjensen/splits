@@ -12,6 +12,13 @@ using Splits.Web.Validation;
 
 namespace Splits
 {
+  public class BadServiceProvider : IServiceProvider
+  {
+    public object GetService(Type serviceType)
+    {
+      throw new NotImplementedException();
+    }
+  }
   public static class SplitsServices
   {
     public static IEnumerable<KeyValuePair<Type, Type>> Singletons
@@ -29,7 +36,10 @@ namespace Splits
         yield return Self(typeof(ModelValidator));
         yield return Self(typeof(CommandInvoker));
         yield return Self(typeof(CommandHandlerLocator));
+        yield return Self(typeof(QueryInvoker));
+        yield return Self(typeof(QueryHandlerLocator));
         yield return Self(typeof(ViewRenderer));
+        yield return Self(typeof(BadServiceProvider));
 
         foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
         {
