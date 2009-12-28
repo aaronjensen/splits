@@ -123,22 +123,24 @@ namespace Splits.Web.Spark
       var descriptor = new SparkViewDescriptor();
       var viewLocations = locations.Select(location => Path.Combine(location, viewName + ".spark")).Select(path => path.Replace(@"/", @"\"));
       var searchLocations = viewLocations;
+      var masterLocations = new[] { @"Layouts\Application.spark", @"Shared\Application.spark"  };
       if (findDefaultMaster)
       {
-        var masterLocations = new[] { @"Layouts\Application.spark", @"Shared\Application.spark"  };
         searchLocations = searchLocations.Union(masterLocations);
       }
       descriptor.TargetNamespace = "Split";
 
+      var foundViewOtherThanMaster = false;
       foreach (var template in searchLocations)
       {
         if (Engine.ViewFolder.HasView(template))
         {
           descriptor.Templates.Add(template);
+          foundViewOtherThanMaster = foundViewOtherThanMaster || !masterLocations.Contains(template);
         }
       }
 
-      if (!descriptor.Templates.Any())
+      if (!foundViewOtherThanMaster)
       {
         return new SplitsViewEngineResult(viewLocations);
       }
