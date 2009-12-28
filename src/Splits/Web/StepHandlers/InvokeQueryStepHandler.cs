@@ -26,22 +26,36 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(InvokeQueryStep step, StepContext stepContext)
     {
-      var bindResult = _modelBinder.Bind(step.QueryType, new AggregateDictionary(stepContext.RequestContext));
-      if (!bindResult.WasSuccessful && step.ValidationErrorStep != null)
+      var querySpec = BindQuerySpec(step, stepContext);
+      if (querySpec == null && step.ValidationErrorStep != null)
+      {
+        return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
+      }
+      
+      var validationResult = _modelValidator.Validate(querySpec);
+      if (!validationResult.IsValid && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
-      var validationResult = _modelValidator.Validate(bindResult.Value);
-      if (!validationResult.IsValid)
-      {
-        return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
-      }
-
-      var query = _queryInvoker.Invoke(bindResult.Value);
-      stepContext.AddQuery((IQuery)bindResult.Value, query, step.ReplyType.Name);
+      var query = _queryInvoker.Invoke(querySpec);
+      stepContext.AddQuery(querySpec, query, step.ReplyType.Name);
       _viewRenderer.RenderModel(stepContext, query, step.ReplyType.Name);
       return Continuation.Continue;
+    }
+
+    IQuery BindQuerySpec(InvokeQueryStep step, StepContext stepContext)
+    {
+      if (step.QueryFactory != null)
+      {
+        return (IQuery)step.QueryFactory(stepContext);
+      }
+      var bindResult = _modelBinder.Bind(step.QueryType, new AggregateDictionary(stepContext.RequestContext));
+      if (!bindResult.WasSuccessful)
+      {
+        return null;
+      }
+      return (IQuery)bindResult.Value;
     }
   }
 }

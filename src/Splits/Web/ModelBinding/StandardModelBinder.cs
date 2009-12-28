@@ -38,18 +38,17 @@ namespace Splits.Web.ModelBinding
 
       return result;
     }
-    
-    private string AddPrefix(string prefix, string name)
+
+    static string AddPrefix(string prefix, string name)
     {
       if (string.IsNullOrEmpty(prefix))
         return name;
-
       return prefix + "-" + name;
     }
 
-    private void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix) {
-      _typeDescriptorRegistry.ForEachProperty(type,
-                                              prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result, data, prefix));
+    private void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix)
+    {
+      _typeDescriptorRegistry.ForEachProperty(type, prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result, data, prefix));
     }
 
     private void SetPropertyValue(PropertyInfo property, object rawValue, BindResult result, IDictionary<string, object> data, string prefix)
