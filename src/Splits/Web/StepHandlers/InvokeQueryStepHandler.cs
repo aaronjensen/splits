@@ -27,7 +27,7 @@ namespace Splits.Web.StepHandlers
     public Continuation Handle(InvokeQueryStep step, StepContext stepContext)
     {
       var bindResult = _modelBinder.Bind(step.QueryType, new AggregateDictionary(stepContext.RequestContext));
-      if (!bindResult.WasSuccessful)
+      if (!bindResult.WasSuccessful && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
@@ -39,7 +39,7 @@ namespace Splits.Web.StepHandlers
       }
 
       var query = _queryInvoker.Invoke(bindResult.Value);
-      //_viewRenderer.RenderModel(stepContext, query, step.QueryType.Name);
+      _viewRenderer.RenderModel(stepContext, query, step.ReplyType.Name);
       return Continuation.Continue;
     }
   }
