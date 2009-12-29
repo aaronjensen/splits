@@ -38,7 +38,7 @@ namespace Splits.Web.Spark
     {
       SplitsSettings = ((ISplitsSettings)ConfigurationManager.GetSection("splits")) ?? new SplitsSettings();
       Settings = ((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings {
-        PageBaseType = typeof (SplitsSparkView).FullName
+        PageBaseType = typeof(SplitsSparkView).FullName
       };
     }
 
@@ -79,7 +79,7 @@ namespace Splits.Web.Spark
       _engine = engine;
       if (_engine != null)
       {
-        _engine.DefaultPageBaseType = typeof(SparkView).FullName;
+        _engine.DefaultPageBaseType = typeof(SplitsSparkView).FullName;
       }
     }
 
