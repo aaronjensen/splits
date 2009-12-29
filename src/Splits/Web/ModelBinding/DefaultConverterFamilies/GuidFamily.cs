@@ -11,7 +11,7 @@ namespace Splits.Web.ModelBinding.DefaultConverterFamilies
 
     public ValueConverter Build(IValueConverterRegistry registry, Type type)
     {
-      return x => new Guid(x.Value.ToString());
+      return x => x.Value == null ? Guid.Empty : new Guid(x.Value.ToString());
     }
   }
 }
