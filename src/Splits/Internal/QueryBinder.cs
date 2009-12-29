@@ -7,13 +7,19 @@ namespace Splits.Internal
 {
   public class QueryBinder : IQueryBinder
   {
+    public ICommand Bind(ICommand command, StepContext stepContext)
+    {
+      Bind(new[] { command }, stepContext);
+      return command;
+    }
+
     public IQuery Bind(IQuery query, StepContext stepContext)
     {
       Bind(new[] { query }, stepContext);
       return query;
     }
 
-    public void Bind(IEnumerable<IQuery> queries, StepContext stepContext)
+    void Bind(IEnumerable<object> queries, StepContext stepContext)
     {
       foreach (var query in queries)
       {
@@ -49,5 +55,6 @@ namespace Splits.Internal
   public interface IQueryBinder
   {
     IQuery Bind(IQuery query, StepContext stepContext);
+    ICommand Bind(ICommand command, StepContext stepContext);
   }
 }
