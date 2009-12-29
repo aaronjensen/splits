@@ -24,7 +24,12 @@ namespace Splits.Web
 
     public static RedirectStep Redirect(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)
     {
-      return new RedirectStep(getUrl);
+      return new RedirectStep(sc => getUrl(sc).ToString());
+    }
+
+    public static RedirectStep RedirectToReferrer(this StepBuilder steps)
+    {
+      return new RedirectStep(sc => sc.Request.UrlReferrer.ToString());
     }
 
     public static LinkToCommandStep LinkToCommand<T>(this StepBuilder steps) 

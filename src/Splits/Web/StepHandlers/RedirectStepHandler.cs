@@ -6,7 +6,7 @@ namespace Splits.Web.StepHandlers
   {
     public Continuation Handle(RedirectStep step, StepContext stepContext)
     {
-      stepContext.Response.Redirect(step.GetUrl(stepContext).ToString());
+      stepContext.Response.Redirect(step.GetUrl(stepContext));
       return Continuation.Stop;
     }
   }

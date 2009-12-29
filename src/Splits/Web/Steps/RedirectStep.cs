@@ -5,14 +5,14 @@ namespace Splits.Web.Steps
 {
   public class RedirectStep : Step
   {
-    readonly Func<StepContext, ISupportGet> _getUrl;
+    readonly Func<StepContext, string> _getUrl;
 
-    public ISupportGet GetUrl(StepContext stepContext)
+    public string GetUrl(StepContext stepContext)
     {
       return _getUrl(stepContext);
     }
 
-    public RedirectStep(Func<StepContext, ISupportGet> getUrl)
+    public RedirectStep(Func<StepContext, string> getUrl)
     {
       _getUrl = getUrl;
     }
