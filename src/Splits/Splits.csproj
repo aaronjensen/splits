@@ -142,6 +142,7 @@
     <Compile Include="Web\StepHandlers\InvokeQueryStepHandler.cs" />
     <Compile Include="Web\StepHandlers\IStepHandler.cs" />
     <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\NoopStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RenderViewStepHandler.cs" />
     <Compile Include="Web\StepHandlers\SeeOtherStepHandler.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Web\Steps\LinkToCommandStep.cs" />
     <Compile Include="Web\Steps\LinkToQueryStep.cs" />
     <Compile Include="Web\Steps\NegatedConditionalStep.cs" />
+    <Compile Include="Web\Steps\NoopStep.cs" />
     <Compile Include="Web\Steps\RedirectStep.cs" />
     <Compile Include="Web\Steps\RenderViewStep.cs" />
     <Compile Include="Web\Steps\SeeOtherStep.cs" />
