@@ -69,21 +69,19 @@ namespace Splits
       }
     }
 
-    private static IEnumerable<KeyValuePair<Type, Type>> AllInAssemblyGeneric(Assembly assembly, Type type)
+    public static IEnumerable<KeyValuePair<Type, Type>> AllInAssemblyGeneric(Assembly assembly, Type type)
     {
       return assembly.GetExportedTypes()
         .Where(service => service.IsClass)
-        .SelectMany(
-        service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
+        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
         .Where(pair => pair.Key.IsGenericType && pair.Key.GetGenericTypeDefinition() == type);
     }
 
-    private static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type, string @namespace)
+    public static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type, string @namespace)
     {
       return assembly.GetExportedTypes()
         .Where(service => service.IsClass && type.IsAssignableFrom(service))
-        .SelectMany(
-        service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
+        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
         .Where(pair => pair.Value.Namespace.StartsWith(@namespace));
     }
   }
