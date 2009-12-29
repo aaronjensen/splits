@@ -6,15 +6,15 @@ namespace Splits.Web.Steps
   public class InvokeCommandStep : Step
   {
     public Type CommandType { get; private set; }
-    public Type ReplyType { get; private set; }
+    public Type ResultType { get; private set; }
     public IStep SuccessStep { get; private set; }
     public IStep FailureStep { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
 
-    public InvokeCommandStep(Type commandType, Type replyType)
+    public InvokeCommandStep(Type commandType, Type resultType)
     {
       CommandType = commandType;
-      ReplyType = replyType;
+      ResultType = resultType;
       SuccessStep = new StatusStep(HttpStatusCode.OK);
       FailureStep = new StatusStep(HttpStatusCode.InternalServerError);
       ValidationErrorStep = new NoopStep();

@@ -41,7 +41,7 @@ namespace Splits.Web.StepHandlers
       }
 
       var queryResult = _queryInvoker.Invoke(BindToPreviousQueries(query, stepContext));
-      stepContext.AddQuery(query, queryResult, step.ReplyType.Name);
+      stepContext.AddQuery(query, queryResult, step.ResultType.Name);
       return Continuation.Continue;
     }
 
