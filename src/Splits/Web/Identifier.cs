@@ -28,12 +28,9 @@ namespace Splits.Web
       return Equals((Identifier)obj);
     }
 
-    public override int GetHashCode()
+    public override Int32 GetHashCode()
     {
-      unchecked
-      {
-        return ((Name != null ? Name.GetHashCode() : 0)*397) ^ (Type != null ? Type.GetHashCode() : 0);
-      }
+      return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (Type != null ? Type.GetHashCode() : 0);
     }
 
     public static bool operator ==(Identifier left, Identifier right)

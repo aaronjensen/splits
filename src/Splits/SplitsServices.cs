@@ -43,6 +43,7 @@ namespace Splits
         yield return Self(typeof(ViewRenderer));
         yield return Self(typeof(BadServiceProvider));
         yield return Self(typeof(IsAuthenticatedQueryHandler));
+        yield return Self(typeof(QueryBinder));
 
         foreach (var pair in AllInAssembly(typeof(SplitsServices).Assembly, typeof(IConverterFamily), typeof(NullableFamily).Namespace))
         {

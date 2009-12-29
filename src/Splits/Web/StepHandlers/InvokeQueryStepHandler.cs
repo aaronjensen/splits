@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Splits.Application;
 using Splits.Web.ModelBinding;
 using Splits.Web.Steps;
@@ -12,39 +13,43 @@ namespace Splits.Web.StepHandlers
     readonly IQueryInvoker _queryInvoker;
     readonly IModelBinder _modelBinder;
     readonly IModelValidator _modelValidator;
+    readonly IQueryBinder _queryBinder;
     readonly IStepInvoker _stepInvoker;
-    readonly IViewRenderer _viewRenderer;
 
-    public InvokeQueryStepHandler(IQueryInvoker queryInvoker, IModelBinder modelBinder, IModelValidator modelValidator, IStepInvoker stepInvoker, IViewRenderer viewRenderer)
+    public InvokeQueryStepHandler(IQueryInvoker queryInvoker, IModelBinder modelBinder, IModelValidator modelValidator, IQueryBinder queryBinder, IStepInvoker stepInvoker)
     {
       _queryInvoker = queryInvoker;
-      _viewRenderer = viewRenderer;
       _modelBinder = modelBinder;
       _modelValidator = modelValidator;
+      _queryBinder = queryBinder;
       _stepInvoker = stepInvoker;
     }
 
     public Continuation Handle(InvokeQueryStep step, StepContext stepContext)
     {
-      var querySpec = BindQuerySpec(step, stepContext);
-      if (querySpec == null && step.ValidationErrorStep != null)
+      var query = BindQuery(step, stepContext);
+      if (query == null && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
       
-      var validationResult = _modelValidator.Validate(querySpec);
+      var validationResult = _modelValidator.Validate(query);
       if (!validationResult.IsValid && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
-      var query = _queryInvoker.Invoke(querySpec);
-      stepContext.AddQuery(querySpec, query, step.ReplyType.Name);
-      _viewRenderer.RenderModel(stepContext, query, step.ReplyType.Name);
+      var queryResult = _queryInvoker.Invoke(BindToPreviousQueries(query, stepContext));
+      stepContext.AddQuery(query, queryResult, step.ReplyType.Name);
       return Continuation.Continue;
     }
 
-    IQuery BindQuerySpec(InvokeQueryStep step, StepContext stepContext)
+    IQuery BindToPreviousQueries(IQuery query, StepContext stepContext)
+    {
+      return _queryBinder.Bind(query, stepContext);
+    }
+
+    IQuery BindQuery(InvokeQueryStep step, StepContext stepContext)
     {
       if (step.QueryFactory != null)
       {

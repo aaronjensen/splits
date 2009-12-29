@@ -18,6 +18,16 @@ namespace Splits.Web
     readonly Dictionary<Identifier, ICommand> _commandMap = new Dictionary<Identifier, ICommand>();
     readonly Dictionary<Guid, object> _commandResultMap = new Dictionary<Guid, object>();
 
+    public IDictionary<Identifier, IQuery> QueryMap
+    {
+      get { return _queryMap; }
+    }
+
+    public IDictionary<Guid, object> QueryResultMap
+    {
+      get { return _queryResultMap; }
+    }
+
     public RequestContext RequestContext
     {
       get { return _requestContext; }

@@ -141,6 +141,7 @@
     <Compile Include="Web\StepHandlers\InvokeCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\InvokeQueryStepHandler.cs" />
     <Compile Include="Web\StepHandlers\IStepHandler.cs" />
+    <Compile Include="Web\StepHandlers\LateBindQueriesStepHandler.cs" />
     <Compile Include="Web\StepHandlers\LinkToCommandStepHandler.cs" />
     <Compile Include="Web\StepHandlers\NoopStepHandler.cs" />
     <Compile Include="Web\StepHandlers\RedirectStepHandler.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Web\Steps\ContentStep.cs" />
     <Compile Include="Web\Steps\InvokeCommandStep.cs" />
     <Compile Include="Web\Steps\InvokeQueryStep.cs" />
+    <Compile Include="Web\Steps\LateBindQueriesStep.cs" />
     <Compile Include="Web\Steps\LinkToCommandStep.cs" />
     <Compile Include="Web\Steps\LinkToQueryStep.cs" />
     <Compile Include="Web\Steps\NegatedConditionalStep.cs" />
