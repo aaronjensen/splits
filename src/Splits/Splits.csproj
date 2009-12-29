@@ -98,6 +98,7 @@
     <Compile Include="Application\IQueryHandlerLocator.cs" />
     <Compile Include="Application\IQueryInvoker.cs" />
     <Compile Include="Application\IRepository.cs" />
+    <Compile Include="Configuration\SplitsConfiguration.cs" />
     <Compile Include="Internal\QueryBinder.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\ViewRenderer.cs" />

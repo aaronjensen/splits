@@ -25,6 +25,7 @@ using Spark;
 using Spark.FileSystem;
 using Spark.Web.Mvc;
 using Spark.Web.Mvc.Wrappers;
+using Splits.Configuration;
 
 namespace Splits.Web.Spark
 {
@@ -35,12 +36,10 @@ namespace Splits.Web.Spark
 
     public SparkViewFactory()
     {
-    }
-
-    public SparkViewFactory(ISparkSettings settings)
-    {
-      Settings = settings ?? (((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings());
-      Settings.PageBaseType = typeof(SplitsSparkView).FullName;
+      SplitsSettings = ((ISplitsSettings)ConfigurationManager.GetSection("splits")) ?? new SplitsSettings();
+      Settings = ((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings {
+        PageBaseType = typeof (SplitsSparkView).FullName
+      };
     }
 
     public virtual void Initialize(ISparkServiceContainer container)
@@ -50,7 +49,17 @@ namespace Splits.Web.Spark
       CacheServiceProvider = container.GetService<ICacheServiceProvider>();
     }
 
-    public ISparkSettings Settings { get; set; }
+    public ISplitsSettings SplitsSettings
+    {
+      get;
+      set;
+    }
+
+    public ISparkSettings Settings
+    {
+      get;
+      set;
+    }
 
     public ISparkViewEngine Engine
     {
@@ -128,7 +137,7 @@ namespace Splits.Web.Spark
       {
         searchLocations = searchLocations.Union(masterLocations);
       }
-      descriptor.TargetNamespace = "Split";
+      descriptor.TargetNamespace = SplitsSettings.DefaultViewNamespace;
 
       var foundViewOtherThanMaster = false;
       foreach (var template in searchLocations)
