@@ -8,6 +8,11 @@ namespace Splits.Web.Steps
     public Func<object> ModelFactory { get; set; }
     public string ViewName { get; set; }
 
+    public RenderViewStep()
+      : this(null)
+    {
+    }
+
     public RenderViewStep(string viewName)
     {
       ViewName = viewName;

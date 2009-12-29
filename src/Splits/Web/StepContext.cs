@@ -12,11 +12,11 @@ namespace Splits.Web
   {
     readonly RequestContext _requestContext;
     readonly string _urlStrongPath;
-
     readonly Dictionary<Identifier, IQuery> _queryMap = new Dictionary<Identifier, IQuery>();
     readonly Dictionary<Guid, object> _queryResultMap = new Dictionary<Guid, object>();
     readonly Dictionary<Identifier, ICommand> _commandMap = new Dictionary<Identifier, ICommand>();
     readonly Dictionary<Guid, object> _commandResultMap = new Dictionary<Guid, object>();
+    Identifier _lastQuery;
 
     public IDictionary<Identifier, IQuery> QueryMap
     {
@@ -36,6 +36,11 @@ namespace Splits.Web
     public string UrlStrongPath
     {
       get { return _urlStrongPath; }
+    }
+
+    public object LastQueryResult
+    {
+      get { return _queryResultMap[_queryMap[_lastQuery].QueryId]; }
     }
 
     public StepContext(RequestContext requestContext, Type urlType)
@@ -70,6 +75,7 @@ namespace Splits.Web
 
       _queryMap[identifier] = query;
       _queryResultMap[query.QueryId] = result;
+      _lastQuery = identifier;
     }
 
     public void AddQuery<TResult>(IQuery<TResult> query, TResult result, string name)

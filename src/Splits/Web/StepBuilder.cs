@@ -66,6 +66,11 @@ namespace Splits.Web
       return new ContentStep(() => text);
     }
 
+    public static RenderViewStep Render(this StepBuilder steps)
+    {
+      return new RenderViewStep();
+    }
+
     public static RenderViewStep Render(this StepBuilder steps, string view)
     {
       return new RenderViewStep(view);

@@ -25,6 +25,8 @@ namespace Splits.Internal
         throw new InvalidOperationException("No view could be found in: " + locations);
       }
 
+      stepContext.Fill(viewData);
+
       var controllerContext = new ControllerContext(stepContext.RequestContext, FakeController);
       var viewContext = new ViewContext(controllerContext, view.View, viewData, new TempDataDictionary());
       view.View.Render(viewContext, stepContext.Response.Output);
@@ -34,7 +36,6 @@ namespace Splits.Internal
     {
       var viewData = new ViewDataDictionary();
       viewData.Model = model;
-      stepContext.Fill(viewData);
       RenderViewData(stepContext, viewData, viewName);
     }
 
