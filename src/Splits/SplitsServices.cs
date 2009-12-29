@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using Splits.Application.Impl;
+using Splits.Internal;
 using Splits.Queries;
 using Splits.Web;
 using Splits.Web.ModelBinding;
