@@ -121,6 +121,9 @@
     <Compile Include="Web\FrameworkStartup.cs" />
     <Compile Include="Web\GlobalRule.cs" />
     <Compile Include="Web\IIndexer.cs" />
+    <Compile Include="Web\ModelBinding\DefaultConverterFamilies\GuidFamily.cs" />
+    <Compile Include="Web\ModelBinding\DefaultConverterFamilies\DateTimeFamily.cs" />
+    <Compile Include="Web\ModelBinding\DefaultConverterFamilies\EnumFamily.cs" />
     <Compile Include="Web\ModelBinding\IConverterFamily.cs" />
     <Compile Include="Web\ModelBinding\IModelBinder.cs" />
     <Compile Include="Web\IStep.cs" />
