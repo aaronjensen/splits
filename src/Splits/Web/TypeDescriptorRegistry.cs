@@ -7,18 +7,18 @@ namespace Splits.Web
 {
   public class TypeDescriptorRegistry : ITypeDescriptorRegistry
   {
-    private readonly Cache<Type, IDictionary<string, PropertyInfo>> _cache;
+    readonly Cache<Type, IDictionary<string, PropertyInfo>> _cache;
+    readonly Cache<Type, IList<ConstructorInfo>> _ctorCache;
 
     public TypeDescriptorRegistry()
     {
+      _ctorCache = new Cache<Type, IList<ConstructorInfo>>(type => type.GetConstructors().ToList());
       _cache = new Cache<Type, IDictionary<string, PropertyInfo>>(type => {
         var dict = new Dictionary<string, PropertyInfo>();
-
         foreach (var propertyInfo in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
           dict.Add(propertyInfo.Name, propertyInfo);
         }
-
         return dict;
       });
     }
@@ -36,6 +36,19 @@ namespace Splits.Web
     public void ForEachWritableProperty(Type itemType, Action<PropertyInfo> action)
     {
       _cache[itemType].Values.Where(pi => pi.CanWrite).Each(action);
+    }
+
+    public T SelectConstructor<T>(Type itemType, Func<ConstructorInfo, T> condition) where T : class 
+    {
+      foreach (var ctor in _ctorCache[itemType].OrderByDescending(ctor => ctor.GetParameters().Length))
+      {
+        var selected = condition(ctor);
+        if(selected != default(T))
+        {
+          return selected;
+        }
+      }
+      return default(T);
     }
 
     public void ClearAll()

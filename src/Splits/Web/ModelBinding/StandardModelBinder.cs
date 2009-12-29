@@ -32,10 +32,8 @@ namespace Splits.Web.ModelBinding
 
       var result = new BindResult();
 
-      result.Value = Activator.CreateInstance(type);
-
+      result.Value = Create(result, type, data, prefix);
       Populate(result, type, data, prefix);
-
       return result;
     }
 
@@ -46,12 +44,47 @@ namespace Splits.Web.ModelBinding
       return prefix + "." + name;
     }
 
-    private void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix)
+    object Create(BindResult result, Type type, IDictionary<string, object> data, string prefix)
+    {
+      var selected = _typeDescriptorRegistry.SelectConstructor(type, ctor => {
+        var hasValues = ctor.GetParameters().Aggregate(true, (a, b) => a && data.ContainsKey(AddPrefix(prefix, b.Name)));
+        return hasValues ? ctor : null;
+      });
+      if (selected == null)
+      {
+        return Activator.CreateInstance(type);
+      }
+      var parameters = new List<object>();
+      foreach (var parameter in selected.GetParameters())
+      {
+        var rawValue = data[AddPrefix(prefix, parameter.Name)];
+        try
+        {
+          var converted = ConvertValue(parameter, rawValue, data, prefix);
+          parameters.Add(converted);
+        }
+        catch (Exception e)
+        {
+          var problem = new ConvertProblem
+          {
+            Exception = e,
+            Item = result.Value,
+            Parameter = parameter,
+            Value = rawValue
+          };
+
+          result.Problems.Add(problem);
+        }
+      }
+      return selected.Invoke(parameters.ToArray());
+    }
+
+    void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix)
     {
       _typeDescriptorRegistry.ForEachWritableProperty(type, prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result, data, prefix));
     }
 
-    private void SetPropertyValue(PropertyInfo property, object rawValue, BindResult result, IDictionary<string, object> data, string prefix)
+    void SetPropertyValue(PropertyInfo property, object rawValue, BindResult result, IDictionary<string, object> data, string prefix)
     {
       try
       {
@@ -72,6 +105,21 @@ namespace Splits.Web.ModelBinding
       }
     }
 
+    public object ConvertValue(ParameterInfo parameter, object rawValue, IDictionary<string, object> data, string prefix)
+    {
+      var converter = _converters[parameter.ParameterType];
+
+      if (converter == null)
+      {
+        return Bind(parameter.ParameterType, data, AddPrefix(prefix, parameter.Name)).Value;
+      }
+
+      return converter(new RawValue {
+        TargetName = parameter.Name,
+        Value = rawValue
+      });
+    }
+
     public object ConvertValue(PropertyInfo property, object rawValue, IDictionary<string, object> data, string prefix)
     {
       var converter = _converters[property.PropertyType];
@@ -81,9 +129,8 @@ namespace Splits.Web.ModelBinding
         return Bind(property.PropertyType, data, AddPrefix(prefix, property.Name)).Value;
       }
 
-      return converter(new RawValue
-      {
-        Property = property,
+      return converter(new RawValue {
+        TargetName = property.Name,
         Value = rawValue
       });
     }

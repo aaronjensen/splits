@@ -4,7 +4,7 @@ namespace Splits.Web.ModelBinding
 {
   public class RawValue
   {
-    public PropertyInfo Property;
+    public string TargetName;
     public object Value;
   }
 }

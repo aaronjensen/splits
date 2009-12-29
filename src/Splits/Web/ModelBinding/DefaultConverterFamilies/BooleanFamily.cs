@@ -11,10 +11,8 @@ namespace Splits.Web.ModelBinding.DefaultConverterFamilies
 
     public ValueConverter Build(IValueConverterRegistry registry, Type type)
     {
-      return x =>
-      {
-        if (x.Value.ToString().Contains(x.Property.Name)) return true;
-
+      return x => {
+        if (x.Value.ToString().Contains(x.TargetName)) return true;
         return ValueConverterRegistry.BasicConvert(typeof(bool), x.Value);
       };
     }

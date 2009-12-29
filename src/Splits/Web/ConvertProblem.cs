@@ -7,6 +7,7 @@ namespace Splits.Web
   {
     public object Item { get; set; }
     public PropertyInfo Property { get; set; }
+    public ParameterInfo Parameter { get; set; }
     public object Value { get; set; }
     public Exception Exception { get; set; }
 
@@ -22,8 +23,8 @@ Exception:
 "
           .ToFormat(
           ((Item != null) ? Item.GetType().FullName : "(null)"),
-          Property.Name,
-          Property.PropertyType,
+          Property != null ? Property.Name : Parameter.Name,
+          Property != null ? Property.PropertyType : Parameter.ParameterType,
           Value,
           Exception);
     }
