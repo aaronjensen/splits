@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 
 namespace Splits.Web.Steps
 {
@@ -15,6 +16,11 @@ namespace Splits.Web.Steps
     public string Message
     {
       get { return _message; }
+    }
+
+    public StatusStep(HttpStatusCode code)
+      : this((Int32)code, null)
+    {
     }
 
     public StatusStep(Int32 code)

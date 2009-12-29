@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 
 namespace Splits.Web.Steps
 {
@@ -9,12 +10,14 @@ namespace Splits.Web.Steps
     public IStep SuccessStep { get; private set; }
     public IStep FailureStep { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
-    public IStep UsingQueryStep { get; private set; }
 
     public InvokeCommandStep(Type commandType, Type replyType)
     {
       CommandType = commandType;
       ReplyType = replyType;
+      SuccessStep = new StatusStep(HttpStatusCode.OK);
+      FailureStep = new StatusStep(HttpStatusCode.InternalServerError);
+      ValidationErrorStep = new NoopStep();
     }
 
     public InvokeCommandStep OnSuccess(IStep step)
@@ -32,12 +35,6 @@ namespace Splits.Web.Steps
     public InvokeCommandStep OnValidationError(IStep step)
     {
       ValidationErrorStep = step;
-      return this;
-    }
-
-    public InvokeCommandStep From(InvokeQueryStep step)
-    {
-      UsingQueryStep = step;
       return this;
     }
   }
