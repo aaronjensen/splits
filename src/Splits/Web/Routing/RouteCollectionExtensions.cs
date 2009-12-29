@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.SessionState;
 using Machine.UrlStrong;
 
 namespace Splits.Web.Routing
@@ -25,8 +22,7 @@ namespace Splits.Web.Routing
 
       if (attribute == null)
       {
-        throw new ArgumentException(urlType +
-          " is not a Strong Url, at least it doesn't have the StrongUrl attribute. Make sure you're using the latest UrlStrong and that this is the endpoint of a url i.e. you defined it as supporting GET or POST in your .urls config");
+        throw new ArgumentException(urlType + " is not a Strong Url, at least it doesn't have the StrongUrl attribute. Make sure you're using the latest UrlStrong and that this is the endpoint of a url i.e. you defined it as supporting GET or POST in your .urls config");
       }
 
       var url = attribute.ParameterizedUrl;
@@ -46,6 +42,23 @@ namespace Splits.Web.Routing
       routes.Add(urlType.ToString(), route);
 
       return route;
+    }
+
+    public static void MapAllStrongUrls(this RouteCollection routes, Type type)
+    {
+      foreach (var nested in type.GetNestedTypes())
+      {
+        if (nested.GetCustomAttributes(typeof(StrongUrlAttribute), false).Length > 0)
+        {
+          routes.MapRoute(nested);
+        }
+        routes.MapAllStrongUrls(nested);
+      }
+    }
+
+    public static void MapAllStrongUrls<T>(this RouteCollection routes)
+    {
+      routes.MapAllStrongUrls(typeof(T));
     }
   }
 }
