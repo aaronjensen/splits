@@ -48,7 +48,7 @@ namespace Splits.Web.ModelBinding
 
     private void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix)
     {
-      _typeDescriptorRegistry.ForEachProperty(type, prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result, data, prefix));
+      _typeDescriptorRegistry.ForEachWritableProperty(type, prop => SetPropertyValue(prop, data[AddPrefix(prefix, prop.Name)], result, data, prefix));
     }
 
     private void SetPropertyValue(PropertyInfo property, object rawValue, BindResult result, IDictionary<string, object> data, string prefix)

@@ -8,6 +8,6 @@ namespace Splits.Web
   {
     IDictionary<string, PropertyInfo> GetPropertiesFor<TYPE>();
     IDictionary<string, PropertyInfo> GetPropertiesFor(Type itemType);
-    void ForEachProperty(Type itemType, Action<PropertyInfo> action);
+    void ForEachWritableProperty(Type itemType, Action<PropertyInfo> action);
   }
 }

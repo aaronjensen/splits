@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
 namespace Splits.Web
 {
@@ -10,11 +11,10 @@ namespace Splits.Web
 
     public TypeDescriptorRegistry()
     {
-      _cache = new Cache<Type, IDictionary<string, PropertyInfo>>(type =>
-      {
+      _cache = new Cache<Type, IDictionary<string, PropertyInfo>>(type => {
         var dict = new Dictionary<string, PropertyInfo>();
 
-        foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        foreach (var propertyInfo in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
           dict.Add(propertyInfo.Name, propertyInfo);
         }
@@ -33,9 +33,9 @@ namespace Splits.Web
       return _cache[itemType];
     }
 
-    public void ForEachProperty(Type itemType, Action<PropertyInfo> action)
+    public void ForEachWritableProperty(Type itemType, Action<PropertyInfo> action)
     {
-      _cache[itemType].Values.Each(action);
+      _cache[itemType].Values.Where(pi => pi.CanWrite).Each(action);
     }
 
     public void ClearAll()
