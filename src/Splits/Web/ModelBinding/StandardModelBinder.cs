@@ -43,7 +43,7 @@ namespace Splits.Web.ModelBinding
     {
       if (string.IsNullOrEmpty(prefix))
         return name;
-      return prefix + "-" + name;
+      return prefix + "." + name;
     }
 
     private void Populate(BindResult result, Type type, IDictionary<string, object> data, string prefix)
