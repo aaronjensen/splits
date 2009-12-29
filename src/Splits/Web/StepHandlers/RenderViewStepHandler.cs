@@ -30,7 +30,7 @@ namespace Splits.Web.StepHandlers
         viewData.Model = step.ModelFactory();
       }
       _viewRenderer.RenderViewData(stepContext, viewData, viewName);
-      return Continuation.Continue;
+      return Continuation.Stop;
     }
   }
 }

@@ -12,7 +12,7 @@ namespace Splits.Web.StepHandlers
       stepContext.Response.StatusCode = (int)HttpStatusCode.SeeOther;
       stepContext.Response.StatusDescription = "See Other";
 
-      return Continuation.RenderNow;
+      return Continuation.Stop;
     }
   }
 }

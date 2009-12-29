@@ -4,6 +4,6 @@ namespace Splits.Web
   {
     Abort,
     Continue,
-    RenderNow
+    Stop
   }
 }

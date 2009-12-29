@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
+
 using System.Web.Mvc;
 using System.Web.Routing;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Splits.Web
 {
@@ -45,20 +44,33 @@ namespace Splits.Web
       if (!steps.Any())
       {
         HandleNoSteps(stepContext);
+        return;
       }
 
+      var lastContinuation = Continuation.Continue;
       foreach (var step in steps)
       {
-        var continuation = _stepInvoker.Invoke(step, stepContext);
-
-        if (continuation != Continuation.Continue)
+        lastContinuation = _stepInvoker.Invoke(step, stepContext);
+        if (lastContinuation != Continuation.Continue)
           break;
       }
+
+      if (lastContinuation == Continuation.Continue)
+      {
+        HandleNoEndingStep(stepContext);
+        return;
+      }
+    }
+
+    static void HandleNoEndingStep(StepContext context)
+    {
+      context.Response.StatusCode = (Int32)HttpStatusCode.NoContent;
+      context.Response.StatusDescription = "No Content";
     }
 
     static void HandleNoSteps(StepContext context)
     {
-      context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+      context.Response.StatusCode = (Int32)HttpStatusCode.MethodNotAllowed;
       context.Response.StatusDescription = "Method Not Allowed";
     }
   }

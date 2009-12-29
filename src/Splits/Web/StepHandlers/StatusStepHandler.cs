@@ -12,7 +12,7 @@ namespace Splits.Web.StepHandlers
       {
         stepContext.Response.StatusDescription = step.Message;
       }
-      return Continuation.RenderNow;
+      return Continuation.Stop;
     }
   }
 }
