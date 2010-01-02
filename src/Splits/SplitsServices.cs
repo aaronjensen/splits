@@ -77,6 +77,13 @@ namespace Splits
         .Where(pair => pair.Key.IsGenericType && pair.Key.GetGenericTypeDefinition() == type);
     }
 
+    public static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type)
+    {
+      return assembly.GetExportedTypes()
+        .Where(service => service.IsClass && type.IsAssignableFrom(service))
+        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)));
+    }
+
     public static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type, string @namespace)
     {
       return assembly.GetExportedTypes()
