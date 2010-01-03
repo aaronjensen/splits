@@ -18,6 +18,13 @@ namespace Splits.Web
       return BeginForm(htmlHelper, url, FormMethod.Get);
     }
 
+    public static MvcForm BeginFormWithValidation(this HtmlHelper htmlHelper, ISupportPost url)
+    {
+      var form = htmlHelper.BeginForm(url);
+      htmlHelper.ViewContext.FormContext.ClientValidationFunction = "EnableClientValidation";
+      return form;
+    }
+
     public static MvcForm BeginForm(this HtmlHelper htmlHelper, IUrl url, FormMethod method)
     {
       return BeginForm(htmlHelper, url, method, new Dictionary<string, object>());
