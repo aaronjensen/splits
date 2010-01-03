@@ -47,6 +47,13 @@ namespace Splits.Web
       return steps.InvokeCommand<T>((q, c) => { });
     }
 
+    public static InvokeCommandStep InvokeCommand<T>(this StepBuilder steps, Func<StepContext, T> createAndBind)
+    {
+      var resultType = typeof(T).GetGenericArgumentInImplementationOf(typeof(ICommand<>));
+      if (resultType == null) throw new ArgumentException("T should be an ICommand<>");
+      return new InvokeCommandStep(typeof(T), resultType, (s) => createAndBind(s));
+    }
+
     public static InvokeCommandStep InvokeCommand<T>(this StepBuilder steps, Action<T, StepContext> bind)
     {
       var resultType = typeof(T).GetGenericArgumentInImplementationOf(typeof(ICommand<>));
@@ -57,6 +64,13 @@ namespace Splits.Web
     public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps)
     {
       return steps.InvokeQuery<T>((q, c) => { });
+    }
+
+    public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps, Func<StepContext, T> createAndBind)
+    {
+      var resultType = typeof(T).GetGenericArgumentInImplementationOf(typeof(IQuery<>));
+      if (resultType == null) throw new ArgumentException("T should be an IQuery<>");
+      return new InvokeQueryStep(typeof(T), resultType, (s) => createAndBind(s));
     }
 
     public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps, Action<T, StepContext> bind)

@@ -8,6 +8,14 @@ namespace Splits.Web.Steps
     public Type ResultType { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
     public Action<object, StepContext> Bind { get; private set; }
+    public Func<StepContext, object> CreateAndBind { get; private set; }
+
+    public InvokeQueryStep(Type queryType, Type resultType, Func<StepContext, object> createAndBind)
+    {
+      QueryType = queryType;
+      ResultType = resultType;
+      CreateAndBind = createAndBind;
+    }
 
     public InvokeQueryStep(Type queryType, Type resultType, Action<object, StepContext> bind)
     {

@@ -8,14 +8,10 @@ namespace Splits.Web.Steps
     public Type CommandType { get; private set; }
     public Type ResultType { get; private set; }
     public Action<object, StepContext> Bind { get; private set; }
+    public Func<StepContext, object> CreateAndBind { get; private set; }
     public IStep SuccessStep { get; private set; }
     public IStep FailureStep { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
-
-    public InvokeCommandStep(Type commandType, Type resultType)
-      : this(commandType, resultType, (c, s) => { })
-    {
-    }
 
     public InvokeCommandStep(Type commandType, Type resultType, Action<object, StepContext> bind)
     {
@@ -25,6 +21,21 @@ namespace Splits.Web.Steps
       FailureStep = new StatusStep(HttpStatusCode.InternalServerError);
       ValidationErrorStep = new NoopStep();
       Bind = bind;
+    }
+
+    public InvokeCommandStep(Type commandType, Type resultType, Func<StepContext, object> createAndBind)
+    {
+      CommandType = commandType;
+      ResultType = resultType;
+      SuccessStep = new StatusStep(HttpStatusCode.OK);
+      FailureStep = new StatusStep(HttpStatusCode.InternalServerError);
+      ValidationErrorStep = new NoopStep();
+      CreateAndBind = createAndBind;
+    }
+
+    public InvokeCommandStep(Type commandType, Type resultType)
+      : this(commandType, resultType, (c, s) => { })
+    {
     }
 
     public InvokeCommandStep OnSuccess(IStep step)
