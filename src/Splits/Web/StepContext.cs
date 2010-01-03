@@ -59,6 +59,19 @@ namespace Splits.Web
       _urlStrongPath = requestContext.UrlStrongPathFromRoute();
     }
 
+    public void AddCommand(ICommand command, object result, string name)
+    {
+      var identifier = new Identifier(name, command.GetType());
+
+      if (_commandMap.ContainsKey(identifier))
+        throw new ArgumentException(String.Format("Command of type {0} named \"{1}\" has already been registered.",
+          command.GetType(), name));
+
+      _commandMap[identifier] = command;
+      _commandResultMap[Guid.NewGuid()] = result;
+
+    }
+
     public void AddQuery(IQuery query, object result, string name)
     {
       var identifier = new Identifier(name, query.GetType());

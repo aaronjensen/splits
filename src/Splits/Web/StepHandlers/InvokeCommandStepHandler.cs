@@ -41,11 +41,11 @@ namespace Splits.Web.StepHandlers
       }
 
       var result = _commandInvoker.Invoke(command);
+      stepContext.AddCommand(command, result, step.ResultType.Name);
       if (result.WasSuccessful)
       {
         return _stepInvoker.Invoke(step.SuccessStep, stepContext);
       }
-
       return _stepInvoker.Invoke(step.FailureStep, stepContext);
     }
 
