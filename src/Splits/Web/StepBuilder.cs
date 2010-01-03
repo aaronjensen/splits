@@ -22,14 +22,19 @@ namespace Splits.Web
       return new StatusStep(0x191).Unless.True(sc => new IsAuthenticatedQuerySpec());
     }
 
+    public static RedirectStep Redirect(this StepBuilder steps, Func<StepContext, string> getUrl)
+    {
+      return new RedirectStep(getUrl);
+    }
+
     public static RedirectStep Redirect(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)
     {
-      return new RedirectStep(sc => getUrl(sc).ToString());
+      return steps.Redirect(sc => getUrl(sc).ToString());
     }
 
     public static RedirectStep RedirectToReferrer(this StepBuilder steps)
     {
-      return new RedirectStep(sc => sc.Request.UrlReferrer.ToString());
+      return steps.Redirect(sc => sc.Request.UrlReferrer.ToString());
     }
 
     public static LinkToCommandStep LinkToCommand<T>(this StepBuilder steps) 
