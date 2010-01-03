@@ -50,6 +50,7 @@ namespace Splits.Web.ModelBinding
 
     public static object BasicConvert(Type type, object original)
     {
+      if (original == null) return null;
       if (type.IsAssignableFrom(original.GetType())) return original;
 
       var converter = TypeDescriptor.GetConverter(type);
