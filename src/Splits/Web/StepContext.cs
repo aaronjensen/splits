@@ -11,11 +11,11 @@ namespace Splits.Web
   public class StepContext
   {
     readonly RequestContext _requestContext;
-    readonly string _urlStrongPath;
     readonly Dictionary<Identifier, IQuery> _queryMap = new Dictionary<Identifier, IQuery>();
     readonly Dictionary<Guid, object> _queryResultMap = new Dictionary<Guid, object>();
     readonly Dictionary<Identifier, ICommand> _commandMap = new Dictionary<Identifier, ICommand>();
     readonly Dictionary<Guid, object> _commandResultMap = new Dictionary<Guid, object>();
+    readonly string _urlStrongPath;
     Identifier _lastQuery;
 
     public IDictionary<Identifier, IQuery> QueryMap
@@ -43,12 +43,6 @@ namespace Splits.Web
       get { return _queryResultMap[_queryMap[_lastQuery].QueryId]; }
     }
 
-    public StepContext(RequestContext requestContext, Type urlType)
-    {
-      _requestContext = requestContext;
-      _urlStrongPath = UrlStrongPathFromUrlsType(urlType);
-    }
-
     public HttpResponseBase Response
     {
       get { return RequestContext.HttpContext.Response; }
@@ -57,6 +51,12 @@ namespace Splits.Web
     public HttpRequestBase Request
     {
       get { return RequestContext.HttpContext.Request; }
+    }
+
+    public StepContext(RequestContext requestContext, Type urlType)
+    {
+      _requestContext = requestContext;
+      _urlStrongPath = UrlStrongPathFromUrlsType(urlType);
     }
 
     static string UrlStrongPathFromUrlsType(Type urlType)
@@ -78,26 +78,6 @@ namespace Splits.Web
       _lastQuery = identifier;
     }
 
-    public void AddQuery<TResult>(IQuery<TResult> query, TResult result, string name)
-    {
-      AddQuery((IQuery)query, (object)result, name);
-    }
-
-    public TQuery GetQuery<TQuery>() where TQuery : class
-    {
-      return GetQuery<TQuery>("");
-    }
-
-    public TQuery GetQuery<TQuery>(string name) where TQuery : class
-    {
-      return _queryMap[new Identifier(name, typeof(TQuery))] as TQuery;
-    }
-
-    public TResult GetResult<TResult>(IQuery<TResult> query) where TResult : class
-    {
-      return _queryResultMap[query.QueryId] as TResult;
-    }
-
     public void Fill(ViewDataDictionary viewData)
     {
       foreach (var query in _queryMap)
@@ -105,6 +85,12 @@ namespace Splits.Web
         var result = _queryResultMap[query.Value.QueryId];
         viewData[query.Key.Name] = result;
       }
+    }
+
+    public T Get<T>() where T: class
+    {
+      var queriesAndCommands = _queryResultMap.Values.Union(_commandResultMap.Values);
+      return (T)queriesAndCommands.Single(r => typeof(T).IsInstanceOfType(r));
     }
   }
 }

@@ -7,18 +7,18 @@ namespace Splits.Web.Steps
     public Type QueryType { get; private set; }
     public Type ResultType { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
-    public Func<StepContext, object> QueryFactory { get; private set; }
+    public Action<object, StepContext> Bind { get; private set; }
 
-    public InvokeQueryStep(Type queryType, Type resultType)
+    public InvokeQueryStep(Type queryType, Type resultType, Action<object, StepContext> bind)
     {
       QueryType = queryType;
       ResultType = resultType;
+      Bind = bind;
     }
 
-    public InvokeQueryStep Query(Func<StepContext, object> queryFactory)
+    public InvokeQueryStep(Type queryType, Type resultType)
+      : this(queryType, resultType, (q, s) => { })
     {
-      QueryFactory = queryFactory;
-      return this;
     }
 
     public InvokeQueryStep OnValidationError(IStep step)

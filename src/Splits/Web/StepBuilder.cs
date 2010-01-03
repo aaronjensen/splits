@@ -44,16 +44,26 @@ namespace Splits.Web
 
     public static InvokeCommandStep InvokeCommand<T>(this StepBuilder steps)
     {
+      return steps.InvokeCommand<T>((q, c) => { });
+    }
+
+    public static InvokeCommandStep InvokeCommand<T>(this StepBuilder steps, Action<T, StepContext> bind)
+    {
       var resultType = typeof(T).GetGenericArgumentInImplementationOf(typeof(ICommand<>));
       if (resultType == null) throw new ArgumentException("T should be an ICommand<>");
-      return new InvokeCommandStep(typeof(T), resultType);
+      return new InvokeCommandStep(typeof(T), resultType, (c, s) => bind((T)c, s));
     }
 
     public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps)
     {
+      return steps.InvokeQuery<T>((q, c) => { });
+    }
+
+    public static InvokeQueryStep InvokeQuery<T>(this StepBuilder steps, Action<T, StepContext> bind)
+    {
       var resultType = typeof(T).GetGenericArgumentInImplementationOf(typeof(IQuery<>));
       if (resultType == null) throw new ArgumentException("T should be an IQuery<>");
-      return new InvokeQueryStep(typeof(T), resultType);
+      return new InvokeQueryStep(typeof(T), resultType, (q, s) => bind((T)q, s));
     }
 
     public static SeeOtherStep SeeOther(this StepBuilder steps, Func<StepContext, ISupportGet> getUrl)

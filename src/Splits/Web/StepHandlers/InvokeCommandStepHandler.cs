@@ -25,19 +25,22 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(InvokeCommandStep step, StepContext stepContext)
     {
-      var bindResult = _modelBinder.Bind(step.CommandType, new AggregateDictionary(stepContext.RequestContext));
-      if (!bindResult.WasSuccessful)
+      var command = BindCommand(step, stepContext);
+      if(command == null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
-      var validationResult = _modelValidator.Validate(bindResult.Value);
+      command = BindToPreviousQueries(command, stepContext);
+      step.Bind(command, stepContext);
+
+      var validationResult = _modelValidator.Validate(command);
       if (!validationResult.IsValid)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
-      var result = _commandInvoker.Invoke(BindToPreviousQueries((ICommand)bindResult.Value, stepContext));
+      var result = _commandInvoker.Invoke(command);
       if (result.WasSuccessful)
       {
         return _stepInvoker.Invoke(step.SuccessStep, stepContext);
@@ -49,6 +52,16 @@ namespace Splits.Web.StepHandlers
     ICommand BindToPreviousQueries(ICommand command, StepContext stepContext)
     {
       return _queryBinder.Bind(command, stepContext);
+    }
+
+    ICommand BindCommand(InvokeCommandStep step, StepContext stepContext)
+    {
+      var bindResult = _modelBinder.Bind(step.CommandType, new AggregateDictionary(stepContext.RequestContext));
+      if (!bindResult.WasSuccessful)
+      {
+        return null;
+      }
+      return (ICommand)bindResult.Value;
     }
   }
 }

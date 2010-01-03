@@ -33,6 +33,9 @@ namespace Splits.Web.StepHandlers
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
+
+      query = BindToPreviousQueries(query, stepContext);
+      step.Bind(query, stepContext);
       
       var validationResult = _modelValidator.Validate(query);
       if (!validationResult.IsValid && step.ValidationErrorStep != null)
@@ -40,7 +43,7 @@ namespace Splits.Web.StepHandlers
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
-      var queryResult = _queryInvoker.Invoke(BindToPreviousQueries(query, stepContext));
+      var queryResult = _queryInvoker.Invoke(query);
       stepContext.AddQuery(query, queryResult, step.ResultType.Name);
       return Continuation.Continue;
     }
@@ -52,10 +55,6 @@ namespace Splits.Web.StepHandlers
 
     IQuery BindQuery(InvokeQueryStep step, StepContext stepContext)
     {
-      if (step.QueryFactory != null)
-      {
-        return (IQuery)step.QueryFactory(stepContext);
-      }
       var bindResult = _modelBinder.Bind(step.QueryType, new AggregateDictionary(stepContext.RequestContext));
       if (!bindResult.WasSuccessful)
       {
