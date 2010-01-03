@@ -8,6 +8,28 @@ using System.Web.Routing;
 
 namespace Splits.Web
 {
+  public static class UrlStrongRoutingHelpers
+  {
+    public static bool IsUrlStrongRequest(this RequestContext requestContext)
+    {
+      return requestContext.RouteData.DataTokens.ContainsKey("urlType");
+    }
+
+    public static Type UrlStrongTypeFromRoute(this RequestContext requestContext)
+    {
+      var urlType = requestContext.RouteData.DataTokens["urlType"] as Type;
+      if (urlType == null) throw new InvalidOperationException("Can't get urlType!");
+      return urlType;
+    }
+
+    public static string UrlStrongPathFromRoute(this RequestContext requestContext)
+    {
+      var urlType = requestContext.UrlStrongTypeFromRoute();
+      var parts = urlType.FullName.Split('+').Skip(1).Select(s => s.ToLower()).ToArray();
+      return String.Join("/", parts);
+    }
+  }
+
   public class SplitsController : IController
   {
     readonly IStepProvider _stepProvider;
@@ -21,9 +43,7 @@ namespace Splits.Web
 
     public void Execute(RequestContext requestContext)
     {
-      var urlType = requestContext.RouteData.DataTokens["urlType"] as Type;
-
-      if (urlType == null) throw new InvalidOperationException("Can't get urlType!");
+      var urlType = requestContext.UrlStrongTypeFromRoute();
 
       IEnumerable<IStep> steps;
       if (String.Compare(requestContext.HttpContext.Request.HttpMethod, "GET", true) == 0)

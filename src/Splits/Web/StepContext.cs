@@ -56,13 +56,7 @@ namespace Splits.Web
     public StepContext(RequestContext requestContext, Type urlType)
     {
       _requestContext = requestContext;
-      _urlStrongPath = UrlStrongPathFromUrlsType(urlType);
-    }
-
-    static string UrlStrongPathFromUrlsType(Type urlType)
-    {
-      var parts = urlType.FullName.Split('+').Skip(1).Select(s => s.ToLower()).ToArray();
-      return String.Join("/", parts);
+      _urlStrongPath = requestContext.UrlStrongPathFromRoute();
     }
 
     public void AddQuery(IQuery query, object result, string name)
