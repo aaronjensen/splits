@@ -9,7 +9,12 @@ namespace Splits.Internal
 {
   public class ViewRenderer : IViewRenderer
   {
-    readonly static SparkViewFactory _factory = new SparkViewFactory();
+    readonly SparkViewFactory _factory;
+
+    public ViewRenderer(SparkViewFactory factory)
+    {
+      _factory = factory;
+    }
 
     public void RenderViewData(StepContext stepContext, ViewDataDictionary viewData, string viewName)
     {

@@ -9,6 +9,7 @@ using Splits.Queries;
 using Splits.Web;
 using Splits.Web.ModelBinding;
 using Splits.Web.ModelBinding.DefaultConverterFamilies;
+using Splits.Web.Spark;
 using Splits.Web.StepHandlers;
 using Splits.Web.Validation;
 
@@ -41,6 +42,7 @@ namespace Splits
         yield return Self(typeof(CommandHandlerLocator));
         yield return Self(typeof(QueryInvoker));
         yield return Self(typeof(QueryHandlerLocator));
+        yield return Self(typeof(SparkViewFactory));
         yield return Self(typeof(ViewRenderer));
         yield return Self(typeof(BadServiceProvider));
         yield return Self(typeof(IsAuthenticatedQueryHandler));
