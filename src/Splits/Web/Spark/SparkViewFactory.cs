@@ -22,88 +22,37 @@ using System.Web.Routing;
 using System.Linq;
 
 using Spark;
-using Spark.FileSystem;
 using Spark.Web.Mvc;
-using Spark.Web.Mvc.Wrappers;
+using Spark.Web.Mvc.Descriptors;
+
 using Splits.Configuration;
 
 namespace Splits.Web.Spark
 {
-  public class SparkViewFactory : IViewFolderContainer, ISparkServiceInitialize
+  public class SparkViewFactory : ISparkServiceInitialize
   {
+    readonly ISplitsSettings _splitsSettings;
     ISparkViewEngine _engine;
     ICacheServiceProvider _cacheServiceProvider;
+    ISparkSettings _settings;
 
     public SparkViewFactory()
     {
-      SplitsSettings = ((ISplitsSettings)ConfigurationManager.GetSection("splits")) ?? new SplitsSettings();
-      Settings = ((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings {
+      _splitsSettings = ((ISplitsSettings)ConfigurationManager.GetSection("splits")) ?? new SplitsSettings();
+      _settings = ((ISparkSettings)ConfigurationManager.GetSection("spark")) ?? new SparkSettings {
         PageBaseType = typeof(SplitsSparkView).FullName
       };
+      var services = SparkEngineStarter.CreateContainer(_settings);
+      services.AddFilter(new SplitsSparkFilter());
+      Initialize(services);
+      SparkEngineStarter.RegisterViewEngine(services);
     }
 
-    public virtual void Initialize(ISparkServiceContainer container)
+    public void Initialize(ISparkServiceContainer container)
     {
-      Settings = container.GetService<ISparkSettings>();
+      _settings = container.GetService<ISparkSettings>();
       Engine = container.GetService<ISparkViewEngine>();
       CacheServiceProvider = container.GetService<ICacheServiceProvider>();
-    }
-
-    public ISplitsSettings SplitsSettings
-    {
-      get;
-      set;
-    }
-
-    public ISparkSettings Settings
-    {
-      get;
-      set;
-    }
-
-    public ISparkViewEngine Engine
-    {
-      set { SetEngine(value); }
-      get
-      {
-        if (_engine == null)
-        {
-          SetEngine(new SparkViewEngine(Settings));
-        }
-        return _engine;
-      }
-    }
-
-    public void SetEngine(ISparkViewEngine engine)
-    {
-      _engine = engine;
-      if (_engine != null)
-      {
-        _engine.DefaultPageBaseType = typeof(SplitsSparkView).FullName;
-      }
-    }
-
-    public IViewActivatorFactory ViewActivatorFactory
-    {
-      get { return Engine.ViewActivatorFactory; }
-      set { Engine.ViewActivatorFactory = value; }
-    }
-
-    public IViewFolder ViewFolder
-    {
-      get { return Engine.ViewFolder; }
-      set { Engine.ViewFolder = value; }
-    }
-
-    public ICacheServiceProvider CacheServiceProvider
-    {
-      get { return _cacheServiceProvider ?? Interlocked.CompareExchange(ref _cacheServiceProvider, new DefaultCacheServiceProvider(), null) ?? _cacheServiceProvider; }
-      set { _cacheServiceProvider = value; }
-    }
-
-    public virtual void ReleaseView(IView view)
-    {
-      Engine.ReleaseInstance((ISparkView)view);
     }
 
     public SplitsViewEngineResult FindView(RequestContext requestContext, string location, string viewName, string masterName, bool findDefaultMaster, bool searchParentFolders)
@@ -118,15 +67,6 @@ namespace Splits.Web.Spark
       return FindView(requestContext, locations, viewName, masterName, findDefaultMaster);
     }
 
-    static IEnumerable<string> ItselfAndAllParentFolders(string folder)
-    {
-      while (!String.IsNullOrEmpty(folder))
-      {
-        yield return folder;
-        folder = Path.GetDirectoryName(folder);
-      }
-    }
-
     public SplitsViewEngineResult FindView(RequestContext requestContext, IEnumerable<string> locations, string viewName, string masterName, bool findDefaultMaster)
     {
       var descriptor = new SparkViewDescriptor();
@@ -137,16 +77,13 @@ namespace Splits.Web.Spark
       {
         searchLocations = searchLocations.Union(masterLocations);
       }
-      descriptor.TargetNamespace = SplitsSettings.DefaultViewNamespace;
+      descriptor.TargetNamespace = _splitsSettings.DefaultViewNamespace;
 
       var foundViewOtherThanMaster = false;
-      foreach (var template in searchLocations)
+      foreach (var template in searchLocations.Where(template => Engine.ViewFolder.HasView(template)))
       {
-        if (Engine.ViewFolder.HasView(template))
-        {
-          descriptor.Templates.Add(template);
-          foundViewOtherThanMaster = foundViewOtherThanMaster || !masterLocations.Contains(template);
-        }
+        descriptor.Templates.Add(template);
+        foundViewOtherThanMaster = foundViewOtherThanMaster || !masterLocations.Contains(template);
       }
 
       if (!foundViewOtherThanMaster)
@@ -156,6 +93,20 @@ namespace Splits.Web.Spark
 
       var entry = Engine.CreateEntry(descriptor);
       return new SplitsViewEngineResult(CreateViewInstance(requestContext, entry), viewLocations);
+    }
+
+    public void ReleaseView(IView view)
+    {
+      Engine.ReleaseInstance((ISparkView)view);
+    }
+
+    static IEnumerable<string> ItselfAndAllParentFolders(string folder)
+    {
+      while (!String.IsNullOrEmpty(folder))
+      {
+        yield return folder;
+        folder = Path.GetDirectoryName(folder);
+      }
     }
 
     IView CreateViewInstance(RequestContext requestContext, ISparkViewEntry entry)
@@ -170,15 +121,30 @@ namespace Splits.Web.Spark
       return view;
     }
 
-    void ISparkServiceInitialize.Initialize(ISparkServiceContainer container)
+    ISparkViewEngine Engine
     {
-      Initialize(container);
+      set
+      {
+        _engine = value;
+        if (_engine != null)
+        {
+          _engine.DefaultPageBaseType = typeof(SplitsSparkView).FullName;
+        }
+      }
+      get
+      {
+        if (_engine == null)
+        {
+          Engine = new SparkViewEngine(_settings);
+        }
+        return _engine;
+      }
     }
 
-    IViewFolder IViewFolderContainer.ViewFolder
+    ICacheServiceProvider CacheServiceProvider
     {
-      get { return ViewFolder; }
-      set { ViewFolder = value; }
+      get { return _cacheServiceProvider ?? Interlocked.CompareExchange(ref _cacheServiceProvider, new DefaultCacheServiceProvider(), null) ?? _cacheServiceProvider; }
+      set { _cacheServiceProvider = value; }
     }
   }
 
