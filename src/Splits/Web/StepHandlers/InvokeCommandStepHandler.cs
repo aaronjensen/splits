@@ -26,7 +26,11 @@ namespace Splits.Web.StepHandlers
     public Continuation Handle(InvokeCommandStep step, StepContext stepContext)
     {
       var command = BindCommand(step, stepContext);
-      if(command == null)
+      if (command == null && step.CreateAndBind != null)
+      {
+        command = step.CreateAndBind(stepContext);
+      }
+      if (command == null && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
