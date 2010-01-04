@@ -110,19 +110,19 @@ namespace Splits.Web
       return new RenderViewStep(view);
     }
 
+    public static RenderViewStep Render<T>(this StepBuilder steps, string view, Func<StepContext, T> model)
+    {
+      return new RenderViewStep(view, s => model(s));
+    }
+
+    public static RenderViewStep Render<T>(this StepBuilder steps, Func<StepContext, T> model)
+    {
+      return steps.Render(null, model);
+    }
+
     public static RenderViewStep RenderNoLayout(this StepBuilder steps)
     {
       return new RenderViewStep { SkipLayout = true };
-    }
-
-    public static RenderViewStep Render<T>(this StepBuilder steps, T model, string view)
-    {
-      return new RenderViewStep(view, model);
-    }
-
-    public static RenderViewStep Render<T>(this StepBuilder steps, T model)
-    {
-      return steps.Render(model, typeof(T).Name);
     }
   }
 }

@@ -40,7 +40,12 @@ namespace Splits.Web
 
     public object LastQueryResult
     {
-      get { return _queryResultMap[_queryMap[_lastQuery].QueryId]; }
+      get
+      {
+        if (_lastQuery == null)
+          return null;
+        return _queryResultMap[_queryMap[_lastQuery].QueryId];
+      }
     }
 
     public HttpResponseBase Response
@@ -96,7 +101,7 @@ namespace Splits.Web
 
     public T Get<T>() where T: class
     {
-      var queriesAndCommands = _queryResultMap.Values.Union(_commandResultMap.Values);
+      var queriesAndCommands = _commandMap.Select(r => r.Value).Cast<object>().Union(_queryResultMap.Values.Union(_commandResultMap.Values));
       return (T)queriesAndCommands.Single(r => typeof(T).IsInstanceOfType(r));
     }
   }

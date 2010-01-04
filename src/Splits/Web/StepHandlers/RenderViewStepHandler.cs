@@ -17,19 +17,18 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(RenderViewStep step, StepContext stepContext)
     {
+      if (step.ModelFactory == null)
+      {
+        return Render(step.ViewName, stepContext.LastQueryResult, step.SkipLayout, stepContext);
+      }
+      return Render(step.ViewName, step.ModelFactory(stepContext), step.SkipLayout, stepContext);
+    }
+
+    Continuation Render(string viewName, object model, bool skipLayout, StepContext stepContext)
+    {
       var viewData = new ViewDataDictionary();
-      var viewName = step.ViewName;
-      if (String.IsNullOrEmpty(viewName) && step.ModelFactory == null)
-      {
-        var queryResult = stepContext.LastQueryResult;
-        viewName = queryResult.GetType().Name;
-        viewData.Model = queryResult;
-      }
-      if (step.ModelFactory != null)
-      {
-        viewData.Model = step.ModelFactory();
-      }
-      _viewRenderer.RenderViewData(stepContext, viewData, viewName, step.SkipLayout);
+      viewData.Model = model;
+      _viewRenderer.RenderViewData(stepContext, viewData, viewName ?? model.GetType().Name, skipLayout);
       return Continuation.Stop;
     }
   }
