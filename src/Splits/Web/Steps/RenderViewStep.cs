@@ -7,6 +7,7 @@ namespace Splits.Web.Steps
   {
     public Func<object> ModelFactory { get; set; }
     public string ViewName { get; set; }
+    public bool SkipLayout { get; set; }
 
     public RenderViewStep()
       : this(null)

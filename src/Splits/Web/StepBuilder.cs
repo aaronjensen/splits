@@ -110,6 +110,11 @@ namespace Splits.Web
       return new RenderViewStep(view);
     }
 
+    public static RenderViewStep RenderNoLayout(this StepBuilder steps)
+    {
+      return new RenderViewStep { SkipLayout = true };
+    }
+
     public static RenderViewStep Render<T>(this StepBuilder steps, T model, string view)
     {
       return new RenderViewStep(view, model);

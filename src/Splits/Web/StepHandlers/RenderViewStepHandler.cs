@@ -29,7 +29,7 @@ namespace Splits.Web.StepHandlers
       {
         viewData.Model = step.ModelFactory();
       }
-      _viewRenderer.RenderViewData(stepContext, viewData, viewName);
+      _viewRenderer.RenderViewData(stepContext, viewData, viewName, step.SkipLayout);
       return Continuation.Stop;
     }
   }

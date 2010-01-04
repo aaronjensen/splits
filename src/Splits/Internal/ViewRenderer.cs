@@ -16,9 +16,9 @@ namespace Splits.Internal
       _factory = factory;
     }
 
-    public void RenderViewData(StepContext stepContext, ViewDataDictionary viewData, string viewName)
+    public void RenderViewData(StepContext stepContext, ViewDataDictionary viewData, string viewName, bool skipLayout)
     {
-      var view = _factory.FindView(stepContext.RequestContext, stepContext.UrlStrongPath, viewName, String.Empty, true, true);
+      var view = _factory.FindView(stepContext.RequestContext, stepContext.UrlStrongPath, viewName, String.Empty, !skipLayout, true);
       if (view.View == null)
       {
         var locations = new StringBuilder();
@@ -37,11 +37,11 @@ namespace Splits.Internal
       view.View.Render(viewContext, stepContext.Response.Output);
     }
 
-    public void RenderModel(StepContext stepContext, object model, string viewName)
+    public void RenderModel(StepContext stepContext, object model, string viewName, bool skipLayout)
     {
       var viewData = new ViewDataDictionary();
       viewData.Model = model;
-      RenderViewData(stepContext, viewData, viewName);
+      RenderViewData(stepContext, viewData, viewName, skipLayout);
     }
 
     static readonly FakeControllerForControllerContext FakeController = new FakeControllerForControllerContext();
@@ -50,7 +50,7 @@ namespace Splits.Internal
 
   public interface IViewRenderer
   {
-    void RenderModel(StepContext stepContext, object model, string viewName);
-    void RenderViewData(StepContext stepContext, ViewDataDictionary view, string viewName);
+    void RenderModel(StepContext stepContext, object model, string viewName, bool skipLayout);
+    void RenderViewData(StepContext stepContext, ViewDataDictionary view, string viewName, bool skipLayout);
   }
 }
