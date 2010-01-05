@@ -46,14 +46,27 @@ namespace Splits.Web.Routing
 
     public static void MapAllStrongUrls(this RouteCollection routes, Type type)
     {
+      routes.MapAllStrongUrls(type, true);
+    }
+
+    public static bool MapAllStrongUrls(this RouteCollection routes, Type type, bool first)
+    {
+      var mappedAny = false;
       foreach (var nested in type.GetNestedTypes())
       {
         if (nested.GetCustomAttributes(typeof(StrongUrlAttribute), false).Length > 0)
         {
+          mappedAny = true;
           routes.MapRoute(nested);
         }
-        routes.MapAllStrongUrls(nested);
+        if (routes.MapAllStrongUrls(nested, false))
+        {
+          mappedAny = true;
+        }
       }
+      if (first && !mappedAny)
+        throw new Exception("No UrlStrong urls were mapped. Do any of them have the StrongUrl attribute?");
+      return mappedAny;
     }
 
     public static void MapAllStrongUrls<T>(this RouteCollection routes)
