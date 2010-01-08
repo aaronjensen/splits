@@ -15,6 +15,7 @@ namespace Splits.Web.Spark
     
     protected override void CreateHelpers()
     {
+      base.CreateHelpers();
       this.Html = new HtmlHelper<object>(base.ViewContext, this);
     }
 
