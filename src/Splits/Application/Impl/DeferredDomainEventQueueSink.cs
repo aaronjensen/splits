@@ -42,7 +42,10 @@ namespace Splits.Application.Impl
     {
       if (HttpContext.Current == null)
       {
-        _eventQueue = new Queue<RaisedEvent>();
+        if (_eventQueue == null)
+        {
+          _eventQueue = new Queue<RaisedEvent>();
+        }
         return _eventQueue;
       }
       var items = HttpContext.Current.Items;
