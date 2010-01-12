@@ -15,6 +15,10 @@ namespace Splits.Application.Impl
       _actions.Add(callback);
     }
 
+    public void Begin()
+    {
+    }
+
     public void Raise<T>(T args) where T : IDomainEvent
     {
       _raisedEvents.Add(new RaisedEvent(typeof(T), args));
@@ -29,6 +33,10 @@ namespace Splits.Application.Impl
           }
         }
       }
+    }
+
+    public void Commit()
+    {
     }
 
     public static void ShouldNotHaveRaised<T>(params Func<T, bool>[] criteria) where T : IDomainEvent
@@ -107,52 +115,52 @@ namespace Splits.Application.Impl
       _actions.Clear();
       _raisedEvents.Clear();
     }
+  }
 
-    class RaisedEvent
+  public class RaisedEvent
+  {
+    readonly Type _type;
+    readonly IDomainEvent _args;
+
+    public Type Type
     {
-      readonly Type _type;
-      readonly IDomainEvent _args;
+      get { return _type; }
+    }
 
-      public Type Type
-      {
-        get { return _type; }
-      }
+    public IDomainEvent Args
+    {
+      get { return _args; }
+    }
 
-      public IDomainEvent Args
-      {
-        get { return _args; }
-      }
+    public RaisedEvent(Type type, IDomainEvent args)
+    {
+      _type = type;
+      _args = args;
+    }
 
-      public RaisedEvent(Type type, IDomainEvent args)
-      {
-        _type = type;
-        _args = args;
-      }
+    public bool Equals(RaisedEvent other)
+    {
+      if (ReferenceEquals(null, other)) return false;
+      if (ReferenceEquals(this, other)) return true;
+      return Equals(other._type, _type) && Equals(other._args, _args);
+    }
 
-      public bool Equals(RaisedEvent other)
-      {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Equals(other._type, _type) && Equals(other._args, _args);
-      }
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != typeof(RaisedEvent)) return false;
+      return Equals((RaisedEvent)obj);
+    }
 
-      public override bool Equals(object obj)
-      {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != typeof(RaisedEvent)) return false;
-        return Equals((RaisedEvent)obj);
-      }
+    public override Int32 GetHashCode()
+    {
+      return ((_type != null ? _type.GetHashCode() : 0) * 397) ^ (_args != null ? _args.GetHashCode() : 0);
+    }
 
-      public override Int32 GetHashCode()
-      {
-        return ((_type != null ? _type.GetHashCode() : 0) * 397) ^ (_args != null ? _args.GetHashCode() : 0);
-      }
-
-      public override string ToString()
-      {
-        return string.Format("Type: {0}, Args: {1}", _type, _args);
-      }
+    public override string ToString()
+    {
+      return string.Format("Type: {0}, Args: {1}", _type, _args);
     }
   }
 }

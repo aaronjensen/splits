@@ -22,7 +22,9 @@ namespace Splits.Application.Impl
 
       using (var scope = new TransactionScope())
       {
+        DomainEvent.Begin();
         var result = handler(command);
+        DomainEvent.Commit();
         scope.Complete();
         return result;
       }
