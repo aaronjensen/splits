@@ -25,7 +25,7 @@ namespace Splits.Web.Spark
 
     public IEnumerable<string> PotentialLocationsInternal(IEnumerable<string> locations, IDictionary<string, object> extra)
     {
-      foreach (var location in locations.Select(l => l.Replace(@"\", "/")))
+      foreach (var location in locations.Select(l => l.Replace(@"/", @"\")))
       {
         if (extra.ContainsKey("urlStrongPath"))
         {
