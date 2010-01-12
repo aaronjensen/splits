@@ -90,6 +90,7 @@
     <Compile Include="Application\Impl\CommandHandlerLocator.cs" />
     <Compile Include="Application\Impl\CommandInvoker.cs" />
     <Compile Include="Application\Impl\DomainEventSink.cs" />
+    <Compile Include="Application\Impl\FakeDomainEventSink.cs" />
     <Compile Include="Application\Impl\InMemoryRepository.cs" />
     <Compile Include="Application\Impl\QueryHandlerLocator.cs" />
     <Compile Include="Application\Impl\QueryInvoker.cs" />
