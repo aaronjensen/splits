@@ -12,7 +12,7 @@ namespace Splits.Web.Spark
     {
       if (!context.RequestContext.IsUrlStrongRequest())
         return;
-      extra["urlStrongPath"] = context.RequestContext.UrlStrongPathFromRoute();
+      extra["urlStrongPath"] = context.RequestContext.UrlStrongPathFromRoute().Replace("/", @"\");
     }
 
     public override IEnumerable<string> PotentialLocations(IEnumerable<string> locations, IDictionary<string, object> extra)
@@ -29,11 +29,12 @@ namespace Splits.Web.Spark
       {
         if (extra.ContainsKey("urlStrongPath"))
         {
-          if (location.Contains("/DisplayTemplates/"))
-            yield return location.Replace("/DisplayTemplates", "").Replace(".spark", ".display.spark");
-          if (location.Contains("/EditorTemplates/"))
-            yield return location.Replace("/EditorTemplates", "").Replace(".spark", ".editor.spark");
-          yield return location.Replace(@"Splits\", extra["urlStrongPath"] + @"\");
+          var transformed = location.Replace(@"Splits\", extra["urlStrongPath"] + @"\");
+          if (transformed.Contains(@"\DisplayTemplates\"))
+            yield return transformed.Replace(@"\DisplayTemplates\", @"\").Replace(".spark", ".display.spark");
+          if (transformed.Contains(@"\EditorTemplates\"))
+            yield return transformed.Replace(@"\EditorTemplates\", @"\").Replace(".spark", ".editor.spark");
+          yield return transformed;
         }
         else
         {
