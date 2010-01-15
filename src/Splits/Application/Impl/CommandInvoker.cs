@@ -29,5 +29,10 @@ namespace Splits.Application.Impl
         return result;
       }
     }
+
+    public R Invoke<R>(ICommand<R> command)
+    {
+      return (R)Invoke((object)command);
+    }
   }
 }

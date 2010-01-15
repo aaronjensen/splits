@@ -21,5 +21,10 @@ namespace Splits.Application.Impl
 
       return handler(query);
     }
+
+    public R Invoke<R>(IQuery<R> query)
+    {
+      return (R)Invoke((object)query);
+    }
   }
 }
