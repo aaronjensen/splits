@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace Splits.Web.ModelBinding.DefaultConverterFamilies
 {
@@ -17,7 +18,7 @@ namespace Splits.Web.ModelBinding.DefaultConverterFamilies
           return null;
         if (long.TryParse(x.Value.ToString(), out ticks))
           return new DateTime(ticks, DateTimeKind.Utc);
-        return ValueConverterRegistry.BasicConvert(typeof(DateTime), x.Value);
+        return DateTime.Parse(x.Value.ToString(), CultureInfo.CurrentUICulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
       };
     }
   }
