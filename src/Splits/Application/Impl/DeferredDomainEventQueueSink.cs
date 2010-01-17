@@ -7,6 +7,8 @@ namespace Splits.Application.Impl
 {
   public class DeferredDomainEventQueueSink : IDomainEventSink
   {
+    readonly DomainEventSink _sink = new DomainEventSink();
+
     public void Begin()
     {
       EventQueue().Clear();
@@ -25,13 +27,7 @@ namespace Splits.Application.Impl
       while (eventQueue.Count > 0)
       {
         var raised = eventQueue.Dequeue();
-        var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(raised.Type);
-        var wrapperType = typeof(Invoker<>).MakeGenericType(raised.Type);
-        foreach (var handler in locator.GetAllInstances(handlerType))
-        {
-          var wrapper = (IDomainEventHandler<IDomainEvent>)Activator.CreateInstance(wrapperType, handler);
-          wrapper.Handle(raised.Args);
-        }
+        _sink.Raise(raised.Type, raised.Args);
       }
     }
 
@@ -55,21 +51,6 @@ namespace Splits.Application.Impl
         items[key] = new Queue<RaisedEvent>();
       }
       return (Queue<RaisedEvent>)items[key];
-    }
-
-    class Invoker<T> : IDomainEventHandler<IDomainEvent> where T : IDomainEvent
-    {
-      readonly IDomainEventHandler<T> _target;
-
-      public Invoker(IDomainEventHandler<T> target)
-      {
-        _target = target;
-      }
-
-      public void Handle(IDomainEvent @event)
-      {
-        _target.Handle((T)@event);
-      }
     }
   }
 }
