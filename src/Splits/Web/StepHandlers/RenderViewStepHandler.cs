@@ -19,7 +19,7 @@ namespace Splits.Web.StepHandlers
     {
       if (step.ModelFactory == null)
       {
-        return Render(step.ViewName, stepContext.LastQueryResult, step.SkipLayout, stepContext);
+        return Render(step.ViewName, stepContext.LastQueryOrCommandResult, step.SkipLayout, stepContext);
       }
       return Render(step.ViewName, step.ModelFactory(stepContext), step.SkipLayout, stepContext);
     }

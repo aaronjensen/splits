@@ -16,7 +16,7 @@ namespace Splits.Web
     readonly Dictionary<Identifier, ICommand> _commandMap = new Dictionary<Identifier, ICommand>();
     readonly Dictionary<Guid, object> _commandResultMap = new Dictionary<Guid, object>();
     readonly string _urlStrongPath;
-    Identifier _lastQuery;
+    object _lastQueryOrCommandResult;
 
     public IDictionary<Identifier, IQuery> QueryMap
     {
@@ -38,14 +38,9 @@ namespace Splits.Web
       get { return _urlStrongPath; }
     }
 
-    public object LastQueryResult
+    public object LastQueryOrCommandResult
     {
-      get
-      {
-        if (_lastQuery == null)
-          return null;
-        return _queryResultMap[_queryMap[_lastQuery].QueryId];
-      }
+      get { return _lastQueryOrCommandResult; }
     }
 
     public HttpResponseBase Response
@@ -74,7 +69,7 @@ namespace Splits.Web
 
       _commandMap[identifier] = command;
       _commandResultMap[Guid.NewGuid()] = result;
-
+      _lastQueryOrCommandResult = result;
     }
 
     public void AddQuery(IQuery query, object result, string name)
@@ -87,7 +82,7 @@ namespace Splits.Web
 
       _queryMap[identifier] = query;
       _queryResultMap[query.QueryId] = result;
-      _lastQuery = identifier;
+      _lastQueryOrCommandResult = result;
     }
 
     public void Fill(ViewDataDictionary viewData)
