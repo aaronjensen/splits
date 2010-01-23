@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Linq;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Splits.Application.Impl
@@ -22,13 +23,22 @@ namespace Splits.Application.Impl
     public void Commit()
     {
       var locator = ServiceLocator.Current;
-      if (locator == null) return;
+      if (locator == null)
+      {
+        return;
+      }
       var eventQueue = EventQueue();
+      var raisedEvents = eventQueue.ToList();
       while (eventQueue.Count > 0)
       {
         var raised = eventQueue.Dequeue();
         _sink.Raise(raised.Type, raised.Args);
       }
+      Commit(raisedEvents);
+    }
+
+    public virtual void Commit(IEnumerable<RaisedEvent> raisedEvents)
+    {
     }
 
     [ThreadStatic]
