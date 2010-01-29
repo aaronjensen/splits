@@ -33,9 +33,15 @@ namespace Splits.Web.StepHandlers
       {
         query = step.CreateAndBind(stepContext);
       }
+      
       if (query == null && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
+      }
+
+      if (query == null)
+      {
+        query = (IQuery)Activator.CreateInstance(step.QueryType);
       }
 
       query = BindToPreviousQueries(query, stepContext);

@@ -15,11 +15,14 @@ namespace Splits.Internal
 
     public IQuery Bind(IQuery query, StepContext stepContext)
     {
-      Bind(new[] { query }, stepContext);
+      if (query != null)
+      {
+        Bind(new[] { query }, stepContext);
+      }
       return query;
     }
 
-    void Bind(IEnumerable<object> queries, StepContext stepContext)
+    static void Bind(IEnumerable<object> queries, StepContext stepContext)
     {
       foreach (var query in queries)
       {
