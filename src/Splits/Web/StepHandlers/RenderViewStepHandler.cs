@@ -28,8 +28,18 @@ namespace Splits.Web.StepHandlers
     {
       var viewData = new ViewDataDictionary();
       viewData.Model = model;
-      _viewRenderer.RenderViewData(stepContext, viewData, viewName ?? model.GetType().Name, skipLayout);
+      _viewRenderer.RenderViewData(stepContext, viewData, viewName ?? GetViewNameFromType(model.GetType()), skipLayout);
       return Continuation.Stop;
+    }
+
+    static string GetViewNameFromType(Type type)
+    {
+      var name = type.Name;
+      if (type.IsArray)
+      {
+        name = "ArrayOf" + name.Replace("[]", string.Empty);
+      }
+      return name;
     }
   }
 }
