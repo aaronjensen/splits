@@ -6,6 +6,18 @@ namespace Splits.Web.Spark
 {
   public abstract class SplitsSparkView<T> : SparkView<T> where T : class
   {
+    TimeHelper _timeHelper;
+    
+    protected override void CreateHelpers()
+    {
+      base.CreateHelpers();
+      _timeHelper = new TimeHelper(Context);
+    }
+
+    public TimeHelper Time
+    {
+      get { return _timeHelper; }
+    }
   }
 
   public abstract class SplitsSparkView : SparkView
