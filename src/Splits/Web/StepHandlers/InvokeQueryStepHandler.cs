@@ -28,12 +28,7 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(InvokeQueryStep step, StepContext stepContext)
     {
-      var query = BindQuery(step, stepContext);
-      if (query == null && step.CreateAndBind != null)
-      {
-        query = step.CreateAndBind(stepContext);
-      }
-      
+      var query = step.CreateAndBind == null ? BindQuery(step, stepContext) : step.CreateAndBind(stepContext);
       if (query == null && step.ValidationErrorStep != null)
       {
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
