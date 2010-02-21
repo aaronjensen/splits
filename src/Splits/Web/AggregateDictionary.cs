@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Routing;
 
 namespace Splits.Web
@@ -23,16 +20,14 @@ namespace Splits.Web
 
     public AggregateDictionary(RequestContext requestContext)
     {
-      AddLocator(key =>
-      {
+      AddLocator(key => {
         object found;
         requestContext.RouteData.Values.TryGetValue(key, out found);
         return found;
       });
-      AddLocator(key => requestContext.HttpContext.Request[key]);
+      AddLocator(key => requestContext.HttpContext.Request.Params[key]);
       AddLocator(key => requestContext.HttpContext.Request.Files[key]);
       AddLocator(key => requestContext.HttpContext.Request.Headers[key]);
-      
     }
 
     public bool TryGetValue(string key, out object value)
@@ -108,7 +103,13 @@ namespace Splits.Web
       throw new NotImplementedException();
     }
 
-    ICollection<string> IDictionary<string, object>.Keys { get { throw new NotImplementedException(); } }
+    ICollection<string> IDictionary<string, object>.Keys
+    {
+      get
+      {
+        throw new NotImplementedException();
+      }
+    }
 
     ICollection<object> IDictionary<string, object>.Values { get { throw new NotImplementedException(); } }
 

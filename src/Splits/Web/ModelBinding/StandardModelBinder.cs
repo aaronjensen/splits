@@ -88,7 +88,7 @@ namespace Splits.Web.ModelBinding
     {
       try
       {
-        object value = ConvertValue(property, rawValue, data, prefix);
+        var value = ConvertValue(property, rawValue, data, prefix);
         property.SetValue(result.Value, value, null);
       }
       catch (Exception e)
@@ -107,30 +107,25 @@ namespace Splits.Web.ModelBinding
 
     public object ConvertValue(ParameterInfo parameter, object rawValue, IDictionary<string, object> data, string prefix)
     {
-      var converter = _converters[parameter.ParameterType];
-
-      if (converter == null)
-      {
-        return Bind(parameter.ParameterType, data, AddPrefix(prefix, parameter.Name)).Value;
-      }
-
-      return converter(new RawValue {
-        TargetName = parameter.Name,
-        Value = rawValue
-      });
+      return ConvertValue(parameter.ParameterType, parameter.Name, rawValue, data, prefix);
     }
 
     public object ConvertValue(PropertyInfo property, object rawValue, IDictionary<string, object> data, string prefix)
     {
-      var converter = _converters[property.PropertyType];
+      return ConvertValue(property.PropertyType, property.Name, rawValue, data, prefix);
+    }
+
+    public object ConvertValue(Type type, string name, object rawValue, IDictionary<string, object> data, string prefix)
+    {
+      var converter = _converters[type];
 
       if (converter == null)
       {
-        return Bind(property.PropertyType, data, AddPrefix(prefix, property.Name)).Value;
+        return Bind(type, data, AddPrefix(prefix, name)).Value;
       }
 
       return converter(new RawValue {
-        TargetName = property.Name,
+        TargetName = name,
         Value = rawValue
       });
     }
