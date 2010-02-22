@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Splits.Application;
 
 namespace Splits.Web.Steps
@@ -10,13 +11,15 @@ namespace Splits.Web.Steps
     public IStep ValidationErrorStep { get; private set; }
     public Action<IQuery, StepContext> Bind { get; private set; }
     public Func<StepContext, IQuery> CreateAndBind { get; private set; }
+    public Func<StepContext, IDictionary<string, object>> CreateBindingDictionary { get; private set; }
 
     public InvokeQueryStep(Type queryType, Type resultType, Func<StepContext, IQuery> createAndBind)
     {
       QueryType = queryType;
       ResultType = resultType;
-      Bind = (q, s) => { };
       CreateAndBind = createAndBind;
+      Bind = (q, s) => { };
+      CreateBindingDictionary = sc => new AggregateDictionary(sc.RequestContext);
     }
 
     public InvokeQueryStep(Type queryType, Type resultType, Action<IQuery, StepContext> bind)
@@ -24,6 +27,7 @@ namespace Splits.Web.Steps
       QueryType = queryType;
       ResultType = resultType;
       Bind = bind;
+      CreateBindingDictionary = sc => new AggregateDictionary(sc.RequestContext);
     }
 
     public InvokeQueryStep(Type queryType, Type resultType)
@@ -34,6 +38,12 @@ namespace Splits.Web.Steps
     public InvokeQueryStep OnValidationError(IStep step)
     {
       ValidationErrorStep = step;
+      return this;
+    }
+
+    public InvokeQueryStep BindingTo(Func<StepContext, IDictionary<string, object>> createBindingDictionary)
+    {
+      CreateBindingDictionary = createBindingDictionary;
       return this;
     }
   }

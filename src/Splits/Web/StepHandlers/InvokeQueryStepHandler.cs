@@ -60,7 +60,7 @@ namespace Splits.Web.StepHandlers
 
     IQuery BindQuery(InvokeQueryStep step, StepContext stepContext)
     {
-      var bindResult = _modelBinder.Bind(step.QueryType, new AggregateDictionary(stepContext.RequestContext));
+      var bindResult = _modelBinder.Bind(step.QueryType, step.CreateBindingDictionary(stepContext));
       if (!bindResult.WasSuccessful)
       {
         return null;

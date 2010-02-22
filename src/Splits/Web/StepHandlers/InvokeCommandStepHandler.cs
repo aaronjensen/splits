@@ -56,7 +56,7 @@ namespace Splits.Web.StepHandlers
 
     ICommand BindCommand(InvokeCommandStep step, StepContext stepContext)
     {
-      var bindResult = _modelBinder.Bind(step.CommandType, new AggregateDictionary(stepContext.RequestContext));
+      var bindResult = _modelBinder.Bind(step.CommandType, step.CreateBindingDictionary(stepContext));
       if (!bindResult.WasSuccessful)
       {
         return null;

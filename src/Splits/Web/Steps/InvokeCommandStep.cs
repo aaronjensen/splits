@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using Splits.Application;
 
@@ -10,6 +11,7 @@ namespace Splits.Web.Steps
     public Type ResultType { get; private set; }
     public Action<ICommand, StepContext> Bind { get; private set; }
     public Func<StepContext, ICommand> CreateAndBind { get; private set; }
+    public Func<StepContext, IDictionary<string, object>> CreateBindingDictionary { get; private set; }
     public IStep SuccessStep { get; private set; }
     public IStep FailureStep { get; private set; }
     public IStep ValidationErrorStep { get; private set; }
@@ -21,6 +23,7 @@ namespace Splits.Web.Steps
       SuccessStep = new StatusStep(HttpStatusCode.OK);
       FailureStep = new StatusStep(HttpStatusCode.InternalServerError);
       ValidationErrorStep = new NoopStep();
+      CreateBindingDictionary = sc => new AggregateDictionary(sc.RequestContext);
       Bind = bind;
     }
 
@@ -31,8 +34,9 @@ namespace Splits.Web.Steps
       SuccessStep = new StatusStep(HttpStatusCode.OK);
       FailureStep = new StatusStep(HttpStatusCode.InternalServerError);
       ValidationErrorStep = new NoopStep();
-      Bind = (q, s) => { };
       CreateAndBind = createAndBind;
+      CreateBindingDictionary = sc => new AggregateDictionary(sc.RequestContext);
+      Bind = (q, s) => { };
     }
 
     public InvokeCommandStep(Type commandType, Type resultType)
@@ -55,6 +59,12 @@ namespace Splits.Web.Steps
     public InvokeCommandStep OnValidationError(IStep step)
     {
       ValidationErrorStep = step;
+      return this;
+    }
+
+    public InvokeCommandStep BindingTo(Func<StepContext, IDictionary<string, object>> createBindingDictionary)
+    {
+      CreateBindingDictionary = createBindingDictionary;
       return this;
     }
   }
