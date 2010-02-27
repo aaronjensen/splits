@@ -1,32 +1,53 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Practices.ServiceLocation;
+using Splits.Internal;
 
 namespace Splits.Application.Impl
 {
   public class DomainEventSink : IDomainEventSink
   {
+    readonly EventOrdering _ordering;
+
+    public DomainEventSink(EventOrdering ordering)
+    {
+      _ordering = ordering;
+    }
+
     public void Begin()
     {
     }
 
-    public void Raise<TEvent>(TEvent @event) where TEvent : IDomainEvent
+    public void Raise<TEvent>(TEvent e) where TEvent : IDomainEvent
     {
-      Raise(typeof(TEvent), @event);
+      Raise(typeof(TEvent), e);
     }
 
-    public void Raise(Type eventType, IDomainEvent @event)
+    public void Raise(Type eventType, IDomainEvent e)
     {
       var locator = ServiceLocator.Current;
       if (locator == null) return;
+      var order = _ordering.Ordering().ToList();
       foreach (var type in DomainEventTypes(eventType))
       {
         var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(type);
         var wrapperType = typeof(Invoker<>).MakeGenericType(type);
-        foreach (var handler in locator.GetAllInstances(handlerType))
+        var handlers = locator.GetAllInstances(handlerType).Select(h => new {
+          Type = h.GetType(),
+          Order = order.IndexOf(h.GetType()),
+          Handler =(IDomainEventHandler<IDomainEvent>)Activator.CreateInstance(wrapperType, h)
+        }).
+        Select(h => new {
+          Type = h.Type,
+          Order = h.Order == -1 ? order.Count : h.Order,
+          h.Handler
+        }).
+        OrderBy(h => h.Order).
+        ToList();
+        foreach (var handler in handlers)
         {
-          var wrapper = (IDomainEventHandler<IDomainEvent>)Activator.CreateInstance(wrapperType, handler);
-          wrapper.Handle(@event);
+          handler.Handler.Handle(e);
         }
       }
     }
@@ -53,9 +74,9 @@ namespace Splits.Application.Impl
         _target = target;
       }
 
-      public void Handle(IDomainEvent @event)
+      public void Handle(IDomainEvent e)
       {
-        _target.Handle((T)@event);
+        _target.Handle((T)e);
       }
     }
   }

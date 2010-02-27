@@ -95,12 +95,14 @@
     <Compile Include="Application\Impl\InMemoryRepository.cs" />
     <Compile Include="Application\Impl\QueryHandlerLocator.cs" />
     <Compile Include="Application\Impl\QueryInvoker.cs" />
+    <Compile Include="Application\IConfiguration.cs" />
     <Compile Include="Application\IQuery.cs" />
     <Compile Include="Application\IQueryHandler.cs" />
     <Compile Include="Application\IQueryHandlerLocator.cs" />
     <Compile Include="Application\IQueryInvoker.cs" />
     <Compile Include="Application\IRepository.cs" />
     <Compile Include="Configuration\SplitsConfiguration.cs" />
+    <Compile Include="Internal\EventOrdering.cs" />
     <Compile Include="Internal\QueryBinder.cs" />
     <Compile Include="Internal\TypeExtensions.cs" />
     <Compile Include="Internal\ViewRenderer.cs" />

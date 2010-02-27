@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Splits.Application.Impl;
 
 namespace Splits.Application
 {
@@ -10,8 +9,7 @@ namespace Splits.Application
 
   public static class DomainEvent
   {
-    static readonly IDomainEventSink _sink = new DomainEventSink();
-    static Func<IDomainEventSink> _provider = () => _sink;
+    static Func<IDomainEventSink> _provider = () => { throw new InvalidOperationException(); };
 
     public static void Begin()
     {

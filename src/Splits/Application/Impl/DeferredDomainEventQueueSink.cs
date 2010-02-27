@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using System.Web;
 using System.Linq;
 using Microsoft.Practices.ServiceLocation;
+using Splits.Internal;
 
 namespace Splits.Application.Impl
 {
   public class DeferredDomainEventQueueSink : IDomainEventSink
   {
-    readonly DomainEventSink _sink = new DomainEventSink();
+    readonly DomainEventSink _sink;
+
+    public DeferredDomainEventQueueSink(EventOrdering ordering)
+    {
+      _sink = new DomainEventSink(ordering);
+    }
 
     public void Begin()
     {
       EventQueue().Clear();
     }
 
-    public void Raise<TEvent>(TEvent args) where TEvent : IDomainEvent
+    public void Raise<TEvent>(TEvent e) where TEvent : IDomainEvent
     {
-      EventQueue().Enqueue(new RaisedEvent(typeof(TEvent), args));
+      EventQueue().Enqueue(new RaisedEvent(typeof(TEvent), e));
     }
 
     public void Commit()

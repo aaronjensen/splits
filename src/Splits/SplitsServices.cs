@@ -30,6 +30,7 @@ namespace Splits
       get
       {
         yield return Self(typeof(FrameworkStartup));
+        yield return Self(typeof(EventOrdering));
         yield return Self(typeof(SplitsController));
         yield return Self(typeof(StepProvider));
         yield return Self(typeof(TypeDescriptorRegistry));
