@@ -117,7 +117,6 @@ namespace Splits.Web.ModelBinding
 
     public object ConvertValue(Type type, string name, object rawValue, IDictionary<string, object> data, string prefix)
     {
-      System.Diagnostics.Trace.WriteLine("ConvertValue " + prefix + " " + name);
       if (IsCollectionType(type))
       {
         var elementType = GetElementType(type);

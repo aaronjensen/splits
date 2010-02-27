@@ -8,6 +8,7 @@ namespace Splits.Application.Impl
 {
   public class DomainEventSink : IDomainEventSink
   {
+    readonly static log4net.ILog _log = log4net.LogManager.GetLogger(typeof (DomainEventSink));
     readonly EventOrdering _ordering;
 
     public DomainEventSink(EventOrdering ordering)
@@ -47,6 +48,7 @@ namespace Splits.Application.Impl
         ToList();
         foreach (var handler in handlers)
         {
+          _log.Info("Raising " + e + " - " + handler.Type);
           handler.Handler.Handle(e);
         }
       }
