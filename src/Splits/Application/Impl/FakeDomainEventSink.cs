@@ -7,6 +7,7 @@ namespace Splits.Application.Impl
 {
   public class FakeDomainEventSink : IDomainEventSink
   {
+    readonly static log4net.ILog _log = log4net.LogManager.GetLogger(typeof (FakeDomainEventSink));
     readonly static IList<Delegate> _actions = new List<Delegate>();
     readonly static IList<RaisedEvent> _raisedEvents = new List<RaisedEvent>();
 
@@ -22,6 +23,7 @@ namespace Splits.Application.Impl
     public void Raise<T>(T args) where T : IDomainEvent
     {
       _raisedEvents.Add(new RaisedEvent(typeof(T), args));
+      _log.Info(args);
 
       if (_actions != null)
       {

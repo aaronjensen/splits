@@ -17,11 +17,16 @@ namespace Splits.Web.StepHandlers
 
     public Continuation Handle(RenderViewStep step, StepContext stepContext)
     {
+      var skipLayout = step.SkipLayout;
+      if (stepContext.Request.IsAjaxRequest())
+      {
+        skipLayout = true;
+      }
       if (step.ModelFactory == null)
       {
-        return Render(step.ViewName, stepContext.LastQueryOrCommandResult, step.SkipLayout, stepContext);
+        return Render(step.ViewName, stepContext.LastQueryOrCommandResult, skipLayout, stepContext);
       }
-      return Render(step.ViewName, step.ModelFactory(stepContext), step.SkipLayout, stepContext);
+      return Render(step.ViewName, step.ModelFactory(stepContext), skipLayout, stepContext);
     }
 
     Continuation Render(string viewName, object model, bool skipLayout, StepContext stepContext)
