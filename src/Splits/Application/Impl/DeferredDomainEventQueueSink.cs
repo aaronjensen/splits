@@ -26,21 +26,23 @@ namespace Splits.Application.Impl
       EventQueue().Enqueue(new RaisedEvent(typeof(TEvent), e));
     }
 
-    public void Commit()
+    public virtual IEnumerable<IDomainEvent> Commit()
     {
       var locator = ServiceLocator.Current;
       if (locator == null)
       {
-        return;
+        return new IDomainEvent[0];
       }
       var eventQueue = EventQueue();
-      var raisedEvents = eventQueue.ToList();
+      var raisedEvents = new List<RaisedEvent>();
       while (eventQueue.Count > 0)
       {
         var raised = eventQueue.Dequeue();
         _sink.Raise(raised.Type, raised.Args);
+        raisedEvents.Add(raised);
       }
       Commit(raisedEvents);
+      return raisedEvents.Select(e => e.Args);
     }
 
     public virtual void Commit(IEnumerable<RaisedEvent> raisedEvents)

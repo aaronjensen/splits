@@ -19,6 +19,11 @@ namespace Splits.Web.Spark
       }
     }
 
+    public DateTime ToLocalDateTime(DateTime dateTime)
+    {
+      return TimeZoneInfo.ConvertTimeFromUtc(dateTime, UserTimeZone);
+    }
+
     public string ToLocal(DateTime dateTime)
     {
       return TimeZoneInfo.ConvertTimeFromUtc(dateTime, UserTimeZone).ToString();

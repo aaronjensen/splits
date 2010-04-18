@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Transactions;
+using System.Linq;
 
 namespace Splits.Application.Impl
 {
@@ -13,7 +14,7 @@ namespace Splits.Application.Impl
       _locator = locator;
     }
 
-    public ICommandResult Invoke(object command)
+    public CommandInvocation<ICommandResult> Invoke(object command)
     {
       if (command == null) throw new ArgumentNullException("command");
       
@@ -24,15 +25,16 @@ namespace Splits.Application.Impl
       {
         DomainEvent.Begin();
         var result = handler(command);
-        DomainEvent.Commit();
+        var domainEvents = DomainEvent.Commit();
         scope.Complete();
-        return result;
+        return new CommandInvocation<ICommandResult>(domainEvents.ToArray(), result);
       }
     }
 
-    public R Invoke<R>(ICommand<R> command)
+    public CommandInvocation<R> Invoke<R>(ICommand<R> command)
     {
-      return (R)Invoke((object)command);
+      var invocation = Invoke((object) command);
+      return new CommandInvocation<R>(invocation.DomainEvents, (R)invocation.Result);
     }
   }
 }

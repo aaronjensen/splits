@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Splits;
 
 namespace Splits.Application
@@ -6,6 +7,6 @@ namespace Splits.Application
   {
     void Begin();
     void Raise<TEvent>(TEvent args) where TEvent : IDomainEvent;
-    void Commit();
+    IEnumerable<IDomainEvent> Commit();
   }
 }

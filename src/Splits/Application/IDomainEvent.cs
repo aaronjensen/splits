@@ -21,9 +21,9 @@ namespace Splits.Application
       _provider().Raise(@event);
     }
 
-    public static void Commit()
+    public static IEnumerable<IDomainEvent> Commit()
     {
-      _provider().Commit();
+      return _provider().Commit();
     }
 
     public static void SetDomainEventSinkProvider(Func<IDomainEventSink> provider)

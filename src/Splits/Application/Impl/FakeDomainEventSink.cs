@@ -37,8 +37,9 @@ namespace Splits.Application.Impl
       }
     }
 
-    public void Commit()
+    public IEnumerable<IDomainEvent> Commit()
     {
+      return new IDomainEvent[0];
     }
 
     public static void ShouldNotHaveRaised<T>(params Func<T, bool>[] criteria) where T : IDomainEvent

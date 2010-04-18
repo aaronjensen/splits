@@ -40,7 +40,7 @@ namespace Splits.Web.StepHandlers
         return _stepInvoker.Invoke(step.ValidationErrorStep, stepContext);
       }
 
-      var result = _commandInvoker.Invoke(command);
+      var result = _commandInvoker.Invoke(command).Result;
       stepContext.AddCommand(command, result, step.ResultType.Name);
       if (result.WasSuccessful)
       {

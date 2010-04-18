@@ -37,7 +37,7 @@ namespace Splits.Application.Impl
         var handlers = locator.GetAllInstances(handlerType).Select(h => new {
           Type = h.GetType(),
           Order = order.IndexOf(h.GetType()),
-          Handler =(IDomainEventHandler<IDomainEvent>)Activator.CreateInstance(wrapperType, h)
+          Handler = (IDomainEventHandler<IDomainEvent>)Activator.CreateInstance(wrapperType, h)
         }).
         Select(h => new {
           Type = h.Type,
@@ -54,17 +54,29 @@ namespace Splits.Application.Impl
       }
     }
 
-    public void Commit()
+    public IEnumerable<IDomainEvent> Commit()
     {
+      return new IDomainEvent[0];
     }
 
-    static IEnumerable<Type> DomainEventTypes(Type type)
+    public static IEnumerable<Type> DomainEventTypes(Type type)
     {
       if (!typeof(IDomainEvent).IsAssignableFrom(type))
+      {
         yield break;
+      }
       yield return type;
       foreach (var basetype in DomainEventTypes(type.BaseType))
+      {
         yield return basetype;
+      }
+      foreach (var interfaceType in type.GetInterfaces())
+      {
+        foreach (var interfaceDeType in DomainEventTypes(interfaceType))
+        {
+          yield return interfaceDeType;
+        }
+      }
     }
 
     class Invoker<T> : IDomainEventHandler<IDomainEvent> where T : IDomainEvent
