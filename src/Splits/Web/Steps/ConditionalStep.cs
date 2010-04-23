@@ -1,11 +1,13 @@
 using System;
 using Microsoft.Practices.ServiceLocation;
 using Splits.Application;
+using System.Web.Mvc;
 
 namespace Splits.Web.Steps
 {
   public interface IConditionalStep
   {
+    ConditionalStep Ajax();
     ConditionalStep True(Func<StepContext, IQuery<bool>> queryFunc);
   }
 
@@ -31,13 +33,18 @@ namespace Splits.Web.Steps
       _innerStep = step;
     }
 
+    public ConditionalStep Ajax()
+    {
+      var oldCondition = _condition;
+      _condition = c => oldCondition(c) && c.Request.IsAjaxRequest();
+      return this;
+    }
+
     public ConditionalStep True(Func<StepContext, IQuery<bool>> queryFunc)
     {
       var oldCondition = _condition;
       var queryInvoker = ServiceLocator.Current.GetInstance<IQueryInvoker>();
-
       _condition = c => oldCondition(c) && (bool)queryInvoker.Invoke(queryFunc(c));
-
       return this;
     }
   }

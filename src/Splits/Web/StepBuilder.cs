@@ -1,8 +1,6 @@
 using System;
 using System.Web;
-
 using Machine.UrlStrong;
-
 using Splits.Application;
 using Splits.Queries;
 using Splits.Web.Steps;
@@ -32,9 +30,9 @@ namespace Splits.Web
       return steps.Redirect(sc => getUrl(sc).ToString());
     }
 
-    public static RedirectStep RedirectToReferrer(this StepBuilder steps)
+    public static IStep RedirectToReferrer(this StepBuilder steps)
     {
-      return steps.Redirect(sc => sc.Request.UrlReferrer.ToString());
+      return steps.Redirect(sc => sc.Request.UrlReferrer.ToString()).Unless.Ajax();
     }
 
     public static LinkToCommandStep LinkToCommand<T>(this StepBuilder steps) 
