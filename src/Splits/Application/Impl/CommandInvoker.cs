@@ -7,6 +7,7 @@ namespace Splits.Application.Impl
 {
   public class CommandInvoker : ICommandInvoker
   {
+    readonly static log4net.ILog _log = log4net.LogManager.GetLogger(typeof(CommandInvoker));
     readonly ICommandHandlerLocator _locator;
 
     public CommandInvoker(ICommandHandlerLocator locator)
@@ -24,6 +25,7 @@ namespace Splits.Application.Impl
       using (var scope = new TransactionScope())
       {
         DomainEvent.Begin();
+        _log.Debug(command);
         var result = handler(command);
         var domainEvents = DomainEvent.Commit();
         scope.Complete();

@@ -47,8 +47,7 @@ namespace Splits.Application.Impl
       var commandWrapperType = typeof(CommandWrapper<>).MakeGenericType(commandType);
 
       return x => {
-        var wrappedHandler = ((ICommandHandler<ICommand<ICommandResult>, ICommandResult>)
-          Activator.CreateInstance(wrapperType, handler));
+        var wrappedHandler = ((ICommandHandler<ICommand<ICommandResult>, ICommandResult>)Activator.CreateInstance(wrapperType, handler));
         var wrappedCommand = (ICommand<ICommandResult>)Activator.CreateInstance(commandWrapperType, x);
         return wrappedHandler.Handle(wrappedCommand);
       };
