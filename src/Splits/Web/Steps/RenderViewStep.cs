@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Splits.Web.Steps
 {
-  public class RenderViewStep : IStep
+  public class RenderViewStep : Step
   {
     public Func<StepContext, object> ModelFactory { get; set; }
     public string ViewName { get; set; }

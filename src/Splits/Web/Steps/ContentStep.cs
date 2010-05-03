@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Splits.Web.Steps
 {
-  public class ContentStep : IStep
+  public class ContentStep : Step
   {
     public Func<string> OutputFactory { get; set; }
 

@@ -9,6 +9,7 @@ namespace Splits.Web.Steps
   {
     ConditionalStep Ajax();
     ConditionalStep True(Func<StepContext, IQuery<bool>> queryFunc);
+    ConditionalStep True(Func<StepContext, bool> queryFunc);
   }
 
   public class ConditionalStep : IStep, IConditionalStep
@@ -45,6 +46,13 @@ namespace Splits.Web.Steps
       var oldCondition = _condition;
       var queryInvoker = ServiceLocator.Current.GetInstance<IQueryInvoker>();
       _condition = c => oldCondition(c) && (bool)queryInvoker.Invoke(queryFunc(c));
+      return this;
+    }
+
+    public ConditionalStep True(Func<StepContext, bool> queryFunc)
+    {
+      var oldCondition = _condition;
+      _condition = c => oldCondition(c) && queryFunc(c);
       return this;
     }
   }
