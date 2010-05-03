@@ -10,6 +10,8 @@ namespace Splits.Web.Steps
     ConditionalStep Ajax();
     ConditionalStep True(Func<StepContext, IQuery<bool>> queryFunc);
     ConditionalStep True(Func<StepContext, bool> queryFunc);
+    ConditionalStep IsNull<T>() where T : class;
+    ConditionalStep IsNotNull<T>() where T : class;
   }
 
   public class ConditionalStep : IStep, IConditionalStep
@@ -54,6 +56,16 @@ namespace Splits.Web.Steps
       var oldCondition = _condition;
       _condition = c => oldCondition(c) && queryFunc(c);
       return this;
+    }
+
+    public ConditionalStep IsNull<T>() where T : class
+    {
+      return True(s => s.TryGet<T>() == null);
+    }
+
+    public ConditionalStep IsNotNull<T>() where T : class
+    {
+      return True(s => s.TryGet<T>() != null);
     }
   }
 }

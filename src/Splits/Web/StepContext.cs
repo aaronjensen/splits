@@ -94,10 +94,21 @@ namespace Splits.Web
       }
     }
 
-    public T Get<T>() where T: class
+    public T TryGet<T>() where T : class
     {
       var queriesAndCommands = _commandMap.Select(r => r.Value).Cast<object>().Union(_queryResultMap.Values.Union(_commandResultMap.Values));
-      return (T)queriesAndCommands.Single(r => typeof(T).IsInstanceOfType(r));
+      var matching = queriesAndCommands.Where(r => typeof(T).IsInstanceOfType(r));
+      if (matching.Any())
+        return (T)matching.Single();
+      return default(T);
+    }
+
+    public T Get<T>() where T : class
+    {
+      var gotten = TryGet<T>();
+      if (gotten == default(T))
+        throw new InvalidOperationException("No value of type: " + typeof(T));
+      return gotten;
     }
   }
 }
