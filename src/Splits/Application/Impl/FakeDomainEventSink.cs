@@ -110,6 +110,7 @@ namespace Splits.Application.Impl
 
     public static void Start()
     {
+      Reset();
       DomainEvent.SetDomainEventSinkProvider(() => new FakeDomainEventSink());
       Reset();
     }
