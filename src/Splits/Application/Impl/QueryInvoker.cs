@@ -20,8 +20,10 @@ namespace Splits.Application.Impl
       var handler = _locator.LocateHandler(query.GetType());
       if (handler == null) throw new InvalidOperationException("No IQueryHandler for " + query.GetType());
 
-      _log.Debug(query);
-      return handler(query);
+      using (log4net.NDC.Push(query.GetType().Name))
+      {
+        return handler(query);
+      }
     }
 
     public R Invoke<R>(IQuery<R> query)

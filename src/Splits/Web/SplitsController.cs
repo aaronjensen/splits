@@ -32,6 +32,7 @@ namespace Splits.Web
 
   public class SplitsController : IController
   {
+    readonly static log4net.ILog _log = log4net.LogManager.GetLogger("Splits");
     readonly IStepProvider _stepProvider;
     readonly IStepInvoker _stepInvoker;
 
@@ -41,55 +42,65 @@ namespace Splits.Web
       _stepInvoker = stepInvoker;
     }
 
+    IEnumerable<IStep> StepsFor(RequestContext requestContext, Type urlType)
+    {
+      var method = requestContext.HttpContext.Request.HttpMethod;
+      if (String.Compare(method, "GET", true) == 0)
+      {
+        return _stepProvider.GetStepsForGet(urlType);
+      }
+      if (String.Compare(method, "POST", true) == 0)
+      {
+        return _stepProvider.GetStepsForPost(urlType);
+      }
+      return new IStep[0];
+    }
+
     public void Execute(RequestContext requestContext)
     {
       var urlType = requestContext.UrlStrongTypeFromRoute();
+      using (log4net.NDC.Push(urlType.FullName))
+      {
+        var steps = StepsFor(requestContext, urlType);
+        var stepContext = new StepContext(requestContext, urlType);
 
-      IEnumerable<IStep> steps;
-      if (String.Compare(requestContext.HttpContext.Request.HttpMethod, "GET", true) == 0)
-      {
-        steps = _stepProvider.GetStepsForGet(urlType);
-      }
-      else if (String.Compare(requestContext.HttpContext.Request.HttpMethod, "POST", true) == 0)
-      {
-        steps = _stepProvider.GetStepsForPost(urlType);
-      }
-      else
-      {
-        steps = new IStep[0];
-      }
+        if (!steps.Any())
+        {
+          HandleNoSteps(stepContext);
+          return;
+        }
 
-      var stepContext = new StepContext(requestContext, urlType);
+        var lastContinuation = Continuation.Continue;
+        foreach (var step in steps)
+        {
+          _log.Info("Step: " + step);
+          lastContinuation = _stepInvoker.Invoke(step, stepContext);
+          if (lastContinuation != Continuation.Continue)
+          {
+            break;
+          }
+        }
 
-      if (!steps.Any())
-      {
-        HandleNoSteps(stepContext);
-        return;
-      }
+        if (lastContinuation == Continuation.Continue)
+        {
+          HandleNoEndingStep(stepContext);
+          return;
+        }
 
-      var lastContinuation = Continuation.Continue;
-      foreach (var step in steps)
-      {
-        lastContinuation = _stepInvoker.Invoke(step, stepContext);
-        if (lastContinuation != Continuation.Continue)
-          break;
-      }
-
-      if (lastContinuation == Continuation.Continue)
-      {
-        HandleNoEndingStep(stepContext);
-        return;
+        _log.Info("Completed");
       }
     }
 
     static void HandleNoEndingStep(StepContext context)
     {
+      _log.Info("No Ending Step");
       context.Response.StatusCode = (Int32)HttpStatusCode.NoContent;
       context.Response.StatusDescription = "No Content";
     }
 
     static void HandleNoSteps(StepContext context)
     {
+      _log.Info("No Steps");
       context.Response.StatusCode = (Int32)HttpStatusCode.MethodNotAllowed;
       context.Response.StatusDescription = "Method Not Allowed";
     }

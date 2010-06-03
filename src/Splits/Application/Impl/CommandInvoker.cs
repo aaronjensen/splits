@@ -17,19 +17,34 @@ namespace Splits.Application.Impl
 
     public CommandInvocation<ICommandResult> Invoke(object command)
     {
-      if (command == null) throw new ArgumentNullException("command");
+      if (command == null)
+      {
+        throw new ArgumentNullException("command");
+      }
       
       var handler = _locator.LocateHandler(command.GetType());
-      if (handler == null) throw new InvalidOperationException("No ICommandHandler for " + command.GetType());
-
-      using (var scope = new TransactionScope())
+      if (handler == null)
       {
-        DomainEvent.Begin();
-        _log.Debug(command);
-        var result = handler(command);
-        var domainEvents = DomainEvent.Commit();
-        scope.Complete();
-        return new CommandInvocation<ICommandResult>(domainEvents.ToArray(), result);
+        throw new InvalidOperationException("No ICommandHandler for " + command.GetType());
+      }
+      using (log4net.NDC.Push(command.GetType().Name))
+      {
+        try
+        {
+          using (var scope = new TransactionScope())
+          {
+            DomainEvent.Begin();
+            _log.Debug(command);
+            var result = handler(command);
+            var domainEvents = DomainEvent.Commit();
+            scope.Complete();
+            return new CommandInvocation<ICommandResult>(domainEvents.ToArray(), result);
+          }
+        }
+        catch (Exception error)
+        {
+          throw new Exception("Error invoking " + command, error);
+        }
       }
     }
 

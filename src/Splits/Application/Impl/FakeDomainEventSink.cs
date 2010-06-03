@@ -111,6 +111,7 @@ namespace Splits.Application.Impl
     public static void Start()
     {
       DomainEvent.SetDomainEventSinkProvider(() => new FakeDomainEventSink());
+      Reset();
     }
 
     public static void Reset()

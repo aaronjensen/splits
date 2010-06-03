@@ -12,9 +12,16 @@ namespace Splits.Internal
         throw new ArgumentException("genericType");
       foreach (var iface in type.FindInterfaces((a, b) => true, null))
       {
-        if (iface.GetGenericTypeDefinition() == genericType)
+        try
         {
-          return iface.GetGenericArguments().First();
+          if (iface.GetGenericTypeDefinition() == genericType)
+          {
+            return iface.GetGenericArguments().First();
+          }
+        }
+        catch (Exception error)
+        {
+          throw new InvalidOperationException("Error inspecting: " + iface, error);
         }
       }
       return null;
