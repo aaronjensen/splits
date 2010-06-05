@@ -33,7 +33,7 @@ namespace Splits.Internal
       stepContext.Fill(viewData);
 
       var controllerContext = new ControllerContext(stepContext.RequestContext, FakeController);
-      var viewContext = new ViewContext(controllerContext, view.View, viewData, new TempDataDictionary());
+      var viewContext = new ViewContext(controllerContext, view.View, viewData, new TempDataDictionary(), stepContext.Response.Output);
       view.View.Render(viewContext, stepContext.Response.Output);
     }
 

@@ -58,9 +58,8 @@ namespace Splits.Web.Validation
     {
       var result = new ValidatorResult();
       var results = new List<ValidationResult>();
-      var context = new ValidationContext(model, _serviceProvider, null);
 
-      Validator.TryValidateObject(model, context, results, true);
+      // Validator.TryValidateObject(model, results, true);
 
       foreach (var error in results)
       {
@@ -83,26 +82,10 @@ namespace Splits.Web.Validation
   {
     public override bool IsValid(object value)
     {
-      var context = new ValidationContext(value, null, null);
+      //var context = new ValidationContext(value, null, null);
 
-      return Validator.TryValidateObject(value, context, null, true);
-    }
-
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-    {
-      if (value == null) return ValidationResult.Success;
-
-      var newContext = new ValidationContext(value, validationContext, validationContext.Items);
-
-      var results = new List<ValidationResult>();
-      Validator.TryValidateObject(value, newContext, results, true);
-      if (results.Any())
-      {
-        string errors = String.Join(Environment.NewLine, results.Select(x => x.ErrorMessage).ToArray());
-        return new ValidationResult(errors, results.SelectMany(x => x.MemberNames).Select(x => validationContext.MemberName + "." + x));
-      }
-
-      return ValidationResult.Success;
+      //return Validator.TryValidateObject(value, context, null, true);
+      return true;
     }
   }
 }

@@ -181,6 +181,7 @@
     <Compile Include="Web\Steps\Step.cs" />
     <Compile Include="Web\TypeDescriptorRegistry.cs" />
     <Compile Include="Web\SplitsController.cs" />
+    <Compile Include="Web\ValidationResult.cs" />
     <Compile Include="Web\Validation\IModelValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

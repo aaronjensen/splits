@@ -21,7 +21,7 @@ namespace Splits.Web
     public static MvcForm BeginFormWithValidation(this HtmlHelper htmlHelper, ISupportPost url)
     {
       var form = htmlHelper.BeginForm(url);
-      htmlHelper.ViewContext.FormContext.ClientValidationFunction = "EnableClientValidation";
+      // htmlHelper.ViewContext.FormContext.ClientValidationFunction = "EnableClientValidation";
       return form;
     }
 
@@ -44,7 +44,7 @@ namespace Splits.Web
       var form = new MvcForm(htmlHelper.ViewContext);
       if (htmlHelper.ViewContext.ClientValidationEnabled)
       {
-        htmlHelper.ViewContext.FormContext.ClientValidationEnabled = true;
+        // htmlHelper.ViewContext.FormContext.ClientValidationEnabled = true;
         htmlHelper.ViewContext.FormContext.FormId = builder.Attributes["id"];
       }
       return form;
