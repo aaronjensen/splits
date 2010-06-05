@@ -19,3 +19,4 @@ db/*/WorkingTemp
 pkg
 GitRevision.txt
 *.migrate
+.build.*
