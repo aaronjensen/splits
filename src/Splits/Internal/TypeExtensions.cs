@@ -14,9 +14,12 @@ namespace Splits.Internal
       {
         try
         {
-          if (iface.GetGenericTypeDefinition() == genericType)
+          if (iface.IsGenericType)
           {
-            return iface.GetGenericArguments().First();
+            if (iface.GetGenericTypeDefinition() == genericType)
+            {
+              return iface.GetGenericArguments().First();
+            }
           }
         }
         catch (Exception error)
