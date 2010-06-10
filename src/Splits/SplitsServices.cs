@@ -74,25 +74,46 @@ namespace Splits
 
     public static IEnumerable<KeyValuePair<Type, Type>> AllInAssemblyGeneric(Assembly assembly, Type type)
     {
-      return assembly.GetExportedTypes()
-        .Where(service => service.IsClass)
-        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
-        .Where(pair => pair.Key.IsGenericType && pair.Key.GetGenericTypeDefinition() == type);
+      try
+      {
+        return assembly.GetExportedTypes()
+          .Where(service => service.IsClass)
+          .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
+          .Where(pair => pair.Key.IsGenericType && pair.Key.GetGenericTypeDefinition() == type);
+      }
+      catch (Exception error)
+      {
+        throw new Exception("Error enumerating: " + assembly.FullName, error);
+      }
     }
 
     public static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type)
     {
-      return assembly.GetExportedTypes()
-        .Where(service => service.IsClass && type.IsAssignableFrom(service))
-        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)));
+      try
+      {
+        return assembly.GetExportedTypes()
+          .Where(service => service.IsClass && type.IsAssignableFrom(service))
+          .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)));
+      }
+      catch (Exception error)
+      {
+        throw new Exception("Error enumerating: " + assembly.FullName, error);
+      }
     }
 
     public static IEnumerable<KeyValuePair<Type, Type>> AllInAssembly(Assembly assembly, Type type, string @namespace)
     {
-      return assembly.GetExportedTypes()
-        .Where(service => service.IsClass && type.IsAssignableFrom(service))
-        .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
-        .Where(pair => pair.Value.Namespace.StartsWith(@namespace));
+      try
+      {
+        return assembly.GetExportedTypes()
+          .Where(service => service.IsClass && type.IsAssignableFrom(service))
+          .SelectMany(service => service.GetInterfaces().Select(@interface => new KeyValuePair<Type, Type>(@interface, service)))
+          .Where(pair => pair.Value.Namespace.StartsWith(@namespace));
+      }
+      catch (Exception error)
+      {
+        throw new Exception("Error enumerating: " + assembly.FullName, error);
+      }
     }
   }
 }
